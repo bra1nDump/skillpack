@@ -2,280 +2,252 @@ import Link from "next/link";
 
 import { CopyButton } from "@/components/copy-button";
 import { SiteFooter } from "@/components/site-footer";
-import { documentEditingUiUx } from "@/lib/site-data";
+
+const ranking = [
+  {
+    rank: "01",
+    contender: "Figma MCP + Codex",
+    bestFor: "Design-to-code and code-to-design roundtrips",
+    why: "Strongest official trust signal and the clearest public roundtrip story right now.",
+    watch: "Still dependent on Figma auth and MCP setup discipline.",
+  },
+  {
+    rank: "02",
+    contender: "Figma MCP + Claude Code",
+    bestFor: "Teams already standardized on Claude Code",
+    why: "Very strong official path with good design context, just not as strong publicly as the Codex partnership story.",
+    watch: "Community reports still mention some auth and fidelity friction.",
+  },
+  {
+    rank: "03",
+    contender: "Paper MCP",
+    bestFor: "Direct write-back into the design document itself",
+    why: "The clearest contender for live canvas mutation and in-document editing.",
+    watch: "Smaller ecosystem and weaker broad public trust than Figma.",
+  },
+  {
+    rank: "04",
+    contender: "Raw Claude Code",
+    bestFor: "Fast no-connector fallback for critique, copy, and frontend drafts",
+    why: "Best fallback when you need a strong general agent and do not yet have design MCP connected.",
+    watch: "Loses structured design context immediately.",
+  },
+  {
+    rank: "05",
+    contender: "Raw Codex",
+    bestFor: "Implementation-heavy tasks after the design is already understood",
+    why: "Strong coding agent, but much less differentiated in this category without Figma or Paper attached.",
+    watch: "Not competitive with the connected workflows for design-aware work.",
+  },
+];
+
+const quotes = [
+  {
+    quote: "turn code prompts directly into polished designs with Codex",
+    speaker: "OpenAI x Figma partnership",
+    url: "https://openai.com/index/figma-partnership/",
+  },
+  {
+    quote: "Desktop server is selection-based",
+    speaker: "Figma MCP docs",
+    url: "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
+  },
+  {
+    quote: "read and write information from the currently open Paper file",
+    speaker: "Paper MCP docs",
+    url: "https://paper.design/docs/mcp",
+  },
+  {
+    quote: "lets Claude use external tools and services",
+    speaker: "Claude Code MCP docs",
+    url: "https://code.claude.com/docs/en/mcp",
+  },
+];
+
+const runOutputs = [
+  {
+    name: "Discover run",
+    path: "agent-runs/2026-03-09_04-22_discover_ui-ux-design/findings.md",
+    summary:
+      "The key discovery was that editability and roundtrip trust now matter more than isolated model demos in this category.",
+  },
+  {
+    name: "Deep-dive run",
+    path: "agent-runs/2026-03-09_04-25_deep-dive_ui-ux-design/findings.md",
+    summary:
+      "The deep-dive separated Figma's ecosystem trust from Paper's write-back wedge and made the workflow-shape split explicit.",
+  },
+  {
+    name: "Rank run",
+    path: "agent-runs/2026-03-09_04-29_rank_ui-ux-design/findings.md",
+    summary:
+      "The final rank kept Figma on top overall while explicitly elevating Paper for the narrower direct-editing subcase.",
+  },
+];
 
 export default function DocumentEditingUiUxPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-8 sm:px-8 lg:px-10">
-        <section className="rounded-[2rem] border border-black/10 bg-white px-6 py-8 sm:px-8 sm:py-10">
-          <div className="flex flex-col gap-6">
-            <div className="flex items-center justify-between gap-4">
-              <Link
-                href="/"
-                className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500 hover:text-black"
-              >
-                Skillbench / Jobs
+      <main className="mx-auto w-full max-w-5xl px-6 py-8 sm:px-8 lg:px-10">
+        <div className="border-b border-black/5 pb-8">
+          <div className="flex items-center justify-between gap-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+              <Link href="/" className="hover:text-black">
+                Skillbench
               </Link>
-              <CopyButton
-                label="Copy ranking prompt"
-                text={documentEditingUiUx.pageCopy}
-              />
+              <span className="px-2 text-zinc-400">/</span>
+              <span>Report</span>
             </div>
-
-            <div className="max-w-4xl">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-                {documentEditingUiUx.kicker}
-              </p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-balance text-zinc-950 sm:text-6xl">
-                {documentEditingUiUx.title}
-              </h1>
-              <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600 sm:text-lg">
-                {documentEditingUiUx.shortVerdict}
-              </p>
-            </div>
-
-            <div className="grid gap-4 border-t border-black/5 pt-6 md:grid-cols-4">
-              <MetricCard
-                label="Platform winner"
-                value={documentEditingUiUx.topLine.platformWinner}
-              />
-              <MetricCard
-                label="Skill winner"
-                value={documentEditingUiUx.topLine.skillWinner}
-              />
-              <MetricCard
-                label="Write-back winner"
-                value={documentEditingUiUx.topLine.writeBackWinner}
-              />
-              <MetricCard
-                label="Confidence"
-                value={documentEditingUiUx.topLine.confidence}
-              />
-            </div>
+            <CopyButton
+              label="Copy link"
+              text="http://127.0.0.1:3000/jobs/document-editing-ui-ux"
+            />
           </div>
-        </section>
-
-        <section className="grid gap-4 md:grid-cols-2">
-          {documentEditingUiUx.prompts.map((prompt) => (
-            <article
-              key={prompt.title}
-              className="rounded-[1.5rem] border border-black/10 bg-white p-6"
-            >
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-                {prompt.title}
-              </p>
-              <p className="mt-4 text-sm leading-6 text-zinc-600">
-                {prompt.description}
-              </p>
-              <pre className="mt-5 overflow-x-auto rounded-2xl bg-zinc-950 px-4 py-4 text-sm leading-6 text-zinc-100">
-                <code>{prompt.text}</code>
-              </pre>
-              <CopyButton
-                label="Copy prompt"
-                text={prompt.text}
-                className="mt-4"
-              />
-            </article>
-          ))}
-        </section>
-
-        <section className="rounded-[1.5rem] border border-black/10 bg-white p-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-                Ranking
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-zinc-950">
-                Ranked contenders
-              </h2>
-            </div>
-            <p className="text-sm text-zinc-500">
-              Updated {documentEditingUiUx.updatedAt}
-            </p>
-          </div>
-
-          <div className="mt-6 space-y-4">
-            {documentEditingUiUx.contenders.map((contender) => (
-              <article
-                key={contender.name}
-                className="rounded-[1.5rem] border border-black/10 bg-zinc-50 p-5"
-              >
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="max-w-3xl">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="rounded-full border border-black/10 bg-white px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-600">
-                        #{contender.rank}
-                      </span>
-                      <span className="rounded-full border border-black/10 bg-white px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-600">
-                        {contender.label}
-                      </span>
-                    </div>
-                    <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-zinc-950">
-                      {contender.name}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-zinc-700">
-                      {contender.verdict}
-                    </p>
-                  </div>
-                  <CopyButton label="Copy verdict" text={contender.copyText} />
-                </div>
-
-                <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-                  <DetailCard label="Best for" value={contender.bestFor} />
-                  <DetailCard
-                    label="Design context"
-                    value={contender.designContext}
-                  />
-                  <DetailCard label="Write-back" value={contender.writeBack} />
-                  <DetailCard label="Setup" value={contender.setup} />
-                  <DetailCard label="Signal" value={contender.signal} />
-                </div>
-
-                <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
-                  <span className="font-semibold">Watch for:</span>{" "}
-                  {contender.caveat}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-[1.5rem] border border-black/10 bg-white p-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-              Comparison matrix
-            </p>
-            <div className="mt-5 overflow-x-auto">
-              <table className="min-w-full border-separate border-spacing-y-3 text-left text-sm">
-                <thead className="text-zinc-500">
-                  <tr>
-                    <th className="px-3 py-2 font-medium">Contender</th>
-                    <th className="px-3 py-2 font-medium">Official</th>
-                    <th className="px-3 py-2 font-medium">Auth</th>
-                    <th className="px-3 py-2 font-medium">Context model</th>
-                    <th className="px-3 py-2 font-medium">Strongest move</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {documentEditingUiUx.matrix.map((row) => (
-                    <tr key={row.contender} className="rounded-2xl bg-zinc-50">
-                      <td className="rounded-l-2xl px-3 py-3 font-semibold text-zinc-950">
-                        {row.contender}
-                      </td>
-                      <td className="px-3 py-3 text-zinc-600">{row.official}</td>
-                      <td className="px-3 py-3 text-zinc-600">{row.auth}</td>
-                      <td className="px-3 py-3 text-zinc-600">
-                        {row.contextModel}
-                      </td>
-                      <td className="rounded-r-2xl px-3 py-3 text-zinc-600">
-                        {row.strongestMove}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </article>
-
-          <article className="rounded-[1.5rem] border border-black/10 bg-white p-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-              Decision rule
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-zinc-950">
-              Pick the tool by workflow shape.
-            </h2>
-            <div className="mt-5 space-y-3 text-sm leading-6 text-zinc-700">
-              <p>
-                <span className="font-semibold text-zinc-950">
-                  Need design fidelity and roundtrip parity?
-                </span>{" "}
-                Start with Figma MCP, ideally on Codex today.
-              </p>
-              <p>
-                <span className="font-semibold text-zinc-950">
-                  Need to write directly into the design document?
-                </span>{" "}
-                Paper MCP jumps above the raw agents and may beat Figma for that
-                narrower job.
-              </p>
-              <p>
-                <span className="font-semibold text-zinc-950">
-                  Need speed with no connector setup?
-                </span>{" "}
-                Raw Claude Code is the better fallback than raw Codex for this
-                category because the public evidence for frontend and
-                design-adjacent work is stronger.
-              </p>
-            </div>
-          </article>
-        </section>
-
-        <section className="rounded-[1.5rem] border border-black/10 bg-white p-6">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-            Evidence log
+          <h1 className="mt-8 text-4xl font-semibold tracking-[-0.06em] text-balance text-zinc-950 sm:text-6xl">
+            Document Editing & UI/UX Design
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
+            The current meta is not “which model can make the prettiest mockup.”
+            It is “which workflow produces something editable, trusted, and
+            worth keeping inside the real design tool.”
           </p>
-          <div className="mt-5 space-y-4">
-            {documentEditingUiUx.sources.map((source) => (
-              <article
-                key={source.title}
-                className="rounded-[1.25rem] border border-black/10 bg-zinc-50 p-5"
+        </div>
+
+        <section className="border-b border-black/5 py-16">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-700">
+            Verdict
+          </p>
+          <div className="mt-5 space-y-5 text-base leading-8 text-zinc-700">
+            <p>
+              For the broad job of UI/UX design plus document-aware generation,{" "}
+              <span className="font-semibold text-zinc-950">
+                Figma MCP + Codex
+              </span>{" "}
+              is the best current default. The combination has the strongest
+              official public trust signal and the clearest story around
+              roundtripping between code and editable design.
+            </p>
+            <p>
+              <span className="font-semibold text-zinc-950">Paper MCP</span> is
+              the real exception. If the narrow job is direct write-back into
+              the design document or canvas itself, Paper jumps above the raw
+              agents and can even beat Figma for that subcase.
+            </p>
+            <p>
+              <span className="font-semibold text-zinc-950">Raw Claude Code</span>{" "}
+              and <span className="font-semibold text-zinc-950">raw Codex</span>{" "}
+              remain useful only as fallbacks. Once design context stops being
+              structured, public trust and repeatability both fall off.
+            </p>
+          </div>
+        </section>
+
+        <section className="border-b border-black/5 py-16">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+            Current ranking
+          </p>
+          <div className="mt-6 overflow-x-auto">
+            <table className="min-w-full border-collapse text-left">
+              <thead>
+                <tr className="border-b border-black/5 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+                  <th className="py-3 pr-4 font-medium">Rank</th>
+                  <th className="py-3 pr-4 font-medium">Contender</th>
+                  <th className="py-3 pr-4 font-medium">Best for</th>
+                  <th className="py-3 pr-4 font-medium">Why it ranks here</th>
+                  <th className="py-3 font-medium">Watch for</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ranking.map((item) => (
+                  <tr key={item.rank} className="border-b border-black/5 align-top">
+                    <td className="py-4 pr-4 font-mono text-sm text-zinc-500">
+                      {item.rank}
+                    </td>
+                    <td className="py-4 pr-4 text-sm font-semibold text-zinc-950">
+                      {item.contender}
+                    </td>
+                    <td className="py-4 pr-4 text-sm leading-7 text-zinc-700">
+                      {item.bestFor}
+                    </td>
+                    <td className="py-4 pr-4 text-sm leading-7 text-zinc-700">
+                      {item.why}
+                    </td>
+                    <td className="py-4 text-sm leading-7 text-zinc-600">
+                      {item.watch}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="border-b border-black/5 py-16">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+            Public trust and quotes
+          </p>
+          <div className="mt-6 space-y-6">
+            {quotes.map((item) => (
+              <blockquote
+                key={item.quote}
+                className="border-l border-black/15 pl-5 text-base leading-8 text-zinc-700"
               >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="max-w-3xl">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="rounded-full border border-black/10 bg-white px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-600">
-                        {source.type}
-                      </span>
-                      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-500">
-                        {source.date}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em] text-zinc-950">
-                      {source.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-zinc-600">
-                      {source.note}
-                    </p>
-                  </div>
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-semibold text-zinc-950 hover:text-zinc-700"
-                  >
-                    Open source
-                  </a>
-                </div>
+                <p className="text-zinc-950">&ldquo;{item.quote}&rdquo;</p>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block text-sm text-zinc-500 underline decoration-black/20 underline-offset-4 hover:text-black"
+                >
+                  {item.speaker}
+                </a>
+              </blockquote>
+            ))}
+          </div>
+        </section>
+
+        <section className="border-b border-black/5 py-16">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+            Real agent outputs
+          </p>
+          <div className="mt-6 space-y-6">
+            {runOutputs.map((run) => (
+              <article key={run.name} className="border-t border-black/5 pt-4">
+                <p className="text-sm font-semibold text-zinc-950">{run.name}</p>
+                <p className="mt-3 text-sm leading-7 text-zinc-700">
+                  {run.summary}
+                </p>
+                <p className="mt-3 font-mono text-[11px] text-zinc-500">
+                  {run.path}
+                </p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="py-16">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+            What changes this
+          </p>
+          <div className="mt-5 space-y-4 text-base leading-8 text-zinc-700">
+            <p>
+              Paper can move up if its public trust and ecosystem widen without
+              losing the direct write-back edge.
+            </p>
+            <p>
+              Claude Code can challenge the top spot if it develops a clearer
+              public design roundtrip story than the one OpenAI and Figma are
+              currently telling together.
+            </p>
+            <p>
+              Raw agents only move up if public demonstrability starts to matter
+              less than today, which does not look like the current meta.
+            </p>
           </div>
         </section>
       </main>
 
       <SiteFooter />
-    </div>
-  );
-}
-
-function MetricCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-[1.25rem] border border-black/10 bg-zinc-50 p-4">
-      <p className="text-sm text-zinc-500">{label}</p>
-      <p className="mt-2 text-lg font-semibold tracking-[-0.02em] text-zinc-950">
-        {value}
-      </p>
-    </div>
-  );
-}
-
-function DetailCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-[1.25rem] border border-black/10 bg-white px-4 py-3">
-      <p className="text-xs font-medium uppercase tracking-[0.16em] text-zinc-500">
-        {label}
-      </p>
-      <p className="mt-2 text-sm leading-6 text-zinc-700">{value}</p>
     </div>
   );
 }

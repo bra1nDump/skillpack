@@ -4,8 +4,8 @@ import { mission } from "@/lib/site-data";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-black/10 bg-white/80">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8 text-sm text-zinc-600 sm:px-8 lg:px-10">
+    <footer className="border-t border-black/5 bg-transparent">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10 text-sm text-zinc-600 sm:px-8 lg:px-10">
         <div className="flex flex-col gap-2">
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
             Why This Exists
