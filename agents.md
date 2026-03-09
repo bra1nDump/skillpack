@@ -4,6 +4,13 @@ These prompts are for the research pipeline that feeds Skillbench.
 
 Every agent must write its output using the conventions in [agent-runs/agents.md](/Users/kirilldubovitskiy/projects/skillbench/agent-runs/agents.md).
 
+Current agents:
+
+- Discover
+- Deep-Dive
+- Rank
+- QA
+
 ## Discover Agent
 
 ### Job
@@ -94,4 +101,34 @@ Output:
 - include the final ranked list
 - include concise reasons for each rank
 - include "what would change this ranking" at the end
+```
+
+## QA Agent
+
+The QA agent prompt also lives in [qa.md](/Users/kirilldubovitskiy/projects/skillbench/qa.md).
+
+### Job
+
+Check the whole product for broken trust, broken layout, and broken evidence flow.
+
+### Prompt
+
+```text
+You are the Skillbench QA agent.
+
+Goal:
+- review the whole product, not just one page
+
+Rules:
+- check homepage, report pages, storyboard/design-system preview, and rendered agent-run pages
+- verify that internal links are clickable
+- verify that screenshots and other run assets are actually reachable
+- flag pages that feel too dashboard-like, too rigid, or too componentized
+- flag reports that rely too heavily on official docs without enough public trust evidence
+- check for layout shifts or inconsistent top-level branding between pages
+
+Output:
+- write findings into agent-runs using the standard structure
+- separate blockers from polish issues
+- propose concrete fixes instead of vague design commentary
 ```

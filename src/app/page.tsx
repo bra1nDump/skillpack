@@ -9,19 +9,37 @@ const pipelineRuns = [
     name: "Discover",
     summary:
       "Found that the current UI/UX design meta is shifting toward direct design-tool roundtrips and editable outputs, not screenshot demos.",
-    path: "agent-runs/2026-03-09_04-22_discover_ui-ux-design/findings.md",
+    href: "/runs/2026-03-09_04-22_discover_ui-ux-design",
   },
   {
     name: "Deep-dive",
     summary:
       "Separated Figma's roundtrip strength from Paper's direct write-back strength and pulled the key trust-building quotes.",
-    path: "agent-runs/2026-03-09_04-25_deep-dive_ui-ux-design/findings.md",
+    href: "/runs/2026-03-09_04-25_deep-dive_ui-ux-design",
   },
   {
     name: "Rank",
     summary:
       "Ranked Figma MCP + Codex first overall, while explicitly elevating Paper MCP for the narrower write-back subcase.",
-    path: "agent-runs/2026-03-09_04-29_rank_ui-ux-design/findings.md",
+    href: "/runs/2026-03-09_04-29_rank_ui-ux-design",
+  },
+  {
+    name: "Design review",
+    summary:
+      "Compared Vercel, skills.sh, and multiple local pages with Gemini and tightened the product into a flatter editorial surface.",
+    href: "/runs/2026-03-09_04-40_design-review_style-bench",
+  },
+  {
+    name: "Social scan",
+    summary:
+      "Added X, Reddit, and Hacker News sources with trust notes, plus recorded the failed local Twitter-skill attempt.",
+    href: "/runs/2026-03-09_05-35_social-scan_ui-ux-design",
+  },
+  {
+    name: "QA",
+    summary:
+      "Checked the full product surface across home, report, storyboard, and rendered run pages.",
+    href: "/runs/2026-03-09_06-05_qa_product-surface",
   },
 ];
 
@@ -106,9 +124,12 @@ export default function Home() {
                 <p className="mt-3 text-sm leading-7 text-zinc-600">
                   {run.summary}
                 </p>
-                <p className="mt-4 font-mono text-[11px] text-zinc-500">
-                  {run.path}
-                </p>
+                <Link
+                  href={run.href}
+                  className="mt-4 inline-block font-mono text-[11px] text-zinc-500 underline decoration-black/15 underline-offset-4 hover:text-black"
+                >
+                  {run.href}
+                </Link>
               </article>
             ))}
           </div>
@@ -132,14 +153,48 @@ export default function Home() {
             </p>
             <div className="mt-5 space-y-4 text-sm leading-7 text-zinc-700">
               <p>
-                Agent prompts live in <code>agents.md</code>.
+                Agent prompts live in{" "}
+                <Link
+                  href="/docs/agents"
+                  className="underline decoration-black/20 underline-offset-4"
+                >
+                  agents.md
+                </Link>
+                .
               </p>
               <p>
-                Run structure lives in <code>agent-runs/agents.md</code>.
+                Run structure lives in{" "}
+                <Link
+                  href="/runs/agents.md"
+                  className="underline decoration-black/20 underline-offset-4"
+                >
+                  agent-runs/agents.md
+                </Link>
+                .
+              </p>
+              <p>
+                QA agent prompt lives in{" "}
+                <Link
+                  href="/docs/qa"
+                  className="underline decoration-black/20 underline-offset-4"
+                >
+                  qa.md
+                </Link>
+                .
               </p>
               <p>
                 The site should increasingly feel like a buyer&apos;s guide with
                 receipts, not a theme-heavy directory.
+              </p>
+              <p>
+                Design-system preview lives on{" "}
+                <Link
+                  href="/storyboard"
+                  className="underline decoration-black/20 underline-offset-4"
+                >
+                  Storyboard
+                </Link>
+                .
               </p>
             </div>
           </div>

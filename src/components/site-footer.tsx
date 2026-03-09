@@ -21,6 +21,9 @@ export function SiteFooter() {
             <Link className="hover:text-black" href="/jobs/document-editing-ui-ux">
               Document Editing & UI/UX Design
             </Link>
+            <Link className="hover:text-black" href="/storyboard">
+              Storyboard
+            </Link>
           </div>
         </div>
       </div>

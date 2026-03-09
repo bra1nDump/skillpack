@@ -3,6 +3,65 @@ import Link from "next/link";
 import { CopyButton } from "@/components/copy-button";
 import { SiteFooter } from "@/components/site-footer";
 
+const liveSignals = [
+  {
+    label: "Official X post",
+    title: "OpenAI Developers on the Figma partnership",
+    note:
+      "Highest trust. Official OpenAI developer account promoting direct code-to-design workflow with Codex and Figma.",
+    href: "https://x.com/OpenAIDevs/status/1894796327181273432",
+  },
+  {
+    label: "X trend / community argument",
+    title: "Grok trend summary: 'Figma不要、Claude Codeでよい？'",
+    note:
+      "Medium trust. Useful because it shows a live community argument that Claude Code may reduce the need for traditional Figma-heavy workflows, but it still needs direct-source verification.",
+    href: "https://x.com/i/grok/share/H3vvF6phN15ssxK3OjvDPq98l",
+  },
+  {
+    label: "X live event",
+    title: "Figma x Anthropic live broadcast on design to code with Claude",
+    note:
+      "High trust. Official Figma-hosted public material focused on Claude-driven design-to-code workflows.",
+    href: "https://x.com/i/broadcasts/1zqKVYkQkAkxB",
+  },
+  {
+    label: "Reddit comparison",
+    title: "A workflow to open a Figma file in Claude Code and return to Figma",
+    note:
+      "Medium-low trust, but concrete. Shows users explicitly valuing a loop that stays editable rather than screenshot-driven.",
+    href: "https://www.reddit.com/r/ClaudeAI/comments/1r7vvmr/new_figma_mcp_lets_you_import_claude_code_ui/",
+  },
+  {
+    label: "Reddit friction report",
+    title: "Claude Code and Figma issues",
+    note:
+      "Low-medium trust, but important negative signal. Shows real auth and integration pain, plus community recommendations of unofficial alternatives.",
+    href: "https://www.reddit.com/r/ClaudeAI/comments/1wn3l83/claude_code_and_figma_issues/",
+  },
+  {
+    label: "Hacker News head-to-head",
+    title: "Show HN: Figma-use, an agentic UI framework using Figma as the source of truth",
+    note:
+      "High-signal builder discussion. 115 points / 37 comments. Strongest public evidence that unofficial write-access workflows are emerging against the official Figma MCP path.",
+    href: "https://news.ycombinator.com/item?id=45963703",
+  },
+  {
+    label: "Hacker News challenger",
+    title: "Show HN: Vibma, an open-source write-access alternative to official Figma MCP",
+    note:
+      "Interesting but lower-trust than Figma-use due to much lower traction. Still useful because it frames the exact official vs write-access split.",
+    href: "https://news.ycombinator.com/item?id=46066199",
+  },
+  {
+    label: "Hacker News meta",
+    title: "Ask HN: Tips for agentic coding based on Figma design?",
+    note:
+      "High-signal question showing the workflow itself is now mainstream enough to attract broad technical discussion rather than isolated demos.",
+    href: "https://news.ycombinator.com/item?id=46205188",
+  },
+];
+
 const ranking = [
   {
     rank: "01",
@@ -67,21 +126,39 @@ const quotes = [
 const runOutputs = [
   {
     name: "Discover run",
-    path: "agent-runs/2026-03-09_04-22_discover_ui-ux-design/findings.md",
+    href: "/runs/2026-03-09_04-22_discover_ui-ux-design",
     summary:
       "The key discovery was that editability and roundtrip trust now matter more than isolated model demos in this category.",
   },
   {
     name: "Deep-dive run",
-    path: "agent-runs/2026-03-09_04-25_deep-dive_ui-ux-design/findings.md",
+    href: "/runs/2026-03-09_04-25_deep-dive_ui-ux-design",
     summary:
       "The deep-dive separated Figma's ecosystem trust from Paper's write-back wedge and made the workflow-shape split explicit.",
   },
   {
     name: "Rank run",
-    path: "agent-runs/2026-03-09_04-29_rank_ui-ux-design/findings.md",
+    href: "/runs/2026-03-09_04-29_rank_ui-ux-design",
     summary:
       "The final rank kept Figma on top overall while explicitly elevating Paper for the narrower direct-editing subcase.",
+  },
+  {
+    name: "Design QA run",
+    href: "/runs/2026-03-09_04-40_design-review_style-bench",
+    summary:
+      "The multi-page screenshot pass against Vercel and skills.sh forced the layout to become flatter and less componentized.",
+  },
+  {
+    name: "Social scan run",
+    href: "/runs/2026-03-09_05-35_social-scan_ui-ux-design",
+    summary:
+      "Collected the live X, Reddit, and Hacker News evidence, including head-to-head challenger threads and the failed local Twitter-skill attempt.",
+  },
+  {
+    name: "Product QA run",
+    href: "/runs/2026-03-09_06-05_qa_product-surface",
+    summary:
+      "Reviewed the full visible product surface across home, report, storyboard, and rendered run pages.",
   },
 ];
 
@@ -138,6 +215,38 @@ export default function DocumentEditingUiUxPage() {
               and <span className="font-semibold text-zinc-950">raw Codex</span>{" "}
               remain useful only as fallbacks. Once design context stops being
               structured, public trust and repeatability both fall off.
+            </p>
+          </div>
+        </section>
+
+        <section className="border-b border-black/5 py-16">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+            The deeper meta
+          </p>
+          <div className="mt-5 space-y-5 text-base leading-8 text-zinc-700">
+            <p>
+              There are two real lanes in this category now. The first is the{" "}
+              <span className="font-semibold text-zinc-950">
+                official trust lane
+              </span>
+              : Figma MCP plus a major coding host, where the value is design
+              context, public trust, and a workflow other teams will actually
+              adopt.
+            </p>
+            <p>
+              The second is the{" "}
+              <span className="font-semibold text-zinc-950">
+                write-access challenger lane
+              </span>
+              : tools like Figma-use, Vibma, and other unofficial builders
+              trying to beat the official path by giving agents richer control
+              over the design surface itself.
+            </p>
+            <p>
+              Right now the official lane still wins overall because it has the
+              strongest proof and the strongest trust. But the challenger lane
+              is where some of the hottest head-to-head experimentation is
+              happening.
             </p>
           </div>
         </section>
@@ -208,6 +317,32 @@ export default function DocumentEditingUiUxPage() {
 
         <section className="border-b border-black/5 py-16">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+            Head-to-head and live signals
+          </p>
+          <div className="mt-6 space-y-6">
+            {liveSignals.map((signal) => (
+              <article key={signal.title} className="border-t border-black/5 pt-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                  {signal.label}
+                </p>
+                <a
+                  href={signal.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block text-base font-semibold leading-8 text-zinc-950 underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
+                >
+                  {signal.title}
+                </a>
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-700">
+                  {signal.note}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="border-b border-black/5 py-16">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
             Real agent outputs
           </p>
           <div className="mt-6 space-y-6">
@@ -217,9 +352,12 @@ export default function DocumentEditingUiUxPage() {
                 <p className="mt-3 text-sm leading-7 text-zinc-700">
                   {run.summary}
                 </p>
-                <p className="mt-3 font-mono text-[11px] text-zinc-500">
-                  {run.path}
-                </p>
+                <Link
+                  href={run.href}
+                  className="mt-3 inline-block font-mono text-[11px] text-zinc-500 underline decoration-black/15 underline-offset-4 hover:text-black"
+                >
+                  {run.href}
+                </Link>
               </article>
             ))}
           </div>
