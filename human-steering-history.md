@@ -190,6 +190,15 @@ and lets continue pushing after every commit to prod
 modify qa agent to ensure the content of the page contains good info - does it look weird? does it have duplicative info? does it communicate what the product is about? encourage it to use subagents to verify various aspects independently - also use opus in the subagents, and ask to run codex cli too to get feedback
 ```
 
+## Remove homepage slop: "Current surface" and "Process docs" sections, slim footer
+
+```
+THIS SHIT on the bottom - should be largely removed - fucking slop - current surface, process docs
+footer with home cateogries etcetc - duplicative shit
+```
+
+Action: Removed "Current surface" and "Process docs" sections from homepage. Slimmed footer to single line — nav links already in header, mission already in hero. No duplicative content.
+
 ## Additional context from assistant responses that informed later notes
 
 These were not user-authored, but they explain terms later referenced by the user:
