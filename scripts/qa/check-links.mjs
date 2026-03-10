@@ -13,7 +13,6 @@ const seedRoutes = [
   "/jobs/product-business-development",
   "/jobs/teams-of-agents",
   "/jobs/ux-ui",
-  "/jobs/document-editing-ui-ux",
   "/skills",
   "/bundles",
   "/bundles/karpathy-stack",

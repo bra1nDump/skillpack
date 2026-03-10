@@ -157,14 +157,14 @@ export const bundles: Record<BundleSlug, BundleRecord> = {
   "mckay-wrigley-stack": {
     slug: "mckay-wrigley-stack",
     persona: "McKay Wrigley",
-    personaHandle: "@mcaborern",
-    personaUrl: "https://x.com/mcaborern",
+    personaHandle: "@mckaywrigley",
+    personaUrl: "https://x.com/mckaywrigley",
     name: "McKay Wrigley Shipping Stack",
     summary:
-      "Claude Code + Codex CLI for parallel agent coding. Ships full-stack apps by running multiple agents on different parts of the codebase simultaneously.",
-    skills: ["claude-code", "codex-cli"],
-    source: "X thread on multi-agent shipping workflow",
-    sourceUrl: "https://x.com/mcaborern",
+      "Claude Code as primary agentic coding tool ('best AI coding tool in the world'). Ships full-stack apps with Cursor for autocomplete and Claude Code for agentic terminal sessions.",
+    skills: ["claude-code"],
+    source: "X post: 'CLAUDE CODE — Claude Code + Opus 4.5 is the best AI coding tool in the world'",
+    sourceUrl: "https://x.com/mckaywrigley/status/1997403303161024895",
     date: "2026-02",
   },
 };

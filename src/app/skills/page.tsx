@@ -7,7 +7,7 @@ import { jobList, skillList } from "@/lib/catalog";
 export const metadata: Metadata = {
   title: "All Skills — Skillbench",
   description:
-    "Browse all tracked agent skills with editorial verdicts, source links, and related job categories.",
+    "Browse all tracked agent skills with editorial verdicts, source links, and related categories.",
 };
 
 export default function SkillsIndexPage() {

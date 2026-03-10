@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Search } from "@/components/search";
 import { SiteFooter } from "@/components/site-footer";
-import { bundleList, jobList, platformList, skillList } from "@/lib/catalog";
+import { bundleList, getSkill, jobList, platformList, skillList } from "@/lib/catalog";
 import { mission } from "@/lib/site-data";
 
 const pipeline = [
@@ -21,7 +21,7 @@ const pipeline = [
   {
     name: "Rank",
     summary:
-      "Turn the evidence into a job-level recommendation. Weight workflow fit, public trust, official support, and demonstrability above raw chatter.",
+      "Turn the evidence into a category-level recommendation. Weight workflow fit, public trust, official support, and demonstrability above raw chatter.",
     href: "/docs/agents",
   },
   {
@@ -261,33 +261,38 @@ export default function Home() {
               What known builders actually ship with. Full setups from people with public track records.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {bundleList.map((bundle) => (
-                <Link
-                  key={bundle.slug}
-                  href={`/bundles/${bundle.slug}`}
-                  className="group border border-black/10 px-5 py-5 transition-colors hover:border-black/25"
-                >
-                  <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
-                    {bundle.personaHandle}
-                  </p>
-                  <p className="mt-2 text-base font-semibold tracking-[-0.02em] text-zinc-950">
-                    {bundle.name}
-                  </p>
-                  <p className="mt-2 line-clamp-2 text-xs leading-5 text-zinc-500">
-                    {bundle.summary}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-1">
-                    {bundle.skills.map((s) => (
-                      <span
-                        key={s}
-                        className="rounded-sm bg-zinc-900 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-zinc-100"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </Link>
-              ))}
+              {bundleList.map((bundle) => {
+                const bundleSkills = bundle.skills.map((s) => getSkill(s)).filter(Boolean);
+                return (
+                  <Link
+                    key={bundle.slug}
+                    href={`/bundles/${bundle.slug}`}
+                    className="group border border-black/10 px-5 py-5 transition-colors hover:border-black/25"
+                  >
+                    <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
+                      {bundle.personaHandle}
+                    </p>
+                    <p className="mt-2 text-base font-semibold tracking-[-0.02em] text-zinc-950">
+                      {bundle.name}
+                    </p>
+                    <p className="mt-2 line-clamp-2 text-xs leading-5 text-zinc-500">
+                      {bundle.summary}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-1">
+                      {bundleSkills.map((skill) =>
+                        skill ? (
+                          <span
+                            key={skill.slug}
+                            className="rounded-sm bg-zinc-900 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-zinc-100"
+                          >
+                            {skill.name}
+                          </span>
+                        ) : null
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         ) : null}
