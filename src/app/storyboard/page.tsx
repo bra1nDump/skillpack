@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 export default function StoryboardPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <main className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-8 lg:px-10">
+      <main className="mx-auto w-full max-w-5xl px-6 py-8 sm:px-8 lg:px-10">
         <div className="border-b border-black/5 pb-8">
           <div className="flex items-center justify-between gap-4">
             <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">

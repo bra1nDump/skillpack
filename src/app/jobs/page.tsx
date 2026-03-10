@@ -5,9 +5,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { jobList } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "All Jobs — Skillbench",
+  title: "All Categories — Skillbench",
   description:
-    "Browse all agent job categories with ranked skills, evidence-backed verdicts, and comparison tables.",
+    "Browse all agent skill categories with ranked contenders, evidence-backed verdicts, and comparison tables.",
 };
 
 export default function JobsIndexPage() {
@@ -20,14 +20,14 @@ export default function JobsIndexPage() {
               Skillbench
             </Link>
             <span className="px-2 text-zinc-400">/</span>
-            <span>Jobs</span>
+            <span>Categories</span>
           </div>
           <h1 className="mt-8 text-4xl font-semibold tracking-[-0.06em] text-zinc-950 sm:text-5xl">
-            All Jobs
+            All Categories
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
-            {jobList.length} job categories, each with ranked contenders and public evidence.
-            A job is the narrow thing the agent needs to do — not a product category.
+            {jobList.length} categories, each with ranked contenders and public evidence.
+            A category is the narrow thing the agent needs to do.
           </p>
         </div>
 

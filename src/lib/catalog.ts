@@ -11,6 +11,9 @@ export type SkillSlug =
   | "claude-code"
   | "aider"
   | "continue-dev"
+  | "opencode"
+  | "codex-cli"
+  | "gemini-cli"
   | "browser-use"
   | "playwright-mcp"
   | "stagehand";
@@ -377,28 +380,109 @@ export const skills: Record<SkillSlug, SkillRecord> = {
   },
   "continue-dev": {
     slug: "continue-dev",
-    name: "Continue",
+    name: "Continue (Continuous AI)",
     repo: "continuedev/continue",
     repoUrl: "https://github.com/continuedev/continue",
     readmeBranch: "main",
     official: false,
     status: "active",
     summary:
-      "Open-source IDE extension for VS Code and JetBrains that brings AI coding assistance with full model flexibility.",
+      "Pivoted from IDE autocomplete to Continuous AI — an open-source CLI that runs async agents on every PR to enforce standards and catch issues automatically.",
     verdict:
-      "Best open-source IDE-integrated option when the team wants in-editor AI without vendor lock-in.",
+      "Best pick for teams that want background AI agents enforcing code quality on PRs, not real-time autocomplete. The pivot repositioned it away from individual devs toward team CI workflows.",
     docsUrl: "https://continue.dev",
-    relatedJobs: ["coding-clis"],
+    relatedJobs: ["coding-clis", "teams-of-agents"],
     strengths: [
-      "IDE-native (VS Code + JetBrains)",
-      "Full model flexibility including local models",
-      "Open-source with active community",
-      "Context-aware with @-mention system for files, docs, and codebase",
+      "Async agents that enforce team rules on every PR",
+      "CLI-first — runs in CI without IDE dependency",
+      "Open-source with model flexibility",
+      "Background operation — catches issues silently without interrupting flow",
     ],
     weaknesses: [
-      "Less autonomous than dedicated CLI agents",
-      "IDE-bound — no standalone terminal workflow",
-      "Autocomplete and chat are strong but multi-step agents are weaker",
+      "No longer the IDE autocomplete tool it once was",
+      "More setup upfront than plug-and-play IDE extensions",
+      "Best for teams with established coding standards, not solo devs",
+    ],
+  },
+  opencode: {
+    slug: "opencode",
+    name: "OpenCode",
+    repo: "opencode-ai/opencode",
+    repoUrl: "https://github.com/opencode-ai/opencode",
+    readmeBranch: "main",
+    official: false,
+    status: "active",
+    summary:
+      "Open-source AI coding agent with 120K+ GitHub stars, 5M+ monthly users, and support for 75+ model providers including local models. Terminal, desktop, and IDE versions.",
+    verdict:
+      "The strongest open-source all-rounder: model flexibility (75+ providers), privacy-first architecture, and massive community adoption. The real open-source alternative to Claude Code.",
+    docsUrl: "https://opencode.ai",
+    relatedJobs: ["coding-clis"],
+    strengths: [
+      "75+ model providers including local models via Ollama",
+      "120K+ GitHub stars, 5M+ monthly users — massive adoption",
+      "Privacy-first: does not store code or context",
+      "Available as CLI, desktop app, and IDE extension",
+      "Can switch models mid-session while maintaining context",
+    ],
+    weaknesses: [
+      "Jack of all trades — less opinionated than Claude Code or Codex",
+      "Quality depends heavily on which model you choose",
+      "Less deep integration with any single model provider",
+    ],
+  },
+  "codex-cli": {
+    slug: "codex-cli",
+    name: "Codex CLI",
+    repo: "openai/codex",
+    repoUrl: "https://github.com/openai/codex",
+    readmeBranch: "main",
+    official: true,
+    status: "active",
+    summary:
+      "OpenAI's open-source coding agent built in Rust. Terminal-first, with GPT-5.4 support, 1M context window, native computer-use, and cloud sandbox execution.",
+    verdict:
+      "Best pick for teams invested in OpenAI models. Rust-built for speed, cloud sandbox for safety, and GPT-5.4 with 1M context is the largest window in the CLI category.",
+    docsUrl: "https://developers.openai.com/codex/cli/",
+    relatedJobs: ["coding-clis"],
+    strengths: [
+      "Built in Rust — fast and efficient",
+      "GPT-5.4 with 1M context window and native computer-use",
+      "Cloud sandbox execution for safety",
+      "Multi-agent parallel workflows",
+      "Built-in web search tool",
+    ],
+    weaknesses: [
+      "Tied to OpenAI models only",
+      "Requires OpenAI API key and pricing",
+      "Newer than Claude Code and Aider — less battle-tested in community",
+    ],
+  },
+  "gemini-cli": {
+    slug: "gemini-cli",
+    name: "Gemini CLI",
+    repo: "google-gemini/gemini-cli",
+    repoUrl: "https://github.com/google-gemini/gemini-cli",
+    readmeBranch: "main",
+    official: true,
+    status: "active",
+    summary:
+      "Google's open-source terminal agent with Gemini 3 models, 1M token context, built-in Google Search grounding, and a genuinely free tier (60 req/min, 1K req/day).",
+    verdict:
+      "Best free entry point in the coding CLI lane. The free tier alone makes it the most accessible — and Gemini 3 with 1M context is genuinely competitive.",
+    docsUrl: "https://developers.google.com/gemini-code-assist/docs/gemini-cli",
+    relatedJobs: ["coding-clis"],
+    strengths: [
+      "Genuinely free: 60 req/min, 1K req/day with personal Google account",
+      "1M token context window with Gemini 3",
+      "Built-in Google Search grounding",
+      "Open source (Apache 2.0)",
+      "MCP server support for extensibility",
+    ],
+    weaknesses: [
+      "Tied to Google/Gemini models",
+      "Newer entrant — less community track record than Aider or Claude Code",
+      "Google Search grounding quality depends on query",
     ],
   },
   "browser-use": {
@@ -876,115 +960,154 @@ export const jobs: Record<JobSlug, JobRecord> = {
     slug: "coding-clis",
     name: "Coding CLIs / Code Agents",
     deck:
-      "The meta is splitting by workflow shape: terminal-native autonomous agents vs IDE-integrated assistants vs model-flexible open-source tools. Claude Code wins the autonomous CLI lane; Aider wins the open-source multi-model lane; Continue wins the IDE-embedded lane.",
+      "The hottest category right now. Six serious CLI agents — Claude Code, Codex CLI, Gemini CLI, OpenCode, Aider, and Continue (pivoted) — each with real traction. The split is model lock-in vs flexibility, autonomy depth vs accessibility, and free tier vs paid.",
     verdict: [
-      "Claude Code is the strongest terminal-first coding agent right now — deepest autonomous task execution, native tool use, and official Anthropic model access.",
-      "Aider is the best open-source CLI when model flexibility and SWE-bench credibility both matter.",
-      "Continue is the best IDE-integrated option for teams that want open-source in-editor AI without leaving VS Code or JetBrains.",
-      "Cursor remains the commercial default for teams that want a polished IDE experience and are willing to pay, but it is closed-source.",
+      "Claude Code is the strongest autonomous terminal agent — deepest multi-step execution with Opus 4.5's 80.9% SWE-bench. But Anthropic-only.",
+      "OpenCode is the real open-source juggernaut — 120K+ stars, 5M monthly users, 75+ model providers. The all-rounder that nobody should be sleeping on.",
+      "Codex CLI is OpenAI's Rust-built answer — GPT-5.4 with 1M context, cloud sandboxes, and multi-agent parallel workflows. New but serious.",
+      "Gemini CLI has the most accessible free tier — 60 req/min, 1K req/day with just a Google account. Gemini 3 with 1M context is genuinely competitive.",
+      "Aider remains the most transparent on benchmarks — 39K+ stars, 4.1M+ installs, works with every major model provider.",
+      "Continue pivoted hard from IDE autocomplete to Continuous AI — async agents on PRs enforcing code quality. Different game entirely now.",
     ],
     meta: [
-      "This category keeps splitting. Some people want a terminal agent that runs autonomously. Some want AI inside their existing IDE. Some want model flexibility above everything else.",
-      "The honest comparison is about workflow shape: where does the developer want to work, how autonomous should the agent be, and does model lock-in matter?",
+      "This is a six-way race and it is NOT converging. Each major model provider now has a CLI agent (Anthropic → Claude Code, OpenAI → Codex CLI, Google → Gemini CLI), and the open-source alternatives (OpenCode, Aider) compete on model flexibility.",
+      "The honest comparison is: do you want the best model (Claude Code, Codex), the cheapest entry (Gemini CLI free tier), the most flexible (OpenCode, Aider), or background CI agents (Continue)?",
     ],
     ranking: [
       {
         rank: "01",
         contender: "Claude Code",
         skillSlug: "claude-code",
-        bestFor: "Terminal-first autonomous coding with deep shell and file integration",
-        why: "Strongest autonomous multi-step execution and native Anthropic model access.",
-        watch: "Anthropic-only models. No IDE integration.",
+        bestFor: "Deepest autonomous multi-step terminal agent",
+        why: "Opus 4.5 with 80.9% SWE-bench, native tool use, hooks, MCP extensibility. The autonomy leader.",
+        watch: "Anthropic-only models. Premium pricing.",
       },
       {
         rank: "02",
-        contender: "Aider",
-        skillSlug: "aider",
-        bestFor: "Open-source CLI with broad model support and benchmark credibility",
-        why: "Best model flexibility and strongest open-source SWE-bench results.",
-        watch: "Chat-loop rather than deep agent autonomy.",
+        contender: "OpenCode",
+        skillSlug: "opencode",
+        bestFor: "Model-flexible open-source all-rounder",
+        why: "120K+ stars, 5M users/month, 75+ model providers, privacy-first. The community winner.",
+        watch: "Less opinionated — quality depends on model choice.",
       },
       {
         rank: "03",
-        contender: "Continue",
-        skillSlug: "continue-dev",
-        bestFor: "IDE-integrated AI without vendor lock-in",
-        why: "Best open-source in-editor experience across VS Code and JetBrains.",
-        watch: "Weaker on autonomous multi-step tasks than dedicated agents.",
+        contender: "Codex CLI",
+        skillSlug: "codex-cli",
+        bestFor: "OpenAI ecosystem with cloud sandbox execution",
+        why: "Rust-built, GPT-5.4 with 1M context, cloud sandboxes, multi-agent workflows.",
+        watch: "OpenAI-only. Newer — less community battle-testing.",
       },
       {
         rank: "04",
+        contender: "Gemini CLI",
+        skillSlug: "gemini-cli",
+        bestFor: "Best free tier and most accessible entry point",
+        why: "60 req/min free, Gemini 3 with 1M context, built-in Google Search grounding.",
+        watch: "Google-only models. Newest entrant.",
+      },
+      {
+        rank: "05",
+        contender: "Aider",
+        skillSlug: "aider",
+        bestFor: "Most transparent benchmarks and widest model support",
+        why: "39K+ stars, 4.1M installs, works with every provider, git-native.",
+        watch: "Chat-loop style rather than deep agent autonomy.",
+      },
+      {
+        rank: "06",
+        contender: "Continue (Continuous AI)",
+        skillSlug: "continue-dev",
+        bestFor: "Background agents enforcing code quality on PRs",
+        why: "Pivoted from IDE autocomplete to async CI agents. Different game entirely.",
+        watch: "No longer an IDE tool. Best for teams, not solo devs.",
+      },
+      {
+        rank: "07",
         contender: "Cursor",
         externalUrl: "https://cursor.com",
-        bestFor: "Polished commercial IDE with integrated AI across the editing experience",
-        why: "Most adopted commercial coding AI IDE. Strong UX, strong composer mode.",
+        bestFor: "Polished commercial IDE with integrated AI",
+        why: "Most adopted commercial AI IDE. Strong UX, strong composer mode.",
         watch: "Closed-source, paid, vendor-locked.",
       },
     ],
     observedOutputs: [
       {
-        title: "Claude Code CLI in action",
+        title: "Claude Code CLI",
         summary:
-          "Claude Code's terminal workflow is the clearest public artifact in the autonomous CLI lane — direct shell access, multi-file edits, and tool-use-driven task execution.",
+          "Claude Code's terminal workflow is the strongest visible artifact in the autonomous CLI lane — direct shell access, multi-file edits, tool-use-driven execution.",
         href: "https://github.com/anthropics/claude-code",
       },
       {
-        title: "Aider SWE-bench leaderboard",
+        title: "OpenCode — the open-source alternative",
         summary:
-          "Aider's public SWE-bench results and polyglot benchmark are the strongest credibility artifacts in the open-source CLI lane.",
-        href: "https://aider.chat/docs/leaderboards/",
+          "120K+ GitHub stars make this the most starred coding agent. Supports 75+ models, privacy-first, terminal + desktop + IDE.",
+        href: "https://github.com/opencode-ai/opencode",
       },
       {
-        title: "Continue open-source IDE extension",
+        title: "Codex CLI by OpenAI",
         summary:
-          "Continue's VS Code and JetBrains extensions show the clearest open-source IDE-integrated workflow with @-mention context and model flexibility.",
-        href: "https://github.com/continuedev/continue",
+          "Rust-built, open-source, with GPT-5.4 and 1M context. Cloud sandbox execution and multi-agent parallel workflows.",
+        href: "https://github.com/openai/codex",
+      },
+      {
+        title: "Gemini CLI by Google",
+        summary:
+          "Open-source (Apache 2.0), free tier with 60 req/min, Gemini 3 with 1M context and built-in Google Search grounding.",
+        href: "https://github.com/google-gemini/gemini-cli",
       },
     ],
     liveSignals: [
       {
-        label: "Official launch",
-        title: "Claude Code — Anthropic's agentic coding CLI",
-        href: "https://github.com/anthropics/claude-code",
+        label: "Market leader",
+        title: "OpenCode hits 120K+ GitHub stars",
+        href: "https://github.com/opencode-ai/opencode",
         note:
-          "Strongest official trust signal in the category. Anthropic shipping a CLI agent that directly competes with IDE tools signals a bet on terminal-first workflows.",
+          "Largest community by star count in the coding CLI lane. 5M monthly users signals real adoption, not just hype.",
       },
       {
-        label: "Benchmark artifact",
+        label: "Official contender",
+        title: "Codex CLI — OpenAI's open-source terminal agent",
+        href: "https://github.com/openai/codex",
+        note:
+          "OpenAI entering the CLI agent race with a Rust-built open-source tool changes the competitive landscape. GPT-5.4 with 1M context is a real capability differentiator.",
+      },
+      {
+        label: "Free tier disruptor",
+        title: "Gemini CLI — free terminal agent with 1M context",
+        href: "https://github.com/google-gemini/gemini-cli",
+        note:
+          "Google offering 60 req/min free undercuts the paid alternatives. Forces every competitor to justify their pricing.",
+      },
+      {
+        label: "Benchmark transparency",
         title: "Aider polyglot SWE-bench results",
         href: "https://aider.chat/docs/leaderboards/",
         note:
-          "High trust because the benchmarks are public, reproducible, and updated regularly. Aider's multi-model testing is the most transparent in the CLI lane.",
-      },
-      {
-        label: "Community traction",
-        title: "Continue dev — open-source AI code assistant",
-        href: "https://github.com/continuedev/continue",
-        note:
-          "Strongest open-source IDE extension by star count and contributor activity. The model-agnostic story matters for teams avoiding vendor lock-in.",
+          "Most transparent public benchmarking in the category. Updated regularly across multiple models.",
       },
     ],
     headToHead: [
       {
         left: "Claude Code",
+        right: "Codex CLI",
+        gist: "Claude Code has deeper autonomy and SWE-bench leadership. Codex CLI has 1M context, cloud sandboxes, and multi-agent workflows. Different model providers, both official and serious.",
+      },
+      {
+        left: "OpenCode",
+        right: "Claude Code",
+        gist: "OpenCode wins on model flexibility (75+ providers) and adoption (120K+ stars). Claude Code wins on autonomy depth and Opus quality. OpenCode is the people's choice; Claude Code is the power user's pick.",
+      },
+      {
+        left: "Gemini CLI",
         right: "Aider",
-        gist: "Claude Code is deeper on autonomous multi-step execution with native tool use. Aider is broader on model support and has transparent SWE-bench results. Claude Code for autonomy depth; Aider for model flexibility.",
-      },
-      {
-        left: "Claude Code",
-        right: "Cursor",
-        gist: "Claude Code is terminal-native with no GUI. Cursor is a full IDE with polished UX. Claude Code wins on agent autonomy; Cursor wins on visual editing experience. Different workflow philosophies.",
-      },
-      {
-        left: "Aider",
-        right: "Continue",
-        gist: "Aider is a standalone CLI with git-aware commits. Continue is IDE-embedded (VS Code, JetBrains). Both are open-source and model-flexible. Aider for terminal users; Continue for IDE users.",
+        gist: "Gemini CLI is free and has 1M context but locked to Google models. Aider works with every provider and has the most transparent benchmarks. Free vs flexible.",
       },
     ],
     whatChangesThis: [
-      "If Cursor open-sources or another IDE ships stronger agent autonomy, the IDE lane catches the CLI lane.",
-      "If Aider or another open-source CLI matches Claude Code's autonomous execution depth, model flexibility becomes the deciding factor.",
-      "If local models get good enough for real coding tasks, model-flexible tools (Aider, Continue) gain ground over locked-in options.",
+      "If OpenCode's model-agnostic approach proves strictly better than locked-in providers, the official CLI agents lose their moat.",
+      "If Gemini CLI's free tier gets good enough for production work, paid CLI agents need to justify their cost.",
+      "If Continue's Continuous AI model works, background CI agents become a new subcategory entirely.",
     ],
   },
   "web-browsing": {
@@ -1125,7 +1248,7 @@ export const platforms: Record<PlatformSlug, PlatformRecord> = {
     nativeSupport:
       "Terminals provide raw shell access. The agent layer is entirely in the tool — no platform-level agent API exists.",
     relatedJobs: ["coding-clis"],
-    relatedSkills: ["claude-code", "aider", "continue-dev"],
+    relatedSkills: ["claude-code", "opencode", "codex-cli", "gemini-cli", "aider", "continue-dev"],
   },
   github: {
     slug: "github",

@@ -42,7 +42,7 @@ export default async function JobPage({ params }: PageProps) {
               Skillbench
             </Link>
             <span className="px-2 text-zinc-400">/</span>
-            <span>Job</span>
+            <span>Category</span>
           </div>
           <h1 className="mt-8 text-4xl font-semibold tracking-[-0.06em] text-zinc-950 sm:text-6xl">
             {job.name}
