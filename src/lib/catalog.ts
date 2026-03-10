@@ -92,12 +92,14 @@ export type JobRecord = {
     title: string;
     summary: string;
     href: string;
+    date: string;
     image?: string;
   }>;
   liveSignals: Array<{
     label: string;
     title: string;
     href: string;
+    date: string;
     note: string;
     preview?: string;
   }>;
@@ -1111,25 +1113,29 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "The strongest visible artifact in this lane is still the Google Workspace MCP public repo surface because it shows the breadth of the operating stack in one place.",
         href: "https://github.com/taylorwilsdon/google_workspace_mcp",
+        date: "2026-03",
       },
       {
         title: "Firecrawl research-side extraction surface",
         summary:
           "Firecrawl’s public surface is simpler visually, but it remains the cleanest official scraping and extraction path for the business-research lane.",
         href: "https://github.com/firecrawl/firecrawl-mcp-server",
+        date: "2026-03",
       },
       {
         title: "Exa search-first research surface",
         summary:
           "Exa remains the cleanest public search-first surface in this category when the job is discovery rather than acting inside the workspace itself.",
         href: "https://github.com/exa-labs/exa-mcp-server",
+        date: "2026-03",
       },
     ],
     liveSignals: [
       {
         label: "Hacker News comparison",
-        title: "Comment in the Google Workspace CLI thread: 'Honestly, easier with MCP straight up'",
+        title: "Comment in the Google Workspace CLI thread: ‘Honestly, easier with MCP straight up’",
         href: "https://news.ycombinator.com/item?id=47258403",
+        date: "2026-03",
         note:
           "Useful because it is an active public comparison inside the official Google Workspace CLI discussion. Moderate trust: practitioner comment, not official guidance, but directly on point.",
       },
@@ -1137,6 +1143,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Maintainer artifact",
         title: "Google Workspace MCP repository",
         href: "https://github.com/taylorwilsdon/google_workspace_mcp",
+        date: "2026-03",
         note:
           "Highest practical operating breadth in this lane right now, with explicit Gmail, Docs, Sheets, Calendar, Drive, and Search coverage. High relevance, medium trust because it is maintainer-provided.",
       },
@@ -1144,6 +1151,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Official provider",
         title: "Firecrawl MCP Server repository",
         href: "https://github.com/firecrawl/firecrawl-mcp-server",
+        date: "2026-03",
         note:
           "Official provider support matters here because broken extraction kills downstream business workflows. High trust on operational reliability, weaker on independent comparison.",
       },
@@ -1151,6 +1159,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Official native contender",
         title: "Google Workspace CLI discussion on Hacker News",
         href: "https://news.ycombinator.com/item?id=47284551",
+        date: "2026-03",
         note:
           "Important because it proves the native official lane is evolving quickly. Right now it still looks narrower than the broad MCP operating surface for this job.",
       },
@@ -1223,18 +1232,21 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "OpenHands is the clearest visible software-agent surface in the category. The homepage makes the adoption story obvious in a way raw benchmark posts do not.",
         href: "https://www.all-hands.dev/",
+        date: "2026-03",
       },
       {
         title: "SWE-agent public benchmark artifact",
         summary:
           "SWE-agent’s banner and benchmark-native public surface make it the cleanest visible artifact in the issue-fixing lane.",
         href: "https://github.com/SWE-agent/SWE-agent",
+        date: "2026-03",
       },
       {
         title: "Mini SWE-agent benchmark thread",
         summary:
           "This HN thread is useful because the researchers explain the 65% SWE-bench result in plain language and the comments expose what people actually trust in the benchmark story.",
         href: "https://news.ycombinator.com/item?id=44682897",
+        date: "2025-07",
       },
     ],
     liveSignals: [
@@ -1242,6 +1254,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "High-signal HN comment",
         title: "OpenHands contributor on why multi-agent systems rarely help benchmark scores",
         href: "https://news.ycombinator.com/item?id=44508250",
+        date: "2025-07",
         note:
           "One of the strongest public trust sources here because it is candid, specific, and comes from someone directly close to the OpenHands project instead of generic multi-agent hype.",
       },
@@ -1249,6 +1262,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Benchmark-native",
         title: "Show HN: Mini-swe-agent achieves 65% on SWE-bench in 100 lines of Python",
         href: "https://news.ycombinator.com/item?id=44682897",
+        date: "2025-07",
         note:
           "High trust because it comes from the SWE-agent researchers themselves and anchors the narrow issue-fixing lane in a concrete public result.",
       },
@@ -1256,6 +1270,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Loop reference",
         title: "Ralph Loop Agent repository",
         href: "https://github.com/vercel-labs/ralph-loop-agent",
+        date: "2025-12",
         note:
           "Important because it gives the loop pattern an official and compact reference implementation instead of a giant platform claim.",
       },
@@ -1263,6 +1278,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Meta discussion",
         title: "Software factories and the agentic moment",
         href: "https://news.ycombinator.com/item?id=46924426",
+        date: "2026-02",
         note:
           "Useful market-level signal because the thread is large and skeptical. It is not ranking evidence by itself, but it shows what the public is actually pushing back on in the software-factory story.",
       },
@@ -1344,25 +1360,29 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "Figma’s own remote-vs-desktop MCP guide is the cleanest official artifact because it shows the tool split and the workflow assumptions directly.",
         href: "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
+        date: "2026-02",
       },
       {
         title: "Community write-access challenger",
         summary:
           "Figma-use is the clearest public write-access challenger because it has both repo artifacts and real HN discussion.",
         href: "https://github.com/dannote/figma-use",
+        date: "2026-01",
       },
       {
         title: "Vibma challenger thread",
         summary:
           "Vibma is still early, but the HN thread is valuable because it states the direct-edit promise plainly and contrasts itself with the official Figma MCP lane.",
         href: "https://news.ycombinator.com/item?id=47217411",
+        date: "2026-03",
       },
     ],
     liveSignals: [
       {
         label: "Official docs",
-        title: "Compare Figma's remote and desktop MCP servers",
+        title: "Compare Figma’s remote and desktop MCP servers",
         href: "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
+        date: "2026-02",
         note:
           "Highest trust in the category because it is the provider spelling out the workflow split directly.",
       },
@@ -1370,6 +1390,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Official repo",
         title: "Figma MCP Server Guide repository",
         href: "https://github.com/figma/mcp-server-guide",
+        date: "2026-03",
         note:
           "The repo itself is a useful trust signal because it shows Figma treating this as a maintained, evolving workflow instead of a one-off demo.",
       },
@@ -1377,6 +1398,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Hacker News head-to-head",
         title: "Show HN: Figma-use - CLI to control Figma for AI agents",
         href: "https://news.ycombinator.com/item?id=46665169",
+        date: "2026-01",
         note:
           "Strongest public head-to-head challenger signal in the category so far. Higher trust than random social chatter because the thread exposes real questions about direct control and workflow shape.",
       },
@@ -1385,6 +1407,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         title:
           "Show HN: Vibma - let agents create professional design system in Figma, directly",
         href: "https://news.ycombinator.com/item?id=47217411",
+        date: "2026-03",
         note:
           "Lower traction than Figma-use, but still directly relevant because it frames the same write-access split.",
       },
@@ -1495,24 +1518,28 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "Claude Code's terminal workflow is the strongest visible artifact in the autonomous CLI lane — direct shell access, multi-file edits, tool-use-driven execution.",
         href: "https://github.com/anthropics/claude-code",
+        date: "2026-03",
       },
       {
         title: "OpenCode — the open-source alternative",
         summary:
           "120K+ GitHub stars make this the most starred coding agent. Supports 75+ models, privacy-first, terminal + desktop + IDE.",
         href: "https://github.com/opencode-ai/opencode",
+        date: "2026-03",
       },
       {
         title: "Codex CLI by OpenAI",
         summary:
           "Rust-built, open-source, with GPT-5.4 and 1M context. Cloud sandbox execution and multi-agent parallel workflows.",
         href: "https://github.com/openai/codex",
+        date: "2026-03",
       },
       {
         title: "Gemini CLI by Google",
         summary:
           "Open-source (Apache 2.0), free tier with 60 req/min, Gemini 3 with 1M context and built-in Google Search grounding.",
         href: "https://github.com/google-gemini/gemini-cli",
+        date: "2026-03",
       },
     ],
     liveSignals: [
@@ -1520,6 +1547,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Market leader",
         title: "OpenCode hits 120K+ GitHub stars",
         href: "https://github.com/opencode-ai/opencode",
+        date: "2026-03",
         note:
           "Largest community by star count in the coding CLI lane. 5M monthly users signals real adoption, not just hype.",
       },
@@ -1527,6 +1555,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Official contender",
         title: "Codex CLI — OpenAI's open-source terminal agent",
         href: "https://github.com/openai/codex",
+        date: "2026-03",
         note:
           "OpenAI entering the CLI agent race with a Rust-built open-source tool changes the competitive landscape. GPT-5.4 with 1M context is a real capability differentiator.",
       },
@@ -1534,6 +1563,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Free tier disruptor",
         title: "Gemini CLI — free terminal agent with 1M context",
         href: "https://github.com/google-gemini/gemini-cli",
+        date: "2025-06",
         note:
           "Google offering 60 req/min free undercuts the paid alternatives. Forces every competitor to justify their pricing.",
       },
@@ -1541,6 +1571,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Benchmark transparency",
         title: "Aider polyglot SWE-bench results",
         href: "https://aider.chat/docs/leaderboards/",
+        date: "2026-03",
         note:
           "Most transparent public benchmarking in the category. Updated regularly across multiple models.",
       },
@@ -1614,12 +1645,14 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "Browser Use's GitHub presence and demo artifacts are the strongest visible proof in the autonomous browsing lane.",
         href: "https://github.com/browser-use/browser-use",
+        date: "2026-03",
       },
       {
         title: "Stagehand act/extract/observe API",
         summary:
           "Stagehand's three-primitive API and natural language selectors represent the cleanest developer experience artifact in browser automation.",
         href: "https://github.com/browserbase/stagehand",
+        date: "2026-03",
       },
     ],
     liveSignals: [
@@ -1627,6 +1660,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "Community traction",
         title: "Browser Use — make websites accessible for AI agents",
         href: "https://github.com/browser-use/browser-use",
+        date: "2026-03",
         note:
           "Strongest community signal in the browser automation lane by star count and active development. The vision+DOM hybrid approach is becoming the default pattern.",
       },
@@ -1634,6 +1668,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         label: "TypeScript-native",
         title: "Stagehand by Browserbase — AI web browsing framework",
         href: "https://github.com/browserbase/stagehand",
+        date: "2026-03",
         note:
           "Important because it gives TypeScript teams a clean alternative to Python-only browser-use. The natural language selector approach reduces selector fragility.",
       },

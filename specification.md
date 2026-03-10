@@ -311,6 +311,8 @@ Every signal shipped in the product must meet ALL of these:
 7. **Engagement floor**: if the source has few likes, few comments, few upvotes — it is not a signal. A blog post with zero comments, an HN thread with 2 replies, a tweet with no engagement — all noise. The public must have visibly reacted for it to count.
 8. **Author reputation**: if the author has no visible track record — no public projects, no history in the space, no reputation — the signal is suspect. Weight maintainers, known builders, and people with public work 10x over anonymous or low-profile commenters.
 
+9. **Date tracking**: every artifact — evidence items, live signals, observed outputs — MUST carry a date. Undated artifacts cannot be assessed for freshness and are treated as stale.
+
 When in doubt, cut the signal. Three strong signals beat eight weak ones.
 
 ### Promotional Material Rule

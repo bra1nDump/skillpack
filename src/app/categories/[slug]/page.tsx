@@ -88,14 +88,17 @@ export default async function JobPage({ params }: PageProps) {
                     </p>
                   </a>
                   <p className="mt-3 text-sm leading-7 text-zinc-700">{item.summary}</p>
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500 underline decoration-black/15 underline-offset-4 hover:text-black"
-                  >
-                    View source
-                  </a>
+                  <div className="mt-4 flex items-center gap-3">
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500 underline decoration-black/15 underline-offset-4 hover:text-black"
+                    >
+                      View source
+                    </a>
+                    <span className="font-mono text-[10px] text-zinc-400">{item.date}</span>
+                  </div>
                 </article>
               ))}
             </div>
@@ -244,9 +247,12 @@ export default async function JobPage({ params }: PageProps) {
                     }
                   >
                     <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-500">
-                        {signal.label}
-                      </p>
+                      <div className="flex items-center gap-3">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                          {signal.label}
+                        </p>
+                        <span className="font-mono text-[10px] text-zinc-400">{signal.date}</span>
+                      </div>
                       <a
                         href={signal.href}
                         target="_blank"
