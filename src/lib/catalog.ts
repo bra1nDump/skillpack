@@ -1364,7 +1364,7 @@ export const categories: Record<CategorySlug, CategoryRecord> = {
         title: "OpenHands public product surface",
         summary:
           "OpenHands is the clearest visible software-agent surface in the category. The homepage makes the adoption story obvious in a way raw benchmark posts do not.",
-        href: "https://www.all-hands.dev/",
+        href: "https://openhands.dev/",
         date: "2026-03",
       },
       {
@@ -1375,37 +1375,37 @@ export const categories: Record<CategorySlug, CategoryRecord> = {
         date: "2026-03",
       },
       {
-        title: "Mini SWE-agent benchmark thread",
+        title: "SWE-bench v2.0.0 overhaul — updated scaffolding, environments, token limits",
         summary:
-          "This HN thread is useful because the researchers explain the 65% SWE-bench result in plain language and the comments expose what people actually trust in the benchmark story.",
-        href: "https://news.ycombinator.com/item?id=44682897",
-        date: "2025-07",
+          "Simon Willison's coverage of the February 2026 SWE-bench refresh. New v2.0.0 with updated environments and token limits. Mini-swe-agent now the recommended path over full SWE-agent.",
+        href: "https://simonwillison.net/2026/Feb/19/swe-bench/",
+        date: "2026-02",
       },
     ],
     liveSignals: [
       {
-        label: "High-signal HN comment",
-        title: "OpenHands contributor on why multi-agent systems rarely help benchmark scores",
-        href: "https://news.ycombinator.com/item?id=44508250",
-        date: "2025-07",
+        label: "Platform evolution",
+        title: "OpenHands March 2026: Planning Agent, GUI slash menu, Agent Skills",
+        href: "https://openhands.dev/blog/openhands-product-update---march-2026",
+        date: "2026-03",
         note:
-          "One of the strongest public trust sources here because it is candid, specific, and comes from someone directly close to the OpenHands project instead of generic multi-agent hype.",
+          "OpenHands ships Planning Agent (Plan Mode → Code Mode), GUI slash menu for Agent Skills discovery. Shows active platform evolution beyond raw benchmarks.",
       },
       {
-        label: "Benchmark-native",
-        title: "Show HN: Mini-swe-agent achieves 65% on SWE-bench in 100 lines of Python",
-        href: "https://news.ycombinator.com/item?id=44682897",
-        date: "2025-07",
+        label: "Benchmark update",
+        title: "SWE-bench February 2026 leaderboard update — Simon Willison",
+        href: "https://simonwillison.net/2026/Feb/19/swe-bench/",
+        date: "2026-02",
         note:
-          "High trust because it comes from the SWE-agent researchers themselves and anchors the narrow issue-fixing lane in a concrete public result.",
+          "Simon Willison covers the SWE-bench v2.0.0 overhaul with updated scaffolding, environments, and token limits. Model scores jumped significantly. Mini-swe-agent now recommended over full SWE-agent.",
       },
       {
-        label: "Loop reference",
-        title: "Ralph Loop Agent repository",
-        href: "https://github.com/vercel-labs/ralph-loop-agent",
-        date: "2025-12",
+        label: "Loop ecosystem growth",
+        title: "snarktank/ralph hits 12.5K stars — largest Ralph implementation",
+        href: "https://github.com/snarktank/ralph",
+        date: "2026-03",
         note:
-          "Important because it gives the loop pattern an official and compact reference implementation instead of a giant platform claim.",
+          "The Ralph loop ecosystem keeps growing. snarktank/ralph at 12.5K stars, Vercel Labs SDK at 698, Anthropic official plugin. Total ecosystem exceeds 20K stars.",
       },
       {
         label: "Meta discussion",
@@ -1694,11 +1694,11 @@ export const categories: Record<CategorySlug, CategoryRecord> = {
       },
       {
         label: "Free tier disruptor",
-        title: "Gemini CLI — free terminal agent with 1M context",
-        href: "https://github.com/google-gemini/gemini-cli",
-        date: "2025-06",
+        title: "Gemini 3 Pro now available in Gemini CLI — 97K+ stars",
+        href: "https://github.com/google-gemini/gemini-cli/discussions/13280",
+        date: "2026-03",
         note:
-          "Google offering 60 req/min free undercuts the paid alternatives. Forces every competitor to justify their pricing.",
+          "Gemini CLI now ships Gemini 3 Pro. 97K+ stars, plan mode with subagents, parallel extension loading. Google's free tier keeps forcing paid alternatives to justify pricing.",
       },
       {
         label: "Benchmark transparency",
