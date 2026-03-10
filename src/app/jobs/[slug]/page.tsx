@@ -176,6 +176,28 @@ export default async function JobPage({ params }: PageProps) {
           </div>
         </section>
 
+        {job.headToHead.length > 0 ? (
+          <section className="border-b border-black/5 py-16">
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+              Head to head
+            </p>
+            <div className="mt-6 grid gap-4 lg:grid-cols-3">
+              {job.headToHead.map((pair) => (
+                <article key={`${pair.left}-${pair.right}`} className="border border-black/10 px-5 py-5">
+                  <p className="text-sm font-semibold text-zinc-950">
+                    {pair.left}
+                    <span className="mx-2 font-normal text-zinc-400">vs</span>
+                    {pair.right}
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-zinc-600">
+                    {pair.gist}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         {job.liveSignals.length > 0 ? (
           <section className="border-b border-black/5 py-16">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">

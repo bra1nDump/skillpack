@@ -140,18 +140,38 @@ export default async function SkillPage({ params }: PageProps) {
 
         <section className="border-b border-black/5 py-16">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
-            Related jobs
+            Ranking in related jobs
           </p>
-          <div className="mt-6 flex flex-wrap gap-4">
-            {relatedJobs.map((job) => (
-              <Link
-                key={job.slug}
-                href={`/jobs/${job.slug}`}
-                className="border border-black/10 px-4 py-3 text-sm text-zinc-700 hover:border-black/25 hover:text-black"
-              >
-                {job.name}
-              </Link>
-            ))}
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {relatedJobs.map((job) => {
+              const entry = job.ranking.find((r) => r.skillSlug === skill.slug);
+              return (
+                <Link
+                  key={job.slug}
+                  href={`/jobs/${job.slug}`}
+                  className="group border border-black/10 px-5 py-4 transition-colors hover:border-black/25"
+                >
+                  <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
+                    {job.name}
+                  </p>
+                  {entry ? (
+                    <div className="mt-2">
+                      <span className="font-mono text-2xl font-semibold text-zinc-950">
+                        #{entry.rank}
+                      </span>
+                      <span className="ml-2 text-sm text-zinc-500">
+                        of {job.ranking.length}
+                      </span>
+                      <p className="mt-1 text-xs leading-5 text-zinc-500">
+                        {entry.bestFor}
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="mt-2 text-sm text-zinc-500">Related but not ranked</p>
+                  )}
+                </Link>
+              );
+            })}
           </div>
         </section>
 

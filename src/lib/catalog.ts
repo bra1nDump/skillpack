@@ -67,6 +67,11 @@ export type JobRecord = {
     note: string;
     preview?: string;
   }>;
+  headToHead: Array<{
+    left: string;
+    right: string;
+    gist: string;
+  }>;
   whatChangesThis: string[];
 };
 
@@ -567,6 +572,23 @@ export const jobs: Record<JobSlug, JobRecord> = {
           "Important because it proves the native official lane is evolving quickly. Right now it still looks narrower than the broad MCP operating surface for this job.",
       },
     ],
+    headToHead: [
+      {
+        left: "Google Workspace MCP",
+        right: "Firecrawl MCP",
+        gist: "Workspace MCP is the operating spine (read and write docs, sheets, mail). Firecrawl is the research arm (scrape, extract, crawl). They complement rather than replace each other.",
+      },
+      {
+        left: "Firecrawl MCP",
+        right: "Exa MCP",
+        gist: "Firecrawl wins when the job is deep extraction from specific pages. Exa wins when the job is fast search across many sources. Firecrawl is page-ops; Exa is search-first.",
+      },
+      {
+        left: "Google Workspace MCP",
+        right: "Google Workspace CLI",
+        gist: "The CLI is official Google but intentionally non-MCP and narrower. The community MCP has broader cross-app coverage. The CLI proves Google is investing, but has not shipped a broad MCP alternative yet.",
+      },
+    ],
     whatChangesThis: [
       "If Google ships a clearly superior official cross-app Workspace agent surface, the top rank changes fast.",
       "If the job skews much harder toward research than operations, Firecrawl or Exa can move up depending on the exact workflow shape.",
@@ -674,6 +696,23 @@ export const jobs: Record<JobSlug, JobRecord> = {
           "Useful market-level signal because the thread is large and skeptical. It is not ranking evidence by itself, but it shows what the public is actually pushing back on in the software-factory story.",
         preview:
           "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/software-factory-hn.png",
+      },
+    ],
+    headToHead: [
+      {
+        left: "OpenHands",
+        right: "SWE-agent",
+        gist: "OpenHands is the broad software-factory surface with the most public gravity. SWE-agent is narrower but benchmark-native. Choose OpenHands for general development, SWE-agent for issue-level repair credibility.",
+      },
+      {
+        left: "OpenHands",
+        right: "Ralph Loop Agent",
+        gist: "OpenHands is a full platform with infra overhead. Ralph is a clean loop pattern for teams that want continuous autonomy without the platform weight. Different workflow shapes, not direct replacements.",
+      },
+      {
+        left: "Ralph Loop Agent",
+        right: "SWE-agent",
+        gist: "Ralph is about loop-shaped continuous work. SWE-agent is about one-shot issue repair. Ralph is a pattern; SWE-agent is a tool. They solve different subcases of the same meta-job.",
       },
     ],
     whatChangesThis: [
@@ -794,6 +833,23 @@ export const jobs: Record<JobSlug, JobRecord> = {
           "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/vibma-hn.png",
       },
     ],
+    headToHead: [
+      {
+        left: "Figma MCP Server Guide",
+        right: "Figma-use",
+        gist: "The official path wins on trust and team adoption. Figma-use wins on direct write access and builder energy. Official is safer; Figma-use is more capable for power users.",
+      },
+      {
+        left: "Figma-use",
+        right: "Vibma",
+        gist: "Both are write-access challengers, but Figma-use has significantly more public traction and trust. Vibma is earlier and more design-system-focused. Figma-use is the safer challenger bet.",
+      },
+      {
+        left: "Figma MCP Server Guide",
+        right: "Paper MCP",
+        gist: "Both offer official-lane trust. Figma MCP is the broader ecosystem play. Paper MCP is a narrower direct-write wedge outside Figma entirely. Different tools for different design surfaces.",
+      },
+    ],
     whatChangesThis: [
       "If the official Figma path becomes dramatically better at direct write-back, the challenger gap narrows fast.",
       "If a challenger starts winning broad public trust instead of just builder attention, the top of the category shifts.",
@@ -891,6 +947,23 @@ export const jobs: Record<JobSlug, JobRecord> = {
           "Strongest open-source IDE extension by star count and contributor activity. The model-agnostic story matters for teams avoiding vendor lock-in.",
       },
     ],
+    headToHead: [
+      {
+        left: "Claude Code",
+        right: "Aider",
+        gist: "Claude Code is deeper on autonomous multi-step execution with native tool use. Aider is broader on model support and has transparent SWE-bench results. Claude Code for autonomy depth; Aider for model flexibility.",
+      },
+      {
+        left: "Claude Code",
+        right: "Cursor",
+        gist: "Claude Code is terminal-native with no GUI. Cursor is a full IDE with polished UX. Claude Code wins on agent autonomy; Cursor wins on visual editing experience. Different workflow philosophies.",
+      },
+      {
+        left: "Aider",
+        right: "Continue",
+        gist: "Aider is a standalone CLI with git-aware commits. Continue is IDE-embedded (VS Code, JetBrains). Both are open-source and model-flexible. Aider for terminal users; Continue for IDE users.",
+      },
+    ],
     whatChangesThis: [
       "If Cursor open-sources or another IDE ships stronger agent autonomy, the IDE lane catches the CLI lane.",
       "If Aider or another open-source CLI matches Claude Code's autonomous execution depth, model flexibility becomes the deciding factor.",
@@ -965,6 +1038,23 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://github.com/browserbase/stagehand",
         note:
           "Important because it gives TypeScript teams a clean alternative to Python-only browser-use. The natural language selector approach reduces selector fragility.",
+      },
+    ],
+    headToHead: [
+      {
+        left: "Browser Use",
+        right: "Stagehand",
+        gist: "Browser Use is Python-only with vision+DOM hybrid and the largest community. Stagehand is TypeScript-native with the cleanest API and natural language selectors. Browser Use for Python teams; Stagehand for TypeScript teams.",
+      },
+      {
+        left: "Browser Use",
+        right: "Playwright MCP",
+        gist: "Browser Use is a standalone library with vision understanding. Playwright MCP is a structured tool interface for MCP hosts. Browser Use for autonomous browsing; Playwright MCP for agents that already speak MCP.",
+      },
+      {
+        left: "Stagehand",
+        right: "Playwright MCP",
+        gist: "Stagehand has AI-native natural language selectors and richer DX. Playwright MCP has broader browser automation maturity under the hood. Stagehand for DX; Playwright MCP for MCP integration.",
       },
     ],
     whatChangesThis: [
