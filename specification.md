@@ -278,11 +278,31 @@ Suggested tiers:
 - community X/Twitter posts
 - forum discussion
 
-### Tier 4: Weak
+### Tier 4: Weak — DISCARD by default
 
 - low-effort SEO pages
 - shallow reposts
 - generic AI-generated summaries
+- HN threads with fewer than 10 points or fewer than 5 substantive comments
+- drive-by opinions without specifics ("honestly easier with X" with no supporting detail)
+- isolated praise without comparison or usage evidence
+
+Tier 4 signals should almost never appear in the product. If one is included, it must have an explicit justification for why it is still useful despite being weak.
+
+### Signal quality minimum bar
+
+Every signal shipped in the product must meet ALL of these:
+
+1. **Traction**: visible community engagement (upvotes, replies, stars, retweets). A 2-comment HN thread is not a signal.
+2. **Substance**: a specific claim, comparison, experience report, or demonstrated output. Generic sentiment is not enough.
+3. **Attribution**: who said it matters. Maintainers and known builders outweigh anonymous drive-by comments.
+4. **Freshness**: signals older than 2 months are dead weight — cut them. If a tool is truly a leader, it will have fresh mentions and fresh comparisons. Do not grandfather stale signals just because they were once relevant.
+5. **Visual proof**: screenshots must show the product in use, not homepages or landing pages.
+6. **Multiple independent sources required for ALL claims**: a single source is worth nothing. Every claim shipped in the product — verdict, strength, weakness, comparison, capability statement — must be backed by at least 2-3 independent sources. Single-source claims are hypotheses at best. Label them as unverified or cut them.
+7. **Engagement floor**: if the source has few likes, few comments, few upvotes — it is not a signal. A blog post with zero comments, an HN thread with 2 replies, a tweet with no engagement — all noise. The public must have visibly reacted for it to count.
+8. **Author reputation**: if the author has no visible track record — no public projects, no history in the space, no reputation — the signal is suspect. Weight maintainers, known builders, and people with public work 10x over anonymous or low-profile commenters.
+
+When in doubt, cut the signal. Three strong signals beat eight weak ones.
 
 We should also classify evidence type:
 
