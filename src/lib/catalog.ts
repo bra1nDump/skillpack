@@ -188,8 +188,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Official Figma guide for the MCP path. Strongest trust lane for design context inside agent workflows.",
     verdict:
       "Best default when trust, officialness, and team adoption matter more than raw write access.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-mcp-help.png",
     docsUrl:
       "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
     relatedJobs: ["ux-ui"],
@@ -235,8 +233,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Community write-access contender for controlling Figma directly from the command line and agent loops.",
     verdict:
       "Best public challenger when you care about direct mutation and builder energy more than official trust.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-use-repo-hero.png",
     relatedJobs: ["ux-ui"],
     strengths: [
       "Strong write-access story",
@@ -272,8 +268,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Design-system-specific challenger focused on letting agents create directly in Figma.",
     verdict:
       "Interesting challenger, but still clearly behind the official path and Figma-use on public trust.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/vibma-hn.png",
     relatedJobs: ["ux-ui"],
     strengths: [
       "Very explicit write-directly positioning",
@@ -308,8 +302,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Official Firecrawl MCP for scraping, extraction, and deep research workflows.",
     verdict:
       "Best research-side skill when the job is business intelligence across messy public websites.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/firecrawl-mcp-repo-hero.png",
     docsUrl: "https://firecrawl.dev",
     relatedJobs: ["product-business-development"],
     strengths: [
@@ -355,8 +347,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Official Exa MCP for fast web search and crawling when the workflow is search-first rather than page-ops-first.",
     verdict:
       "Best search-heavy research skill, but not as strong as Firecrawl once the workflow leans into extraction and page actions.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/exa-mcp-repo-hero.png",
     relatedJobs: ["product-business-development"],
     strengths: [
       "Fast search-first workflow",
@@ -392,8 +382,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "The most complete public Google Workspace MCP surface right now across Gmail, Docs, Sheets, Calendar, Drive, and more.",
     verdict:
       "Best broad operating skill for product and business workflows because it turns the agent into an operator, not just a researcher.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/google-workspace-mcp-repo-hero.png",
     docsUrl: "https://workspacemcp.com",
     relatedJobs: ["product-business-development"],
     strengths: [
@@ -439,8 +427,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Open-source software agent surface with the broadest public traction in the long-running development lane.",
     verdict:
       "Best default software-factory contender when you want a broad autonomous development surface with real public gravity.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/openhands-home-hero.png",
     docsUrl: "https://docs.openhands.dev",
     relatedJobs: ["teams-of-agents"],
     strengths: [
@@ -487,8 +473,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Vercel’s continuous-autonomy loop for the AI SDK. Cleaner pattern surface than a full software-agent platform.",
     verdict:
       "Best reference when the team wants a crisp loop pattern instead of a huge agent platform.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/ralph-loop-repo-hero.png",
     docsUrl: "https://ai-sdk.dev",
     relatedJobs: ["teams-of-agents"],
     strengths: [
@@ -525,8 +509,6 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Benchmark-driven software engineering agent with the cleanest issue-fixing story in the open-source lane.",
     verdict:
       "Best narrow pick when the question is issue-level repair and benchmark credibility, not general software-factory orchestration.",
-    previewImage:
-      "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/swe-agent-repo-hero.png",
     docsUrl: "https://swe-agent.com/latest/",
     relatedJobs: ["teams-of-agents"],
     strengths: [
@@ -1129,24 +1111,18 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "The strongest visible artifact in this lane is still the Google Workspace MCP public repo surface because it shows the breadth of the operating stack in one place.",
         href: "https://github.com/taylorwilsdon/google_workspace_mcp",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/google-workspace-mcp-repo-hero.png",
       },
       {
         title: "Firecrawl research-side extraction surface",
         summary:
           "Firecrawl’s public surface is simpler visually, but it remains the cleanest official scraping and extraction path for the business-research lane.",
         href: "https://github.com/firecrawl/firecrawl-mcp-server",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/firecrawl-mcp-repo-hero.png",
       },
       {
         title: "Exa search-first research surface",
         summary:
           "Exa remains the cleanest public search-first surface in this category when the job is discovery rather than acting inside the workspace itself.",
         href: "https://github.com/exa-labs/exa-mcp-server",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/exa-mcp-repo-hero.png",
       },
     ],
     liveSignals: [
@@ -1156,8 +1132,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://news.ycombinator.com/item?id=47258403",
         note:
           "Useful because it is an active public comparison inside the official Google Workspace CLI discussion. Moderate trust: practitioner comment, not official guidance, but directly on point.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/gws-cli-mcp-comment-hn.png",
       },
       {
         label: "Maintainer artifact",
@@ -1165,8 +1139,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://github.com/taylorwilsdon/google_workspace_mcp",
         note:
           "Highest practical operating breadth in this lane right now, with explicit Gmail, Docs, Sheets, Calendar, Drive, and Search coverage. High relevance, medium trust because it is maintainer-provided.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/google-workspace-mcp-repo-hero.png",
       },
       {
         label: "Official provider",
@@ -1174,8 +1146,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://github.com/firecrawl/firecrawl-mcp-server",
         note:
           "Official provider support matters here because broken extraction kills downstream business workflows. High trust on operational reliability, weaker on independent comparison.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/firecrawl-mcp-repo-hero.png",
       },
       {
         label: "Official native contender",
@@ -1253,24 +1223,18 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "OpenHands is the clearest visible software-agent surface in the category. The homepage makes the adoption story obvious in a way raw benchmark posts do not.",
         href: "https://www.all-hands.dev/",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/openhands-home-hero.png",
       },
       {
         title: "SWE-agent public benchmark artifact",
         summary:
           "SWE-agent’s banner and benchmark-native public surface make it the cleanest visible artifact in the issue-fixing lane.",
         href: "https://github.com/SWE-agent/SWE-agent",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/swe-agent-repo-hero.png",
       },
       {
         title: "Mini SWE-agent benchmark thread",
         summary:
           "This HN thread is useful because the researchers explain the 65% SWE-bench result in plain language and the comments expose what people actually trust in the benchmark story.",
         href: "https://news.ycombinator.com/item?id=44682897",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/mini-swe-agent-hn.png",
       },
     ],
     liveSignals: [
@@ -1280,8 +1244,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://news.ycombinator.com/item?id=44508250",
         note:
           "One of the strongest public trust sources here because it is candid, specific, and comes from someone directly close to the OpenHands project instead of generic multi-agent hype.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/openhands-multi-agent-hn.png",
       },
       {
         label: "Benchmark-native",
@@ -1289,8 +1251,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://news.ycombinator.com/item?id=44682897",
         note:
           "High trust because it comes from the SWE-agent researchers themselves and anchors the narrow issue-fixing lane in a concrete public result.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/mini-swe-agent-hn.png",
       },
       {
         label: "Loop reference",
@@ -1298,8 +1258,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://github.com/vercel-labs/ralph-loop-agent",
         note:
           "Important because it gives the loop pattern an official and compact reference implementation instead of a giant platform claim.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/ralph-loop-repo-hero.png",
       },
       {
         label: "Meta discussion",
@@ -1307,8 +1265,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://news.ycombinator.com/item?id=46924426",
         note:
           "Useful market-level signal because the thread is large and skeptical. It is not ranking evidence by itself, but it shows what the public is actually pushing back on in the software-factory story.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/software-factory-hn.png",
       },
     ],
     headToHead: [
@@ -1388,24 +1344,18 @@ export const jobs: Record<JobSlug, JobRecord> = {
         summary:
           "Figma’s own remote-vs-desktop MCP guide is the cleanest official artifact because it shows the tool split and the workflow assumptions directly.",
         href: "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-mcp-help.png",
       },
       {
         title: "Community write-access challenger",
         summary:
           "Figma-use is the clearest public write-access challenger because it has both repo artifacts and real HN discussion.",
         href: "https://github.com/dannote/figma-use",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-use-repo-hero.png",
       },
       {
         title: "Vibma challenger thread",
         summary:
           "Vibma is still early, but the HN thread is valuable because it states the direct-edit promise plainly and contrasts itself with the official Figma MCP lane.",
         href: "https://news.ycombinator.com/item?id=47217411",
-        image:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/vibma-hn.png",
       },
     ],
     liveSignals: [
@@ -1415,8 +1365,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
         note:
           "Highest trust in the category because it is the provider spelling out the workflow split directly.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-mcp-help.png",
       },
       {
         label: "Official repo",
@@ -1424,8 +1372,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://github.com/figma/mcp-server-guide",
         note:
           "The repo itself is a useful trust signal because it shows Figma treating this as a maintained, evolving workflow instead of a one-off demo.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-mcp-guide-repo-hero.png",
       },
       {
         label: "Hacker News head-to-head",
@@ -1433,8 +1379,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://news.ycombinator.com/item?id=46665169",
         note:
           "Strongest public head-to-head challenger signal in the category so far. Higher trust than random social chatter because the thread exposes real questions about direct control and workflow shape.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/figma-use-hn.png",
       },
       {
         label: "Hacker News challenger",
@@ -1443,8 +1387,6 @@ export const jobs: Record<JobSlug, JobRecord> = {
         href: "https://news.ycombinator.com/item?id=47217411",
         note:
           "Lower traction than Figma-use, but still directly relevant because it frames the same write-access split.",
-        preview:
-          "/run-assets/2026-03-09_12-55_evidence-capture_core-jobs/assets/vibma-hn.png",
       },
     ],
     headToHead: [
