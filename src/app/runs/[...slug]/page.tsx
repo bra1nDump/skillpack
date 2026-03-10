@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { CopyButton } from "@/components/copy-button";
 import { SiteFooter } from "@/components/site-footer";
 import {
   readRunMarkdown,
@@ -109,20 +108,7 @@ export default async function RunPage({ params }: PageProps) {
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <main className="mx-auto w-full max-w-4xl px-6 py-8 sm:px-8 lg:px-10">
         <div className="border-b border-black/5 pb-8">
-          <div className="flex items-center justify-between gap-4">
-            <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
-              <Link href="/" className="hover:text-black">
-                Skillbench
-              </Link>
-              <span className="px-2 text-zinc-400">/</span>
-              <span>Agent Run</span>
-            </div>
-            <CopyButton
-              label="Copy link"
-              text={`http://127.0.0.1:3000/runs/${slug.join("/")}`}
-            />
-          </div>
-          <p className="mt-6 text-xs text-zinc-500">{relativePath}</p>
+          <p className="text-xs text-zinc-500">{relativePath}</p>
         </div>
 
         <article className="prose-none py-12">

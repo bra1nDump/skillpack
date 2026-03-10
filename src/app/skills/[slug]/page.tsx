@@ -49,14 +49,7 @@ export default async function SkillPage({ params }: PageProps) {
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <main className="mx-auto w-full max-w-5xl px-6 py-8 sm:px-8 lg:px-10">
         <div className="border-b border-black/5 pb-8">
-          <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
-            <Link href="/" className="hover:text-black">
-              Skillbench
-            </Link>
-            <span className="px-2 text-zinc-400">/</span>
-            <span>Skill</span>
-          </div>
-          <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-4xl font-semibold tracking-[-0.06em] text-zinc-950 sm:text-6xl">
                 {skill.name}
@@ -204,7 +197,7 @@ export default async function SkillPage({ params }: PageProps) {
               return (
                 <Link
                   key={job.slug}
-                  href={`/jobs/${job.slug}`}
+                  href={`/categories/${job.slug}`}
                   className="group border border-black/10 px-5 py-4 transition-colors hover:border-black/25"
                 >
                   <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">

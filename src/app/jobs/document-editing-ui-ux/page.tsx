@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function DocumentEditingUiUxPage() {
-  redirect("/jobs/ux-ui");
+export default function DocumentEditingUiUxRedirect() {
+  redirect("/categories/ux-ui");
 }

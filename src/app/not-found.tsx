@@ -14,7 +14,7 @@ export default function NotFound() {
             Page not found
           </h1>
           <p className="mx-auto mt-6 max-w-md text-base leading-8 text-zinc-600">
-            This page doesn&apos;t exist yet. Try browsing jobs or skills instead.
+            This page doesn&apos;t exist yet. Try browsing categories or skills instead.
           </p>
           <div className="mt-10 flex items-center justify-center gap-4">
             <Link
@@ -24,10 +24,10 @@ export default function NotFound() {
               Home
             </Link>
             <Link
-              href="/jobs"
+              href="/categories"
               className="border border-black/10 px-5 py-3 text-sm font-semibold text-zinc-950 hover:border-black/25"
             >
-              Browse Jobs
+              Browse Categories
             </Link>
             <Link
               href="/skills"

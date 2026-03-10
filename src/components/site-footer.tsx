@@ -18,7 +18,7 @@ export function SiteFooter() {
             <Link className="hover:text-black" href="/">
               Home
             </Link>
-            <Link className="hover:text-black" href="/jobs">
+            <Link className="hover:text-black" href="/categories">
               Categories
             </Link>
             <Link className="hover:text-black" href="/skills">

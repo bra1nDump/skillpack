@@ -57,7 +57,7 @@ const searchItems = [
   ...jobList.map((job) => ({
     label: "Category",
     name: job.name,
-    href: `/jobs/${job.slug}`,
+    href: `/categories/${job.slug}`,
     summary: job.deck,
   })),
   ...skillList.map((skill) => ({
@@ -140,7 +140,7 @@ export default function Home() {
             {bestRightNow.map((item) => (
               <Link
                 key={item.jobSlug}
-                href={`/jobs/${item.jobSlug}`}
+                href={`/categories/${item.jobSlug}`}
                 className="group border border-black/10 px-5 py-5 transition-colors hover:border-black/25"
               >
                 <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
@@ -194,7 +194,7 @@ export default function Home() {
             {topComparisons.map((pair) => (
               <Link
                 key={`${pair.left}-${pair.right}`}
-                href={`/jobs/${pair.jobSlug}`}
+                href={`/categories/${pair.jobSlug}`}
                 className="group border border-black/10 px-4 py-4 transition-colors hover:border-black/25"
               >
                 <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
@@ -242,7 +242,7 @@ export default function Home() {
                   {job.ranking[0]?.contender}
                 </p>
                 <Link
-                  href={`/jobs/${job.slug}`}
+                  href={`/categories/${job.slug}`}
                   className="mt-6 inline-block text-sm font-semibold text-zinc-950 underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
                 >
                   Open report →
@@ -364,7 +364,7 @@ export default function Home() {
               {jobList.map((job) => (
                 <p key={job.slug}>
                   <Link
-                    href={`/jobs/${job.slug}`}
+                    href={`/categories/${job.slug}`}
                     className="underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
                   >
                     {job.name}

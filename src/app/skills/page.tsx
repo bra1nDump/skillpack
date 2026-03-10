@@ -15,14 +15,7 @@ export default function SkillsIndexPage() {
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <main className="mx-auto w-full max-w-5xl px-6 py-8 sm:px-8 lg:px-10">
         <div className="border-b border-black/5 pb-8">
-          <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
-            <Link href="/" className="hover:text-black">
-              Skillbench
-            </Link>
-            <span className="px-2 text-zinc-400">/</span>
-            <span>Skills</span>
-          </div>
-          <h1 className="mt-8 text-4xl font-semibold tracking-[-0.06em] text-zinc-950 sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.06em] text-zinc-950 sm:text-5xl">
             All Skills
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
@@ -92,7 +85,7 @@ export default function SkillsIndexPage() {
                           {relatedJobs.map((j) => (
                             <Link
                               key={j.slug}
-                              href={`/jobs/${j.slug}`}
+                              href={`/categories/${j.slug}`}
                               className="text-xs text-zinc-500 underline decoration-black/10 underline-offset-2 hover:text-black"
                             >
                               {j.name}

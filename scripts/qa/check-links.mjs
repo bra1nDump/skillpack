@@ -7,12 +7,12 @@ const USER_AGENT = "SkillbenchLinkChecker/1.0 (+https://skillbench.local)";
 
 const seedRoutes = [
   "/",
-  "/jobs",
-  "/jobs/coding-clis",
-  "/jobs/web-browsing",
-  "/jobs/product-business-development",
-  "/jobs/teams-of-agents",
-  "/jobs/ux-ui",
+  "/categories",
+  "/categories/coding-clis",
+  "/categories/web-browsing",
+  "/categories/product-business-development",
+  "/categories/teams-of-agents",
+  "/categories/ux-ui",
   "/skills",
   "/bundles",
   "/bundles/karpathy-stack",

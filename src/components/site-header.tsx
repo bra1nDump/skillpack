@@ -11,7 +11,7 @@ export function SiteHeader() {
           Skillbench
         </Link>
         <nav className="flex items-center gap-6 text-sm text-zinc-500">
-          <Link href="/jobs" className="hover:text-black">
+          <Link href="/categories" className="hover:text-black">
             Categories
           </Link>
           <Link href="/skills" className="hover:text-black">

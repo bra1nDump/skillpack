@@ -164,6 +164,26 @@ c) finally making the changes acrrodgly
 add this to agents.md top level
 ```
 
+## Dead links, route cleanup, header dedup, screenshots, dates
+
+```
+screenshots still suck for products - like no one cares for hacker news screenshots!
+
+AND STILL i have basically not seen any screenshots of products!
+
+also artefacts / news whatever don't show up with dates - maybe you added that actually - but each thing we find needs to be tracked with time
+
+also change jobs/ route - its outdated
+
+also https://x.com/mcaborern - is no longer found - LIKE BITCH every fucking link - we MUST verify is not fucking dead before we reference it!!! It must be explicitly verified by the agent - using twitter tool for twitter stuff etc etc
+
+also 2d header has duplication + extra space eating thing -
+
+we should remove it and keep / CATEGORY in the header of the website itself
+
+and lets continue pushing after every commit to prod
+```
+
 ## Additional context from assistant responses that informed later notes
 
 These were not user-authored, but they explain terms later referenced by the user:
