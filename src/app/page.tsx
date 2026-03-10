@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Search } from "@/components/search";
 import { SiteFooter } from "@/components/site-footer";
-import { jobList, skillList } from "@/lib/catalog";
+import { jobList, platformList, skillList } from "@/lib/catalog";
 import { mission } from "@/lib/site-data";
 
 const pipeline = [
@@ -66,6 +66,12 @@ const searchItems = [
     href: `/skills/${skill.slug}`,
     summary: skill.summary,
   })),
+  ...platformList.map((platform) => ({
+    label: "Platform",
+    name: platform.name,
+    href: `/platforms/${platform.slug}`,
+    summary: platform.summary,
+  })),
 ];
 
 const bestRightNow = jobList.map((job) => ({
@@ -110,7 +116,7 @@ export default function Home() {
             {mission}
           </p>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-400">
-            {jobList.length} jobs · {skillList.length} skills tracked
+            {jobList.length} jobs · {skillList.length} skills · {platformList.length} platforms
           </p>
           <div className="mt-8">
             <Search items={searchItems} />

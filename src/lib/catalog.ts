@@ -22,6 +22,23 @@ export type JobSlug =
   | "coding-clis"
   | "web-browsing";
 
+export type PlatformSlug =
+  | "figma"
+  | "google-workspace"
+  | "browser"
+  | "terminal"
+  | "github";
+
+export type PlatformRecord = {
+  slug: PlatformSlug;
+  name: string;
+  url: string;
+  summary: string;
+  nativeSupport: string;
+  relatedJobs: JobSlug[];
+  relatedSkills: SkillSlug[];
+};
+
 export type SkillRecord = {
   slug: SkillSlug;
   name: string;
@@ -1065,6 +1082,66 @@ export const jobs: Record<JobSlug, JobRecord> = {
   },
 };
 
+export const platforms: Record<PlatformSlug, PlatformRecord> = {
+  figma: {
+    slug: "figma",
+    name: "Figma",
+    url: "https://figma.com",
+    summary:
+      "The dominant design tool. Native MCP support is evolving. The key question for agents is whether the official path is enough or write-access challengers fill the gap.",
+    nativeSupport:
+      "Figma ships an official MCP server guide with remote and desktop variants. Read access is strong; direct write-back is still the frontier.",
+    relatedJobs: ["ux-ui"],
+    relatedSkills: ["figma-mcp-server-guide", "figma-use", "vibma"],
+  },
+  "google-workspace": {
+    slug: "google-workspace",
+    name: "Google Workspace",
+    url: "https://workspace.google.com",
+    summary:
+      "The core business operating surface: Gmail, Docs, Sheets, Calendar, Drive. Community MCP coverage is the broadest; Google's own CLI is narrower but official.",
+    nativeSupport:
+      "Google ships a Workspace CLI but intentionally moved away from MCP. Broad cross-app MCP coverage comes from community tools.",
+    relatedJobs: ["product-business-development"],
+    relatedSkills: ["google-workspace-mcp"],
+  },
+  browser: {
+    slug: "browser",
+    name: "Web Browser",
+    url: "https://www.chromium.org",
+    summary:
+      "The universal interaction surface. Agent browser access splits between vision-based control (Browser Use), structured automation (Playwright), and AI-native SDKs (Stagehand).",
+    nativeSupport:
+      "Browsers have no native agent API. All agent access goes through automation libraries, MCP wrappers, or vision-based screenshot approaches.",
+    relatedJobs: ["web-browsing"],
+    relatedSkills: ["browser-use", "playwright-mcp", "stagehand"],
+  },
+  terminal: {
+    slug: "terminal",
+    name: "Terminal / CLI",
+    url: "https://en.wikipedia.org/wiki/Terminal_emulator",
+    summary:
+      "The developer's native workspace. Coding agents either run inside the terminal (Claude Code, Aider) or wrap it inside an IDE (Cursor, Continue).",
+    nativeSupport:
+      "Terminals provide raw shell access. The agent layer is entirely in the tool — no platform-level agent API exists.",
+    relatedJobs: ["coding-clis"],
+    relatedSkills: ["claude-code", "aider", "continue-dev"],
+  },
+  github: {
+    slug: "github",
+    name: "GitHub",
+    url: "https://github.com",
+    summary:
+      "The dominant code hosting and collaboration platform. Agents interact via CLI, API, or MCP integrations. Key for issue tracking, PRs, and CI/CD.",
+    nativeSupport:
+      "GitHub has strong API and CLI support. Copilot is the native AI layer but is focused on IDE completion rather than autonomous agent workflows.",
+    relatedJobs: ["teams-of-agents", "coding-clis"],
+    relatedSkills: ["openhands", "swe-agent", "claude-code"],
+  },
+};
+
+export const platformList = Object.values(platforms);
+
 export const jobList = [
   jobs["coding-clis"],
   jobs["web-browsing"],
@@ -1081,4 +1158,8 @@ export function getJob(slug: string) {
 
 export function getSkill(slug: string) {
   return skills[slug as SkillSlug];
+}
+
+export function getPlatform(slug: string) {
+  return platforms[slug as PlatformSlug];
 }

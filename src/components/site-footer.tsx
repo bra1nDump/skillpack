@@ -19,10 +19,13 @@ export function SiteFooter() {
               Home
             </Link>
             <Link className="hover:text-black" href="/jobs">
-              All Jobs
+              Jobs
             </Link>
             <Link className="hover:text-black" href="/skills">
-              All Skills
+              Skills
+            </Link>
+            <Link className="hover:text-black" href="/platforms">
+              Platforms
             </Link>
             <Link className="hover:text-black" href="/storyboard">
               Storyboard
