@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -12,6 +13,16 @@ type PageProps = {
 
 export function generateStaticParams() {
   return jobList.map((job) => ({ slug: job.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const job = getJob(slug);
+  if (!job) return {};
+  return {
+    title: `${job.name} — Skillbench`,
+    description: job.deck,
+  };
 }
 
 export default async function JobPage({ params }: PageProps) {

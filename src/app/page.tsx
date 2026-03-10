@@ -90,6 +90,9 @@ export default function Home() {
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
             {mission}
           </p>
+          <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-400">
+            {jobList.length} jobs · {skillList.length} skills tracked
+          </p>
           <div className="mt-8">
             <Search items={searchItems} />
           </div>

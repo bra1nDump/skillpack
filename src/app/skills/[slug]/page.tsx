@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -14,6 +15,16 @@ type PageProps = {
 
 export function generateStaticParams() {
   return skillList.map((skill) => ({ slug: skill.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const skill = getSkill(slug);
+  if (!skill) return {};
+  return {
+    title: `${skill.name} — Skillbench`,
+    description: skill.summary,
+  };
 }
 
 export default async function SkillPage({ params }: PageProps) {
