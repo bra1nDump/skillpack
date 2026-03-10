@@ -124,13 +124,29 @@ export default async function JobPage({ params }: PageProps) {
                 </tr>
               </thead>
               <tbody>
-                {job.ranking.map((item) => {
+                {job.ranking.map((item, idx) => {
                   const skill = item.skillSlug ? getSkill(item.skillSlug) : null;
                   const href = skill ? `/skills/${skill.slug}` : item.externalUrl;
                   const external = Boolean(item.externalUrl && !skill);
+                  const prevItem = idx > 0 ? job.ranking[idx - 1] : null;
+                  const showCutLine = item.belowCutLine && !prevItem?.belowCutLine;
 
                   return (
-                    <tr key={item.rank} className="border-b border-black/5 align-top">
+                    <>
+                      {showCutLine ? (
+                        <tr key={`cut-${item.rank}`} className="border-b-0">
+                          <td colSpan={5} className="py-2">
+                            <div className="flex items-center gap-3">
+                              <div className="h-px flex-1 bg-amber-300/60" />
+                              <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-500">
+                                Below the cut line — tracked, not recommended
+                              </span>
+                              <div className="h-px flex-1 bg-amber-300/60" />
+                            </div>
+                          </td>
+                        </tr>
+                      ) : null}
+                      <tr key={item.rank} className={`border-b border-black/5 align-top${item.belowCutLine ? " opacity-60" : ""}`}>
                       <td className="py-4 pr-4 font-mono text-sm text-zinc-700">{item.rank}</td>
                       <td className="group relative py-4 pr-4 text-sm font-semibold text-zinc-950">
                         {href ? (
@@ -169,6 +185,7 @@ export default async function JobPage({ params }: PageProps) {
                       <td className="py-4 pr-4 text-sm leading-7 text-zinc-700">{item.why}</td>
                       <td className="py-4 text-sm leading-7 text-zinc-700">{item.watch}</td>
                     </tr>
+                    </>
                   );
                 })}
               </tbody>

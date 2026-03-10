@@ -73,6 +73,7 @@ export type JobRecord = {
     bestFor: string;
     why: string;
     watch: string;
+    belowCutLine?: boolean;
   }>;
   observedOutputs: Array<{
     title: string;
@@ -609,6 +610,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         bestFor: "Official Google-authored command-line access to one product family",
         why: "The most important native contender, because it proves Google is shipping its own surface instead of blessing MCP here.",
         watch: "It intentionally moved away from MCP, so it does not replace the broad cross-app operating lane.",
+        belowCutLine: true,
       },
     ],
     observedOutputs: [
@@ -867,6 +869,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         bestFor: "Direct document mutation inside the design document itself",
         why: "The clearest direct-write wedge outside the Figma-native lane.",
         watch: "Narrower ecosystem and weaker broad public trust.",
+        belowCutLine: true,
       },
     ],
     observedOutputs: [
@@ -1013,6 +1016,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         bestFor: "Most transparent benchmarks and widest model support",
         why: "39K+ stars, 4.1M installs, works with every provider, git-native.",
         watch: "Chat-loop style rather than deep agent autonomy.",
+        belowCutLine: true,
       },
       {
         rank: "06",
@@ -1021,6 +1025,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         bestFor: "Background agents enforcing code quality on PRs",
         why: "Pivoted from IDE autocomplete to async CI agents. Different game entirely.",
         watch: "No longer an IDE tool. Best for teams, not solo devs.",
+        belowCutLine: true,
       },
       {
         rank: "07",
@@ -1029,6 +1034,7 @@ export const jobs: Record<JobSlug, JobRecord> = {
         bestFor: "Polished commercial IDE with integrated AI",
         why: "Most adopted commercial AI IDE. Strong UX, strong composer mode.",
         watch: "Closed-source, paid, vendor-locked.",
+        belowCutLine: true,
       },
     ],
     observedOutputs: [
