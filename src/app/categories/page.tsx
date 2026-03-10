@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
-import { jobList } from "@/lib/catalog";
+import { categoryList } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "All Categories — Skillbench",
@@ -19,28 +19,28 @@ export default function JobsIndexPage() {
             All Categories
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
-            {jobList.length} categories, each with ranked contenders and public evidence.
+            {categoryList.length} categories, each with ranked contenders and public evidence.
             A category is the narrow thing the agent needs to do.
           </p>
         </div>
 
         <section className="py-16">
           <div className="grid gap-8 lg:grid-cols-2">
-            {jobList.map((job) => (
+            {categoryList.map((category) => (
               <article
-                key={job.slug}
+                key={category.slug}
                 className="border border-black/10 px-6 py-6 transition-colors hover:border-black/25"
               >
                 <p className="text-2xl font-semibold tracking-[-0.04em] text-zinc-950">
-                  {job.name}
+                  {category.name}
                 </p>
-                <p className="mt-4 text-sm leading-7 text-zinc-700">{job.deck}</p>
+                <p className="mt-4 text-sm leading-7 text-zinc-700">{category.deck}</p>
                 <div className="mt-6 border-t border-black/5 pt-4">
                   <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-500">
                     Ranking
                   </p>
                   <div className="mt-3 space-y-1">
-                    {job.ranking.slice(0, 3).map((item) => (
+                    {category.ranking.slice(0, 3).map((item) => (
                       <p key={item.rank} className="text-sm text-zinc-700">
                         <span className="font-mono text-zinc-400">{item.rank}</span>{" "}
                         <span className="font-semibold text-zinc-950">{item.contender}</span>
@@ -51,7 +51,7 @@ export default function JobsIndexPage() {
                   </div>
                 </div>
                 <Link
-                  href={`/categories/${job.slug}`}
+                  href={`/categories/${category.slug}`}
                   className="mt-6 inline-block text-sm font-semibold text-zinc-950 underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
                 >
                   Open full report →

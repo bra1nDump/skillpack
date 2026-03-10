@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteFooter } from "@/components/site-footer";
-import { getPlatform, getSkill, jobList, platformList } from "@/lib/catalog";
+import { categoryList, getPlatform, getSkill, platformList } from "@/lib/catalog";
 
 type PageProps = {
   params: Promise<{
@@ -33,7 +33,7 @@ export default async function PlatformPage({ params }: PageProps) {
     notFound();
   }
 
-  const relatedJobs = jobList.filter((j) => platform.relatedJobs.includes(j.slug));
+  const relatedCategories = categoryList.filter((j) => platform.relatedCategories.includes(j.slug));
   const relatedSkills = platform.relatedSkills
     .map((s) => getSkill(s))
     .filter(Boolean);
@@ -101,15 +101,15 @@ export default async function PlatformPage({ params }: PageProps) {
             Related categories
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {relatedJobs.map((job) => (
+            {relatedCategories.map((category) => (
               <Link
-                key={job.slug}
-                href={`/categories/${job.slug}`}
+                key={category.slug}
+                href={`/categories/${category.slug}`}
                 className="border border-black/10 px-5 py-4 transition-colors hover:border-black/25"
               >
-                <p className="text-base font-semibold text-zinc-950">{job.name}</p>
+                <p className="text-base font-semibold text-zinc-950">{category.name}</p>
                 <p className="mt-2 line-clamp-2 text-sm leading-7 text-zinc-600">
-                  {job.deck}
+                  {category.deck}
                 </p>
               </Link>
             ))}

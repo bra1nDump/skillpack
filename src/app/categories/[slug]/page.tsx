@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Fragment } from "react";
 
 import { SiteFooter } from "@/components/site-footer";
-import { getJob, getSkill, jobList } from "@/lib/catalog";
+import { categoryList, getCategory, getSkill } from "@/lib/catalog";
 
 type PageProps = {
   params: Promise<{
@@ -13,24 +13,24 @@ type PageProps = {
 };
 
 export function generateStaticParams() {
-  return jobList.map((job) => ({ slug: job.slug }));
+  return categoryList.map((category) => ({ slug: category.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const job = getJob(slug);
-  if (!job) return {};
+  const category = getCategory(slug);
+  if (!category) return {};
   return {
-    title: `${job.name} — Skillbench`,
-    description: job.deck,
+    title: `${category.name} — Skillbench`,
+    description: category.deck,
   };
 }
 
-export default async function JobPage({ params }: PageProps) {
+export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
-  const job = getJob(slug);
+  const category = getCategory(slug);
 
-  if (!job) {
+  if (!category) {
     notFound();
   }
 
@@ -39,9 +39,9 @@ export default async function JobPage({ params }: PageProps) {
       <main className="mx-auto w-full max-w-5xl px-6 py-8 sm:px-8 lg:px-10">
         <div className="border-b border-black/5 pb-8">
           <h1 className="text-4xl font-semibold tracking-[-0.06em] text-zinc-950 sm:text-6xl">
-            {job.name}
+            {category.name}
           </h1>
-          <p className="mt-6 max-w-4xl text-lg leading-8 text-zinc-600">{job.deck}</p>
+          <p className="mt-6 max-w-4xl text-lg leading-8 text-zinc-600">{category.deck}</p>
         </div>
 
         <section className="border-b border-black/5 py-16">
@@ -49,7 +49,7 @@ export default async function JobPage({ params }: PageProps) {
             Verdict
           </p>
           <div className="mt-5 space-y-5 text-base leading-8 text-zinc-700">
-            {job.verdict.map((paragraph) => (
+            {category.verdict.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -60,19 +60,19 @@ export default async function JobPage({ params }: PageProps) {
             The deeper read
           </p>
           <div className="mt-5 space-y-5 text-base leading-8 text-zinc-700">
-            {job.meta.map((paragraph) => (
+            {category.meta.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </section>
 
-        {job.observedOutputs.length > 0 ? (
+        {category.observedOutputs.length > 0 ? (
           <section className="border-b border-black/5 py-16">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
               Observed outputs
             </p>
             <div className="mt-8 grid gap-8 lg:grid-cols-2">
-              {job.observedOutputs.map((item) => (
+              {category.observedOutputs.map((item) => (
                 <article key={item.title} className="border border-black/10 p-4">
                   <a href={item.href} target="_blank" rel="noreferrer" className="group block">
                     <p className="text-sm font-semibold text-zinc-950 underline decoration-black/15 underline-offset-4 group-hover:decoration-black/40">
@@ -113,11 +113,11 @@ export default async function JobPage({ params }: PageProps) {
                 </tr>
               </thead>
               <tbody>
-                {job.ranking.map((item, idx) => {
+                {category.ranking.map((item, idx) => {
                   const skill = item.skillSlug ? getSkill(item.skillSlug) : null;
                   const href = skill ? `/skills/${skill.slug}` : item.externalUrl;
                   const external = Boolean(item.externalUrl && !skill);
-                  const prevItem = idx > 0 ? job.ranking[idx - 1] : null;
+                  const prevItem = idx > 0 ? category.ranking[idx - 1] : null;
                   const showCutLine = item.belowCutLine && !prevItem?.belowCutLine;
 
                   return (
@@ -191,13 +191,13 @@ export default async function JobPage({ params }: PageProps) {
           </div>
         </section>
 
-        {job.headToHead.length > 0 ? (
+        {category.headToHead.length > 0 ? (
           <section className="border-b border-black/5 py-16">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
               Head to head
             </p>
             <div className="mt-6 grid gap-4 lg:grid-cols-3">
-              {job.headToHead.map((pair) => (
+              {category.headToHead.map((pair) => (
                 <article key={`${pair.left}-${pair.right}`} className="border border-black/10 px-5 py-5">
                   <p className="text-sm font-semibold text-zinc-950">
                     {pair.left}
@@ -213,13 +213,13 @@ export default async function JobPage({ params }: PageProps) {
           </section>
         ) : null}
 
-        {job.liveSignals.length > 0 ? (
+        {category.liveSignals.length > 0 ? (
           <section className="border-b border-black/5 py-16">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
               Public signals
             </p>
             <div className="mt-6 space-y-6">
-              {job.liveSignals.map((signal) => (
+              {category.liveSignals.map((signal) => (
                 <article key={signal.title} className="border-t border-black/5 pt-4">
                   <div>
                     <div className="flex items-center gap-3">
@@ -251,7 +251,7 @@ export default async function JobPage({ params }: PageProps) {
             What changes this
           </p>
           <div className="mt-5 space-y-4 text-base leading-8 text-zinc-700">
-            {job.whatChangesThis.map((paragraph) => (
+            {category.whatChangesThis.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>

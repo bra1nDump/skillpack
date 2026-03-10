@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
-import { jobList, skillList } from "@/lib/catalog";
+import { categoryList, skillList } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "All Skills — Skillbench",
@@ -19,7 +19,7 @@ export default function SkillsIndexPage() {
             All Skills
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
-            {skillList.length} skills tracked across {jobList.length} categories.
+            {skillList.length} skills tracked across {categoryList.length} categories.
             Each skill has an editorial verdict, source links, and evidence-backed strengths and weaknesses.
           </p>
         </div>
@@ -38,8 +38,8 @@ export default function SkillsIndexPage() {
               </thead>
               <tbody>
                 {skillList.map((skill) => {
-                  const relatedJobs = jobList.filter((j) =>
-                    skill.relatedJobs.includes(j.slug)
+                  const relatedCategories = categoryList.filter((j) =>
+                    skill.relatedCategories.includes(j.slug)
                   );
                   return (
                     <tr key={skill.slug} className="border-b border-black/5 align-top">
@@ -82,7 +82,7 @@ export default function SkillsIndexPage() {
                       </td>
                       <td className="py-4 pr-4">
                         <div className="flex flex-wrap gap-1">
-                          {relatedJobs.map((j) => (
+                          {relatedCategories.map((j) => (
                             <Link
                               key={j.slug}
                               href={`/categories/${j.slug}`}

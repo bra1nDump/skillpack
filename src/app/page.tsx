@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Search } from "@/components/search";
 import { SiteFooter } from "@/components/site-footer";
-import { bundleList, getSkill, jobList, platformList, skillList } from "@/lib/catalog";
+import { bundleList, categoryList, getSkill, platformList, skillList } from "@/lib/catalog";
 import { mission } from "@/lib/site-data";
 
 const pipeline = [
@@ -54,11 +54,11 @@ const latestRuns = [
 ];
 
 const searchItems = [
-  ...jobList.map((job) => ({
+  ...categoryList.map((category) => ({
     label: "Category",
-    name: job.name,
-    href: `/categories/${job.slug}`,
-    summary: job.deck,
+    name: category.name,
+    href: `/categories/${category.slug}`,
+    summary: category.deck,
   })),
   ...skillList.map((skill) => ({
     label: "Skill",
@@ -80,31 +80,31 @@ const searchItems = [
   })),
 ];
 
-const bestRightNow = jobList.map((job) => ({
-  jobName: job.name,
-  jobSlug: job.slug,
-  topPick: job.ranking[0]?.contender ?? "TBD",
-  skillSlug: job.ranking[0]?.skillSlug,
-  why: job.ranking[0]?.why ?? "",
+const bestRightNow = categoryList.map((category) => ({
+  categoryName: category.name,
+  categorySlug: category.slug,
+  topPick: category.ranking[0]?.contender ?? "TBD",
+  skillSlug: category.ranking[0]?.skillSlug,
+  why: category.ranking[0]?.why ?? "",
 }));
 
-// Pull one highlight signal from each job for the evidence feed
-const evidenceHighlights = jobList
-  .flatMap((job) =>
-    job.liveSignals.slice(0, 1).map((signal) => ({
-      jobName: job.name,
-      jobSlug: job.slug,
+// Pull one highlight signal from each category for the evidence feed
+const evidenceHighlights = categoryList
+  .flatMap((category) =>
+    category.liveSignals.slice(0, 1).map((signal) => ({
+      categoryName: category.name,
+      categorySlug: category.slug,
       ...signal,
     }))
   )
   .slice(0, 5);
 
-// Pull one head-to-head from each job
-const topComparisons = jobList
-  .flatMap((job) =>
-    job.headToHead.slice(0, 1).map((pair) => ({
-      jobName: job.name,
-      jobSlug: job.slug,
+// Pull one head-to-head from each category
+const topComparisons = categoryList
+  .flatMap((category) =>
+    category.headToHead.slice(0, 1).map((pair) => ({
+      categoryName: category.name,
+      categorySlug: category.slug,
       ...pair,
     }))
   )
@@ -122,7 +122,7 @@ export default function Home() {
             {mission}
           </p>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-400">
-            {jobList.length} categories · {skillList.length} skills · {bundleList.length} bundles · {platformList.length} platforms
+            {categoryList.length} categories · {skillList.length} skills · {bundleList.length} bundles · {platformList.length} platforms
           </p>
           <div className="mt-8">
             <Search items={searchItems} />
@@ -139,12 +139,12 @@ export default function Home() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {bestRightNow.map((item) => (
               <Link
-                key={item.jobSlug}
-                href={`/categories/${item.jobSlug}`}
+                key={item.categorySlug}
+                href={`/categories/${item.categorySlug}`}
                 className="group border border-black/10 px-5 py-5 transition-colors hover:border-black/25"
               >
                 <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
-                  {item.jobName}
+                  {item.categoryName}
                 </p>
                 <p className="mt-3 text-base font-semibold tracking-[-0.02em] text-zinc-950">
                   {item.topPick}
@@ -169,7 +169,7 @@ export default function Home() {
               <article key={signal.title} className="border-t border-black/5 pt-4">
                 <div className="flex items-center gap-2">
                   <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
-                    {signal.jobName}
+                    {signal.categoryName}
                   </p>
                   <span className="font-mono text-[9px] text-zinc-400">{signal.date}</span>
                 </div>
@@ -197,11 +197,11 @@ export default function Home() {
             {topComparisons.map((pair) => (
               <Link
                 key={`${pair.left}-${pair.right}`}
-                href={`/categories/${pair.jobSlug}`}
+                href={`/categories/${pair.categorySlug}`}
                 className="group border border-black/10 px-4 py-4 transition-colors hover:border-black/25"
               >
                 <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
-                  {pair.jobName}
+                  {pair.categoryName}
                 </p>
                 <p className="mt-2 text-sm font-semibold text-zinc-950">
                   {pair.left}
@@ -232,20 +232,20 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {jobList.map((job) => (
-              <article key={job.slug} className="border border-black/10 px-6 py-6">
+            {categoryList.map((category) => (
+              <article key={category.slug} className="border border-black/10 px-6 py-6">
                 <p className="text-xl font-semibold tracking-[-0.04em] text-zinc-950">
-                  {job.name}
+                  {category.name}
                 </p>
-                <p className="mt-4 line-clamp-3 text-sm leading-7 text-zinc-700">{job.deck}</p>
+                <p className="mt-4 line-clamp-3 text-sm leading-7 text-zinc-700">{category.deck}</p>
                 <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-500">
                   Current top pick
                 </p>
                 <p className="mt-2 text-sm font-semibold text-zinc-950">
-                  {job.ranking[0]?.contender}
+                  {category.ranking[0]?.contender}
                 </p>
                 <Link
-                  href={`/categories/${job.slug}`}
+                  href={`/categories/${category.slug}`}
                   className="mt-6 inline-block text-sm font-semibold text-zinc-950 underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
                 >
                   Open report →
@@ -364,13 +364,13 @@ export default function Home() {
               Current surface
             </p>
             <div className="mt-5 space-y-4 text-base leading-7 text-zinc-700">
-              {jobList.map((job) => (
-                <p key={job.slug}>
+              {categoryList.map((category) => (
+                <p key={category.slug}>
                   <Link
-                    href={`/categories/${job.slug}`}
+                    href={`/categories/${category.slug}`}
                     className="underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
                   >
-                    {job.name}
+                    {category.name}
                   </Link>
                 </p>
               ))}

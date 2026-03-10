@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
-import { getSkill, jobList, platformList } from "@/lib/catalog";
+import { categoryList, getSkill, platformList } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "All Platforms — Skillbench",
@@ -28,8 +28,8 @@ export default function PlatformsIndexPage() {
         <section className="py-16">
           <div className="grid gap-6 lg:grid-cols-2">
             {platformList.map((platform) => {
-              const relatedJobs = jobList.filter((j) =>
-                platform.relatedJobs.includes(j.slug)
+              const relatedCategories = categoryList.filter((j) =>
+                platform.relatedCategories.includes(j.slug)
               );
               const relatedSkills = platform.relatedSkills
                 .map((s) => getSkill(s))
@@ -48,7 +48,7 @@ export default function PlatformsIndexPage() {
                     {platform.summary}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {relatedJobs.map((j) => (
+                    {relatedCategories.map((j) => (
                       <span
                         key={j.slug}
                         className="rounded-sm bg-zinc-100 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-zinc-500"

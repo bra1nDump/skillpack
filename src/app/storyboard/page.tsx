@@ -90,26 +90,11 @@ export default function StoryboardPage() {
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
             Screenshot style
           </p>
-          <div className="mt-6 grid gap-8 lg:grid-cols-2">
-            <div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/run-assets/2026-03-09_04-40_design-review_style-bench/assets/skillbench-home.png"
-                alt="Skillbench homepage screenshot"
-                className="w-full border border-black/10"
-              />
-              <p className="mt-3 text-sm text-zinc-500">Homepage review snapshot</p>
-            </div>
-            <div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/run-assets/2026-03-09_04-40_design-review_style-bench/assets/skillbench-report.png"
-                alt="Skillbench report screenshot"
-                className="w-full border border-black/10"
-              />
-              <p className="mt-3 text-sm text-zinc-500">Report page review snapshot</p>
-            </div>
-          </div>
+          <p className="mt-4 text-base leading-8 text-zinc-700">
+            No screenshots available yet. When real product screenshots are captured,
+            they should show the tool actually in use — terminal output, running UI,
+            real workflow output. Not repo pages, HN threads, or marketing homepages.
+          </p>
         </section>
       </main>
 

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ReadmePeek } from "@/components/readme-peek";
 import { SiteFooter } from "@/components/site-footer";
-import { bundleList, getSkill, jobList, skillList } from "@/lib/catalog";
+import { bundleList, categoryList, getSkill, skillList } from "@/lib/catalog";
 import { fetchGitHubReadme } from "@/lib/github-readme";
 
 type PageProps = {
@@ -42,7 +42,7 @@ export default async function SkillPage({ params }: PageProps) {
     branch: skill.readmeBranch,
   });
 
-  const relatedJobs = jobList.filter((job) => skill.relatedJobs.includes(job.slug));
+  const relatedCategories = categoryList.filter((category) => skill.relatedCategories.includes(category.slug));
   const relatedBundles = bundleList.filter((b) => b.skills.includes(skill.slug));
 
   return (
@@ -184,16 +184,16 @@ export default async function SkillPage({ params }: PageProps) {
             Ranking in related categories
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {relatedJobs.map((job) => {
-              const entry = job.ranking.find((r) => r.skillSlug === skill.slug);
+            {relatedCategories.map((category) => {
+              const entry = category.ranking.find((r) => r.skillSlug === skill.slug);
               return (
                 <Link
-                  key={job.slug}
-                  href={`/categories/${job.slug}`}
+                  key={category.slug}
+                  href={`/categories/${category.slug}`}
                   className="group border border-black/10 px-5 py-4 transition-colors hover:border-black/25"
                 >
                   <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
-                    {job.name}
+                    {category.name}
                   </p>
                   {entry ? (
                     <div className="mt-2">
@@ -201,7 +201,7 @@ export default async function SkillPage({ params }: PageProps) {
                         #{entry.rank}
                       </span>
                       <span className="ml-2 text-sm text-zinc-500">
-                        of {job.ranking.length}
+                        of {category.ranking.length}
                       </span>
                       <p className="mt-1 text-xs leading-5 text-zinc-500">
                         {entry.bestFor}

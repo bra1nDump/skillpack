@@ -18,7 +18,7 @@ export type SkillSlug =
   | "playwright-mcp"
   | "stagehand";
 
-export type JobSlug =
+export type CategorySlug =
   | "product-business-development"
   | "teams-of-agents"
   | "ux-ui"
@@ -38,7 +38,7 @@ export type PlatformRecord = {
   url: string;
   summary: string;
   nativeSupport: string;
-  relatedJobs: JobSlug[];
+  relatedCategories: CategorySlug[];
   relatedSkills: SkillSlug[];
 };
 
@@ -64,15 +64,15 @@ export type SkillRecord = {
   summary: string;
   verdict: string;
   docsUrl?: string;
-  relatedJobs: JobSlug[];
+  relatedCategories: CategorySlug[];
   strengths: string[];
   weaknesses: string[];
   evidence: EvidenceItem[];
   githubStars?: string;
 };
 
-export type JobRecord = {
-  slug: JobSlug;
+export type CategoryRecord = {
+  slug: CategorySlug;
   name: string;
   deck: string;
   verdict: string[];
@@ -189,7 +189,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Best default when trust, officialness, and team adoption matter more than raw write access.",
     docsUrl:
       "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
-    relatedJobs: ["ux-ui"],
+    relatedCategories: ["ux-ui"],
     strengths: [
       "Official provider trust",
       "Clear path into real Figma workflows",
@@ -232,7 +232,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Community write-access contender for controlling Figma directly from the command line and agent loops.",
     verdict:
       "Best public challenger when you care about direct mutation and builder energy more than official trust.",
-    relatedJobs: ["ux-ui"],
+    relatedCategories: ["ux-ui"],
     strengths: [
       "Strong write-access story",
       "Real public builder traction",
@@ -267,7 +267,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Design-system-specific challenger focused on letting agents create directly in Figma.",
     verdict:
       "Interesting challenger, but still clearly behind the official path and Figma-use on public trust.",
-    relatedJobs: ["ux-ui"],
+    relatedCategories: ["ux-ui"],
     strengths: [
       "Very explicit write-directly positioning",
       "Good fit for people testing aggressive design automation",
@@ -302,7 +302,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best research-side skill when the job is business intelligence across messy public websites.",
     docsUrl: "https://firecrawl.dev",
-    relatedJobs: ["product-business-development"],
+    relatedCategories: ["product-business-development"],
     strengths: [
       "Official provider support",
       "Strong extraction and scraping shape",
@@ -346,7 +346,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Official Exa MCP for fast web search and crawling when the workflow is search-first rather than page-ops-first.",
     verdict:
       "Best search-heavy research skill, but not as strong as Firecrawl once the workflow leans into extraction and page actions.",
-    relatedJobs: ["product-business-development"],
+    relatedCategories: ["product-business-development"],
     strengths: [
       "Fast search-first workflow",
       "Official provider support",
@@ -382,7 +382,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best broad operating skill for product and business workflows because it turns the agent into an operator, not just a researcher.",
     docsUrl: "https://workspacemcp.com",
-    relatedJobs: ["product-business-development"],
+    relatedCategories: ["product-business-development"],
     strengths: [
       "Huge breadth across core business tools",
       "Best fit when the job includes reading and writing real operating docs",
@@ -427,7 +427,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best default software-factory contender when you want a broad autonomous development surface with real public gravity.",
     docsUrl: "https://docs.openhands.dev",
-    relatedJobs: ["teams-of-agents"],
+    relatedCategories: ["teams-of-agents"],
     strengths: [
       "Massive public traction",
       "Clear software-agent framing",
@@ -473,7 +473,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best reference when the team wants a crisp loop pattern instead of a huge agent platform.",
     docsUrl: "https://ai-sdk.dev",
-    relatedJobs: ["teams-of-agents"],
+    relatedCategories: ["teams-of-agents"],
     strengths: [
       "Official Vercel trust",
       "Strong loop framing for continuous autonomy",
@@ -509,7 +509,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best narrow pick when the question is issue-level repair and benchmark credibility, not general software-factory orchestration.",
     docsUrl: "https://swe-agent.com/latest/",
-    relatedJobs: ["teams-of-agents"],
+    relatedCategories: ["teams-of-agents"],
     strengths: [
       "Benchmark-native story",
       "Clear issue-solving shape",
@@ -553,7 +553,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Anthropic's official agentic coding CLI. Terminal-native, tool-use-driven, with deep file system and shell access. Opus 4.5 scores 80.9% on SWE-bench.",
     verdict:
       "Best default for developers who want a terminal-first agent that reads, writes, and runs code autonomously with minimal setup.",
-    relatedJobs: ["coding-clis", "teams-of-agents"],
+    relatedCategories: ["coding-clis", "teams-of-agents"],
     githubStars: "40K+",
     strengths: [
       "Official Anthropic support with fastest model access",
@@ -629,7 +629,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best open-source CLI when model flexibility and benchmark credibility both matter.",
     docsUrl: "https://aider.chat",
-    relatedJobs: ["coding-clis"],
+    relatedCategories: ["coding-clis"],
     strengths: [
       "Works with many model providers (OpenAI, Anthropic, local models)",
       "Strong SWE-bench performance with public results",
@@ -685,7 +685,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best pick for teams that want background AI agents enforcing code quality on PRs, not real-time autocomplete. The pivot repositioned it away from individual devs toward team CI workflows.",
     docsUrl: "https://continue.dev",
-    relatedJobs: ["coding-clis", "teams-of-agents"],
+    relatedCategories: ["coding-clis", "teams-of-agents"],
     strengths: [
       "Async agents that enforce team rules on every PR",
       "CLI-first — runs in CI without IDE dependency",
@@ -732,7 +732,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "The strongest open-source all-rounder: model flexibility (75+ providers), privacy-first architecture, and massive community adoption. The real open-source alternative to Claude Code.",
     docsUrl: "https://opencode.ai",
-    relatedJobs: ["coding-clis"],
+    relatedCategories: ["coding-clis"],
     strengths: [
       "75+ model providers including local models via Ollama",
       "119K+ GitHub stars — massive adoption",
@@ -790,7 +790,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best pick for teams invested in OpenAI models. Rust-built for speed, cloud sandbox for safety, and GPT-5.4 with 1M context is the largest window in the CLI category.",
     docsUrl: "https://developers.openai.com/codex/cli/",
-    relatedJobs: ["coding-clis"],
+    relatedCategories: ["coding-clis"],
     strengths: [
       "Built in Rust — fast and efficient",
       "GPT-5.4 with 1M context window and native computer-use",
@@ -847,7 +847,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best free entry point in the coding CLI lane. The free tier alone makes it the most accessible — and Gemini 3 with 1M context is genuinely competitive.",
     docsUrl: "https://developers.google.com/gemini-code-assist/docs/gemini-cli",
-    relatedJobs: ["coding-clis"],
+    relatedCategories: ["coding-clis"],
     strengths: [
       "Genuinely free: 60 req/min, 1K req/day with personal Google account",
       "1M token context window with Gemini 3",
@@ -904,7 +904,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best default for agents that need to see and interact with real web pages end-to-end.",
     docsUrl: "https://browser-use.com",
-    relatedJobs: ["web-browsing"],
+    relatedCategories: ["web-browsing"],
     strengths: [
       "Vision + DOM hybrid approach for robust page understanding",
       "Large public traction and active development",
@@ -951,7 +951,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Microsoft's official MCP server for Playwright. Uses accessibility snapshots instead of screenshots for structured browser control. Auto-configured in GitHub Copilot's Coding Agent.",
     verdict:
       "Best MCP-native browser option for teams in Microsoft's ecosystem. The accessibility-snapshot approach is more reliable than vision-based alternatives for structured data extraction.",
-    relatedJobs: ["web-browsing"],
+    relatedCategories: ["web-browsing"],
     strengths: [
       "Microsoft/Playwright official backing",
       "Accessibility snapshots instead of screenshots — more reliable for structured tasks",
@@ -1008,7 +1008,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best pick when the team wants TypeScript-native browser automation with the simplest possible API surface.",
     docsUrl: "https://stagehand.dev",
-    relatedJobs: ["web-browsing"],
+    relatedCategories: ["web-browsing"],
     strengths: [
       "TypeScript-native with clean act/extract/observe API",
       "Natural language selectors reduce brittle CSS/XPath dependencies",
@@ -1054,7 +1054,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
   },
 };
 
-export const jobs: Record<JobSlug, JobRecord> = {
+export const categories: Record<CategorySlug, CategoryRecord> = {
   "product-business-development": {
     slug: "product-business-development",
     name: "Product / Business Development",
@@ -1704,7 +1704,7 @@ export const platforms: Record<PlatformSlug, PlatformRecord> = {
       "The dominant design tool. Native MCP support is evolving. The key question for agents is whether the official path is enough or write-access challengers fill the gap.",
     nativeSupport:
       "Figma ships an official MCP server guide with remote and desktop variants. Read access is strong; direct write-back is still the frontier.",
-    relatedJobs: ["ux-ui"],
+    relatedCategories: ["ux-ui"],
     relatedSkills: ["figma-mcp-server-guide", "figma-use", "vibma"],
   },
   "google-workspace": {
@@ -1715,7 +1715,7 @@ export const platforms: Record<PlatformSlug, PlatformRecord> = {
       "The core business operating surface: Gmail, Docs, Sheets, Calendar, Drive. Community MCP coverage is the broadest; Google's own CLI is narrower but official.",
     nativeSupport:
       "Google ships a Workspace CLI but intentionally moved away from MCP. Broad cross-app MCP coverage comes from community tools.",
-    relatedJobs: ["product-business-development"],
+    relatedCategories: ["product-business-development"],
     relatedSkills: ["google-workspace-mcp"],
   },
   browser: {
@@ -1726,7 +1726,7 @@ export const platforms: Record<PlatformSlug, PlatformRecord> = {
       "The universal interaction surface. Agent browser access splits between vision-based control (Browser Use), structured automation (Playwright), and AI-native SDKs (Stagehand).",
     nativeSupport:
       "Browsers have no native agent API. All agent access goes through automation libraries, MCP wrappers, or vision-based screenshot approaches.",
-    relatedJobs: ["web-browsing"],
+    relatedCategories: ["web-browsing"],
     relatedSkills: ["browser-use", "playwright-mcp", "stagehand"],
   },
   terminal: {
@@ -1737,7 +1737,7 @@ export const platforms: Record<PlatformSlug, PlatformRecord> = {
       "The developer's native workspace. Coding agents either run inside the terminal (Claude Code, Aider) or wrap it inside an IDE (Cursor, Continue).",
     nativeSupport:
       "Terminals provide raw shell access. The agent layer is entirely in the tool — no platform-level agent API exists.",
-    relatedJobs: ["coding-clis"],
+    relatedCategories: ["coding-clis"],
     relatedSkills: ["claude-code", "opencode", "codex-cli", "gemini-cli", "aider", "continue-dev"],
   },
   github: {
@@ -1748,25 +1748,25 @@ export const platforms: Record<PlatformSlug, PlatformRecord> = {
       "The dominant code hosting and collaboration platform. Agents interact via CLI, API, or MCP integrations. Key for issue tracking, PRs, and CI/CD.",
     nativeSupport:
       "GitHub has strong API and CLI support. Copilot is the native AI layer but is focused on IDE completion rather than autonomous agent workflows.",
-    relatedJobs: ["teams-of-agents", "coding-clis"],
+    relatedCategories: ["teams-of-agents", "coding-clis"],
     relatedSkills: ["openhands", "swe-agent", "claude-code"],
   },
 };
 
 export const platformList = Object.values(platforms);
 
-export const jobList = [
-  jobs["coding-clis"],
-  jobs["web-browsing"],
-  jobs["product-business-development"],
-  jobs["teams-of-agents"],
-  jobs["ux-ui"],
+export const categoryList = [
+  categories["coding-clis"],
+  categories["web-browsing"],
+  categories["product-business-development"],
+  categories["teams-of-agents"],
+  categories["ux-ui"],
 ];
 
 export const skillList = Object.values(skills);
 
-export function getJob(slug: string) {
-  return jobs[slug as JobSlug];
+export function getCategory(slug: string) {
+  return categories[slug as CategorySlug];
 }
 
 export function getSkill(slug: string) {
