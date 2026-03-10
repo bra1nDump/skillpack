@@ -44,11 +44,11 @@ const seedRoutes = [
   "/platforms/github",
   "/storyboard",
   "/docs/agents",
-  "/docs/qa",
+  "/docs/agents/qa",
   "/runs/agents.md",
 ];
 
-const markdownSeeds = ["agents.md", "qa.md", "agent-runs"];
+const markdownSeeds = ["agents.md", "agents/qa.md", "agent-runs"];
 const markdownExtensions = new Set([".md", ".markdown"]);
 
 const warnings = [];
