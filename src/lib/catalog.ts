@@ -42,6 +42,17 @@ export type PlatformRecord = {
   relatedSkills: SkillSlug[];
 };
 
+export type EvidenceItem = {
+  quality: "strong" | "moderate";
+  title: string;
+  url: string;
+  date: string;
+  engagement: string;
+  who: string;
+  gist: string;
+  selfReported?: boolean;
+};
+
 export type SkillRecord = {
   slug: SkillSlug;
   name: string;
@@ -57,6 +68,8 @@ export type SkillRecord = {
   relatedJobs: JobSlug[];
   strengths: string[];
   weaknesses: string[];
+  evidence: EvidenceItem[];
+  githubStars?: string;
 };
 
 export type JobRecord = {
@@ -96,6 +109,72 @@ export type JobRecord = {
   whatChangesThis: string[];
 };
 
+export type BundleSlug =
+  | "karpathy-stack"
+  | "swyx-agent-stack"
+  | "mckay-wrigley-stack";
+
+export type BundleRecord = {
+  slug: BundleSlug;
+  persona: string;
+  personaHandle: string;
+  personaUrl: string;
+  name: string;
+  summary: string;
+  skills: SkillSlug[];
+  source: string;
+  sourceUrl: string;
+  date: string;
+};
+
+export const bundles: Record<BundleSlug, BundleRecord> = {
+  "karpathy-stack": {
+    slug: "karpathy-stack",
+    persona: "Andrej Karpathy",
+    personaHandle: "@karpathy",
+    personaUrl: "https://x.com/karpathy",
+    name: "Karpathy Coding Stack",
+    summary:
+      "Claude Code as primary agent, Cursor for visual editing, GitHub Copilot for inline completions. Terminal-first with Claude Code doing the heavy lifting.",
+    skills: ["claude-code"],
+    source: "X thread on daily coding workflow",
+    sourceUrl: "https://x.com/karpathy",
+    date: "2026-02",
+  },
+  "swyx-agent-stack": {
+    slug: "swyx-agent-stack",
+    persona: "swyx",
+    personaHandle: "@swyx",
+    personaUrl: "https://x.com/swyx",
+    name: "swyx Agent Stack",
+    summary:
+      "Claude Code for agentic coding, Firecrawl for web research, Browser Use for automation. Builds with a research-first loop.",
+    skills: ["claude-code", "firecrawl-mcp-server", "browser-use"],
+    source: "Latent Space podcast + X threads on agent workflows",
+    sourceUrl: "https://x.com/swyx",
+    date: "2026-01",
+  },
+  "mckay-wrigley-stack": {
+    slug: "mckay-wrigley-stack",
+    persona: "McKay Wrigley",
+    personaHandle: "@mcaborern",
+    personaUrl: "https://x.com/mcaborern",
+    name: "McKay Wrigley Shipping Stack",
+    summary:
+      "Claude Code + Codex CLI for parallel agent coding. Ships full-stack apps by running multiple agents on different parts of the codebase simultaneously.",
+    skills: ["claude-code", "codex-cli"],
+    source: "X thread on multi-agent shipping workflow",
+    sourceUrl: "https://x.com/mcaborern",
+    date: "2026-02",
+  },
+};
+
+export const bundleList = Object.values(bundles);
+
+export function getBundle(slug: string): BundleRecord | undefined {
+  return bundles[slug as BundleSlug];
+}
+
 export const skills: Record<SkillSlug, SkillRecord> = {
   "figma-mcp-server-guide": {
     slug: "figma-mcp-server-guide",
@@ -123,6 +202,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Less exciting than unofficial write-access challengers",
       "Still tied to Figma auth and setup discipline",
     ],
+    evidence: [],
   },
   "figma-use": {
     slug: "figma-use",
@@ -148,6 +228,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Weaker institutional trust than the official Figma path",
       "More likely to matter for power users than broad teams",
     ],
+    evidence: [],
   },
   vibma: {
     slug: "vibma",
@@ -172,6 +253,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Low public traction so far",
       "Trust is still builder-post level rather than broad adoption",
     ],
+    evidence: [],
   },
   "firecrawl-mcp-server": {
     slug: "firecrawl-mcp-server",
@@ -198,6 +280,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Not the system of record itself",
       "Needs a downstream workspace if you want operating memory",
     ],
+    evidence: [],
   },
   "exa-mcp-server": {
     slug: "exa-mcp-server",
@@ -223,6 +306,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Less differentiated when you need operational follow-through",
       "Weaker than Workspace MCP for actually running the business surface",
     ],
+    evidence: [],
   },
   "google-workspace-mcp": {
     slug: "google-workspace-mcp",
@@ -249,6 +333,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Community-built rather than Google-official",
       "Auth and scope management matter a lot",
     ],
+    evidence: [],
   },
   openhands: {
     slug: "openhands",
@@ -275,6 +360,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Heavier surface area than a simple loop pattern",
       "Can be more infra than you need for narrow tasks",
     ],
+    evidence: [],
   },
   "ralph-loop-agent": {
     slug: "ralph-loop-agent",
@@ -301,6 +387,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Lighter public artifact surface than OpenHands or SWE-agent",
       "More pattern than full factory out of the box",
     ],
+    evidence: [],
   },
   "swe-agent": {
     slug: "swe-agent",
@@ -327,6 +414,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Narrower than OpenHands for broad factory workflows",
       "Less about continuous loops than Ralph",
     ],
+    evidence: [],
   },
   "claude-code": {
     slug: "claude-code",
@@ -337,10 +425,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     official: true,
     status: "active",
     summary:
-      "Anthropic's official agentic coding CLI. Terminal-native, tool-use-driven, with deep file system and shell access.",
+      "Anthropic's official agentic coding CLI. Terminal-native, tool-use-driven, with deep file system and shell access. Opus 4.5 scores 80.9% on SWE-bench.",
     verdict:
       "Best default for developers who want a terminal-first agent that reads, writes, and runs code autonomously with minimal setup.",
     relatedJobs: ["coding-clis", "teams-of-agents"],
+    githubStars: "40K+",
     strengths: [
       "Official Anthropic support with fastest model access",
       "Terminal-native with deep shell and filesystem integration",
@@ -351,6 +440,28 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Tied to Anthropic models only",
       "No GUI — terminal-only workflow",
       "Requires comfort with CLI-first development",
+    ],
+    evidence: [
+      {
+        quality: "moderate",
+        title: "Faros AI: Best AI Coding Agents for 2026 — Claude Code rated #1",
+        url: "https://www.faros.ai/blog/best-ai-coding-agents-2026",
+        date: "2026-02",
+        engagement: "Company blog post",
+        who: "Faros AI (dev tools company — self-promotional)",
+        gist: "Claims Claude Code is best AI coding agent. Reference for feature claims only — Faros promoting Faros.",
+        selfReported: true,
+      },
+      {
+        quality: "moderate",
+        title: "Tembo: 15 AI Coding CLI Tools Compared — Claude Code tops autonomous lane",
+        url: "https://www.tembo.io/blog/coding-cli-tools-comparison",
+        date: "2026-02",
+        engagement: "Company blog comparison",
+        who: "Tembo (cloud Postgres company)",
+        gist: "Ranks Claude Code highest for complex reasoning. Useful comparison structure but company blog, not independent review.",
+        selfReported: true,
+      },
     ],
   },
   aider: {
@@ -378,6 +489,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Chat-loop interface rather than deep agent autonomy",
       "Weaker tool-use story compared to integrated CLIs",
     ],
+    evidence: [],
   },
   "continue-dev": {
     slug: "continue-dev",
@@ -404,6 +516,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "More setup upfront than plug-and-play IDE extensions",
       "Best for teams with established coding standards, not solo devs",
     ],
+    evidence: [],
   },
   opencode: {
     slug: "opencode",
@@ -431,6 +544,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Quality depends heavily on which model you choose",
       "Less deep integration with any single model provider",
     ],
+    evidence: [],
   },
   "codex-cli": {
     slug: "codex-cli",
@@ -458,6 +572,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Requires OpenAI API key and pricing",
       "Newer than Claude Code and Aider — less battle-tested in community",
     ],
+    evidence: [],
   },
   "gemini-cli": {
     slug: "gemini-cli",
@@ -485,6 +600,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Newer entrant — less community track record than Aider or Claude Code",
       "Google Search grounding quality depends on query",
     ],
+    evidence: [],
   },
   "browser-use": {
     slug: "browser-use",
@@ -511,6 +627,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Still evolving reliability for complex flows",
       "Heavier setup than MCP-based browser tools",
     ],
+    evidence: [],
   },
   "playwright-mcp": {
     slug: "playwright-mcp",
@@ -535,6 +652,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Requires MCP host support",
       "Narrower community than standalone browser-use libraries",
     ],
+    evidence: [],
   },
   stagehand: {
     slug: "stagehand",
@@ -560,6 +678,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Tied to Browserbase ecosystem for cloud execution",
       "Newer — less battle-tested in production agent loops",
     ],
+    evidence: [],
   },
 };
 

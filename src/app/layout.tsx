@@ -18,7 +18,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Skillbench",
   description:
-    "Evidence-backed rankings for the best agent skills, platforms, and native capabilities by job to be done.",
+    "Evidence-backed rankings for the best agent skills, platforms, and native capabilities by category.",
 };
 
 export default function RootLayout({

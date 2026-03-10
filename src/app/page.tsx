@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Search } from "@/components/search";
 import { SiteFooter } from "@/components/site-footer";
-import { jobList, platformList, skillList } from "@/lib/catalog";
+import { bundleList, jobList, platformList, skillList } from "@/lib/catalog";
 import { mission } from "@/lib/site-data";
 
 const pipeline = [
@@ -55,7 +55,7 @@ const latestRuns = [
 
 const searchItems = [
   ...jobList.map((job) => ({
-    label: "Job",
+    label: "Category",
     name: job.name,
     href: `/jobs/${job.slug}`,
     summary: job.deck,
@@ -71,6 +71,12 @@ const searchItems = [
     name: platform.name,
     href: `/platforms/${platform.slug}`,
     summary: platform.summary,
+  })),
+  ...bundleList.map((bundle) => ({
+    label: "Bundle",
+    name: bundle.name,
+    href: `/bundles/${bundle.slug}`,
+    summary: `${bundle.persona} — ${bundle.summary}`,
   })),
 ];
 
@@ -116,7 +122,7 @@ export default function Home() {
             {mission}
           </p>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-400">
-            {jobList.length} jobs · {skillList.length} skills · {platformList.length} platforms
+            {jobList.length} categories · {skillList.length} skills · {bundleList.length} bundles · {platformList.length} platforms
           </p>
           <div className="mt-8">
             <Search items={searchItems} />
@@ -128,7 +134,7 @@ export default function Home() {
             Best right now
           </p>
           <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-600">
-            Current top pick for each active job category, based on evidence weight and workflow fit.
+            Current top pick for each active category, based on evidence weight and workflow fit.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {bestRightNow.map((item) => (
@@ -214,7 +220,7 @@ export default function Home() {
                 Categories
               </p>
               <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-600">
-                Each job surface answers a narrow question fast, then backs it up with visible public proof.
+                Each category answers a narrow question fast, then backs it up with visible public proof.
               </p>
             </div>
             <div className="hidden max-w-sm text-sm leading-7 text-zinc-600 lg:block">
@@ -245,6 +251,46 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {bundleList.length > 0 ? (
+          <section className="border-b border-black/5 py-16">
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+              Bundles
+            </p>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-600">
+              What known builders actually ship with. Full setups from people with public track records.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {bundleList.map((bundle) => (
+                <Link
+                  key={bundle.slug}
+                  href={`/bundles/${bundle.slug}`}
+                  className="group border border-black/10 px-5 py-5 transition-colors hover:border-black/25"
+                >
+                  <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
+                    {bundle.personaHandle}
+                  </p>
+                  <p className="mt-2 text-base font-semibold tracking-[-0.02em] text-zinc-950">
+                    {bundle.name}
+                  </p>
+                  <p className="mt-2 line-clamp-2 text-xs leading-5 text-zinc-500">
+                    {bundle.summary}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1">
+                    {bundle.skills.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-sm bg-zinc-900 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-zinc-100"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="grid gap-14 border-b border-black/5 py-16 lg:grid-cols-[1.35fr_0.65fr]">
           <div>

@@ -1,5 +1,12 @@
 # Skillbench
 
+## Change priority protocol
+
+When told to change something, ALWAYS follow this order:
+1. **Update human-steering-history.md** — log the decision as stated
+2. **Update docs** (agents.md, specification.md, agent prompts) — reflect the new rule
+3. **Make code changes** — implement in catalog.ts, components, pages
+
 ## What this is
 
 Curated, evidence-backed buyer's guide for agent skills. Not a registry, not a marketplace. The core value is: narrow job categories, strong rankings, real citations, head-to-head comparisons.
@@ -37,13 +44,21 @@ src/                          ← Next.js application
 Discover → Deep-Dive → Rank → QA → Publish
 ```
 
-1. **Discover** — find what is newly relevant, hot, or compared. 7-day then 30-day window.
-2. **Deep-Dive** — build evidence with multi-source verification, trust tags, signal quality gate.
-3. **Rank** — editorial ranking per job. Evidence-first, not opinion-first.
+1. **Discover** — AGGRESSIVELY find ALL contenders using web search, Twitter/X API, Reddit API, HN Algolia, GitHub trending, and registry checks. Missing a key player is a critical failure.
+2. **Deep-Dive** — build MEASURABLE evidence with inline artifacts, hard quality gates, and engagement metrics. Evidence not passing the bar gets DISCARDED. Deep-dive also contributes new finds.
+3. **Rank** — editorial ranking per category. Top 3-4 recommended, rest below the cut line. Evidence-first, opinionated.
 4. **QA** — block publish on dead links, weak signals, single-source claims, stale evidence.
 5. **Publish** — build and deploy to Vercel.
 
 Each agent prompt lives in `agents/<name>.md`. Each run writes to `agent-runs/`.
+
+## Research tools
+
+- **Web search** — broad queries, comparisons, "best X 2026"
+- **Twitter/X API** — `python ~/projects/bra1ndump/skills/twitter-x/x.py search "QUERY" --top --count 50`
+- **Reddit API** — `python ~/projects/bra1ndump/skills/reddit-search/reddit.py search "QUERY" --sort relevance --time month`
+- **HN Algolia** — `curl "https://hn.algolia.com/api/v1/search?query=QUERY&tags=story&numericFilters=points>10"`
+- **GitHub** — star counts, trending, recent releases
 
 ## Signal quality bar (applies everywhere)
 
@@ -52,10 +67,19 @@ Each agent prompt lives in `agents/<name>.md`. Each run writes to `agent-runs/`.
 - No engagement (likes, comments, upvotes) = noise.
 - Author must have visible track record or signal is suspect.
 - Screenshots must show the product in use, not homepages.
+- **NEVER trust the product's own website or promotional material as strong evidence.** Self-reported claims (official docs, launch posts, company blogs) may be referenced for factual details but MUST be marked `selfReported: true`. They do NOT count toward multi-source verification.
+- Evidence on each skill is REQUIRED, not optional. Every skill ships with evidence or it doesn't ship.
 
 Full rules in [specification.md](specification.md) and [agents/deep-dive.md](agents/deep-dive.md).
 
-## Current job categories
+## Entities
+
+- **Category** (formerly "Job") — narrow task category (e.g., Coding CLIs, Web Browsing)
+- **Skill** — a specific tool/MCP server/agent that solves a category
+- **Platform** — underlying platform a skill connects to (e.g., Figma, Browser, Terminal)
+- **Bundle** — a full setup/stack that a known persona uses, referencing skills in our registry. Tracks what popular/trending Twitter personas actually ship with.
+
+## Current categories
 
 - **Coding CLIs / Code Agents** — Claude Code, Aider, Continue, Cursor
 - **Web Browsing / Browser Automation** — Browser Use, Stagehand, Playwright MCP

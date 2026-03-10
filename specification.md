@@ -42,11 +42,11 @@ Later, the system may run local benchmarks, but that is not required for the ini
 
 ## Core Entities
 
-There are four first-class entities:
+There are five first-class entities:
 
-### 1. Job
+### 1. Category (formerly "Job")
 
-What the user wants to do.
+What the user wants to do. A narrow task category.
 
 Examples:
 
@@ -85,6 +85,15 @@ A specific skill, package, repo, integration, or workflow used on top of a platf
 ### 4. Source
 
 A citation that provides evidence.
+
+### 5. Bundle
+
+A full setup/stack from a known persona. Bundles track what popular/trending builders actually ship with day to day, referencing skills in our registry.
+
+Examples:
+
+- Karpathy's coding stack (Claude Code + Cursor)
+- swyx's agent stack (Claude Code + Firecrawl + Browser Use)
 
 Examples:
 
@@ -303,6 +312,10 @@ Every signal shipped in the product must meet ALL of these:
 8. **Author reputation**: if the author has no visible track record — no public projects, no history in the space, no reputation — the signal is suspect. Weight maintainers, known builders, and people with public work 10x over anonymous or low-profile commenters.
 
 When in doubt, cut the signal. Three strong signals beat eight weak ones.
+
+### Promotional Material Rule
+
+NEVER trust the product's own website, blog, or company review as strong evidence. Self-reported claims (official docs, launch posts, company blogs about their own product) may be referenced for factual details (feature lists, pricing, benchmarks they claim) but MUST be clearly marked as `selfReported`. They do NOT count toward multi-source verification. "Company X says their product is great" is noise. "Independent reviewer Y says X is great" is signal.
 
 We should also classify evidence type:
 

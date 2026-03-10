@@ -17,6 +17,9 @@ export function SiteHeader() {
           <Link href="/skills" className="hover:text-black">
             Skills
           </Link>
+          <Link href="/bundles" className="hover:text-black">
+            Bundles
+          </Link>
           <Link href="/platforms" className="hover:text-black">
             Platforms
           </Link>

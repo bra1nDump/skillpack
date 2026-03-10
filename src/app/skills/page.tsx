@@ -39,7 +39,7 @@ export default function SkillsIndexPage() {
                   <th className="py-3 pr-4 font-medium">Skill</th>
                   <th className="py-3 pr-4 font-medium">Status</th>
                   <th className="py-3 pr-4 font-medium">Official</th>
-                  <th className="py-3 pr-4 font-medium">Related jobs</th>
+                  <th className="py-3 pr-4 font-medium">Categories</th>
                   <th className="py-3 font-medium">Verdict</th>
                 </tr>
               </thead>

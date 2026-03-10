@@ -66,6 +66,13 @@ Every artifact MUST pass ALL of these or be DISCARDED:
 | Attribution | Who said it? Maintainer/builder > anon commenter | Anon drive-by = suspect |
 | Multi-source | Every shipped claim needs 2-3 independent sources | Single source = hypothesis |
 | Visual proof | Screenshots show product IN USE, not landing pages | Homepage screenshot = useless |
+| Independence | NOT from the product's own website/blog/company | Self-reported = reference only, mark `selfReported: true` |
+
+PROMOTIONAL MATERIAL RULE:
+- The product's own website, blog, launch post, or company review is NEVER strong evidence
+- Self-reported claims can be referenced for factual details (feature lists, pricing) but MUST be tagged `selfReported: true`
+- Self-reported sources do NOT count toward multi-source verification
+- "Company X says their product is great" is not evidence. "Independent reviewer Y says X is great" IS evidence.
 
 Tag every artifact:
 - [STRONG] — passes all gates, high engagement, credible source

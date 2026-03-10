@@ -124,6 +124,46 @@ agents.md to the root
 and symlink claude.md -> points to agents.md :D
 ```
 
+## Evidence requirements and promotional material
+
+```
+evidence?: EvidenceItem[];
+
+NOT FUCKING OPTINAL BITCH
+
+also did you update our terminology to Categories everywhere?
+
+also i want the skills themselves be somehow easy to spot
+
+And lets also add another thing to the mix - Bundles
+
+which will track 'full setups' popular / trending twitter personas have - they should also reference skills in our registry
+
+----
+
+also NEVER trust the website itself, or clearly promotional material as a strong signal - it may be used as a reference for claimed stuff - but should be clearly marked as such
+
+example:
+Faros AI: Best AI Coding Agents for 2026 — Claude Code rated #1",
+      372 +        url: "https://www.faros.ai/
+
+like of fucking course faros is going to jack off to faros don't you fucking think???
+```
+
+## Change priority protocol
+
+```
+also when i tell you to change soemthing - prioritize
+
+a) updatint the human log thing
+b) updating our docs
+c) finally making the changes acrrodgly
+
+- respect this rule string from now
+
+add this to agents.md top level
+```
+
 ## Additional context from assistant responses that informed later notes
 
 These were not user-authored, but they explain terms later referenced by the user:

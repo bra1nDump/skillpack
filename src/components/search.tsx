@@ -70,7 +70,7 @@ export function Search({ items }: { items: SearchItem[] }) {
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
-          placeholder="Search jobs, skills, and platforms..."
+          placeholder="Search categories, skills, bundles, platforms..."
           className="w-full border border-black/10 bg-white/60 px-4 py-3 pr-12 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-black/25 focus:outline-none"
         />
         <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded border border-black/10 bg-white/80 px-1.5 py-0.5 font-mono text-[10px] text-zinc-400">
@@ -89,7 +89,17 @@ export function Search({ items }: { items: SearchItem[] }) {
               }}
               className="block border-b border-black/5 px-4 py-3 last:border-b-0 hover:bg-zinc-50"
             >
-              <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-zinc-400">
+              <span
+                className={`inline-block rounded-sm px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] ${
+                  item.label === "Skill"
+                    ? "bg-zinc-900 text-zinc-100"
+                    : item.label === "Bundle"
+                      ? "bg-violet-100 text-violet-700"
+                      : item.label === "Category"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-zinc-100 text-zinc-500"
+                }`}
+              >
                 {item.label}
               </span>
               <p className="mt-1 text-sm font-semibold text-zinc-950">

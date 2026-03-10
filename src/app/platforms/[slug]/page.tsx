@@ -107,7 +107,7 @@ export default async function PlatformPage({ params }: PageProps) {
 
         <section className="py-16">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
-            Related jobs
+            Related categories
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {relatedJobs.map((job) => (

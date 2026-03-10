@@ -109,11 +109,66 @@ export default async function SkillPage({ params }: PageProps) {
                   </a>
                 </p>
               ) : null}
+              {skill.githubStars ? (
+                <p>Stars: {skill.githubStars}</p>
+              ) : null}
               <p>Official: {skill.official ? "Yes" : "No"}</p>
               <p>Status: {skill.status}</p>
             </div>
           </div>
         </section>
+
+        {skill.evidence.length > 0 ? (
+          <section className="border-b border-black/5 py-16">
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+              Public evidence
+            </p>
+            <div className="mt-6 space-y-6">
+              {skill.evidence.map((item) => (
+                <article key={item.url} className="border border-black/10 px-5 py-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`inline-block rounded-sm px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${
+                            item.quality === "strong"
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-amber-100 text-amber-700"
+                          }`}
+                        >
+                          {item.quality}
+                        </span>
+                        {item.selfReported ? (
+                          <span className="inline-block rounded-sm bg-zinc-100 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
+                            Self-reported
+                          </span>
+                        ) : null}
+                        <span className="font-mono text-[10px] text-zinc-400">
+                          {item.date}
+                        </span>
+                      </div>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-block text-sm font-semibold leading-6 text-zinc-950 underline decoration-black/20 underline-offset-4 hover:decoration-black/50"
+                      >
+                        {item.title}
+                      </a>
+                      <p className="mt-2 text-sm leading-7 text-zinc-600">
+                        {item.gist}
+                      </p>
+                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[10px] text-zinc-400">
+                        <span>{item.engagement}</span>
+                        <span>{item.who}</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="grid gap-12 border-b border-black/5 py-16 lg:grid-cols-2">
           <div>
@@ -140,7 +195,7 @@ export default async function SkillPage({ params }: PageProps) {
 
         <section className="border-b border-black/5 py-16">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500">
-            Ranking in related jobs
+            Ranking in related categories
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {relatedJobs.map((job) => {

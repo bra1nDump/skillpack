@@ -77,4 +77,5 @@ Output:
 - include source freshness and credibility assessment
 - include a shortlist of what should go to deep-dive next
 - flag any GAPS in the current catalog
+- look for BUNDLE opportunities: known personas (Twitter influencers, prominent devs) sharing their full agent/skill stacks — these feed the Bundles entity
 ```
