@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:skills.sh)",
+      "WebSearch",
+      "Bash(npx next:*)"
+    ]
+  }
+}
