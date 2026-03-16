@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "x-twitter@alberduris-marketplace": true,
+    "ralph-loop@claude-plugins-official": true
+  }
+}

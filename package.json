@@ -11,6 +11,9 @@
     "qa:publish": "npm run lint && npm run build && npm run qa:links",
     "screenshots": "node scripts/capture-screenshots.mjs",
     "metrics:collect": "node scripts/collect-stars.mjs",
+    "metrics:downloads": "node scripts/collect-downloads.mjs",
+    "metrics:mentions": "node scripts/collect-mentions.mjs",
+    "metrics:all": "node scripts/collect-stars.mjs && node scripts/collect-downloads.mjs && node scripts/collect-mentions.mjs",
     "ralph": "node scripts/ralph.mjs",
     "ralph:loop": "node scripts/ralph.mjs --loop"
   },

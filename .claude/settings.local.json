@@ -7,7 +7,12 @@
       "WebFetch(domain:skills.sh)",
       "WebSearch",
       "Bash(npx next:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(git diff:*)"
     ]
+  },
+  "enabledPlugins": {
+    "ralph-loop@claude-plugins-official": true
   }
 }

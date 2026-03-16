@@ -9,8 +9,8 @@ Turn discoveries into EVIDENCE-BACKED understanding. Every claim ships with proo
 ## Available research tools
 
 1. **Web search** — targeted queries for evidence, comparisons, reviews
-2. **Twitter/X API** — `python ~/projects/bra1ndump/skills/twitter-x/x.py search "QUERY" --top --count 50`
-3. **Reddit API** — `python ~/projects/bra1ndump/skills/reddit-search/reddit.py search "QUERY" --sort relevance --time month`
+2. **Twitter/X** — use the `x-twitter` skill if available (search, trending, count commands)
+3. **Reddit** — use the `reddit-search` skill if available (search, posts, info commands)
 4. **Hacker News Algolia** — `curl "https://hn.algolia.com/api/v1/search?query=QUERY&tags=story&numericFilters=points>10"`
 5. **GitHub API** — star counts, recent releases, contributor activity
 6. **WebFetch** — read specific pages, blog posts, changelogs for evidence

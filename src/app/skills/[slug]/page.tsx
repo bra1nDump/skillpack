@@ -214,6 +214,21 @@ export default async function SkillPage({ params }: PageProps) {
           </section>
         )}
 
+        {/* Downloads */}
+        {skill.metrics?.downloads && skill.metrics.downloads.length >= 2 && (
+          <section className="border-t border-[var(--border)] py-14">
+            <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+              Downloads
+            </p>
+            <p className="mt-2 text-[15px] text-gray-500">
+              Weekly package downloads over time.
+            </p>
+            <div className="mt-6">
+              <SkillMetricsChart data={skill.metrics.downloads} label="Weekly Downloads" />
+            </div>
+          </section>
+        )}
+
         {/* Strengths / Weaknesses */}
         <section className="grid gap-8 border-t border-[var(--border)] py-14 lg:grid-cols-2">
           <div>

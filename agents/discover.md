@@ -13,8 +13,8 @@ The discover agent should surface signals worth investigating and decide which s
 You have access to multiple research channels. USE ALL OF THEM:
 
 1. **Web search** — broad queries, comparison queries, "best X 2026" queries
-2. **Twitter/X API** — `python ~/projects/bra1ndump/skills/twitter-x/x.py search "QUERY" --top --count 50`
-3. **Reddit API** — `python ~/projects/bra1ndump/skills/reddit-search/reddit.py search "QUERY" --sort relevance --time month`
+2. **Twitter/X** — use the `x-twitter` skill if available (search, trending, count commands)
+3. **Reddit** — use the `reddit-search` skill if available (search, posts, info commands)
 4. **Hacker News Algolia API** — `curl "https://hn.algolia.com/api/v1/search?query=QUERY&tags=story&numericFilters=points>10"`
 5. **GitHub trending** — check trending repos for the category
 6. **MCP registries** — check skills.sh, mcpservers.org, PulseMCP for new top entries
@@ -47,12 +47,12 @@ Research protocol (MANDATORY — run ALL of these):
    - Search the category name with --top flag
    - Search specific tools by name
    - Search comparison language ("X vs Y", "better than")
-   - Use: python ~/projects/bra1ndump/skills/twitter-x/x.py search "QUERY" --top --count 50
+   - Use the x-twitter skill: search "QUERY" --sort relevancy --max-results 50
 
 4. REDDIT (at least 2 queries):
    - Search r/all for the category
    - Search relevant subreddits (r/programming, r/LocalLLaMA, r/artificial, r/MachineLearning)
-   - Use: python ~/projects/bra1ndump/skills/reddit-search/reddit.py search "QUERY" --sort relevance --time month
+   - Use the reddit-search skill: search "QUERY" or posts "SUBREDDIT" 20
 
 5. GITHUB CHECK:
    - Verify star counts for all known contenders

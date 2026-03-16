@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "reddit-search": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "5a4714b0b9f35966e22309a14b102aad0c7a23a877c40c5897ed7967539f5c4a"
+    }
+  }
+}

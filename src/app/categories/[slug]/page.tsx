@@ -252,6 +252,38 @@ export default async function CategoryPage({ params }: PageProps) {
           ) : null;
         })()}
 
+        {/* Social mentions */}
+        {(() => {
+          const LINE_COLORS = ["#E63946", "#34d399", "#fbbf24", "#f472b6", "#38bdf8", "#a78bfa"];
+          const lines = category.ranking
+            .slice(0, 6)
+            .map((item, i) => {
+              const skill = item.skillSlug ? getSkill(item.skillSlug) : null;
+
+              if (!skill?.metrics?.mentionsPositive || skill.metrics.mentionsPositive.length < 2) return null;
+              return {
+                name: item.contender,
+                color: LINE_COLORS[i % LINE_COLORS.length],
+                data: skill.metrics.mentionsPositive,
+              };
+            })
+            .filter((l): l is NonNullable<typeof l> => l !== null);
+
+          return lines.length > 0 ? (
+            <section className="border-t border-[var(--border)] py-14">
+              <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+                Social mentions
+              </p>
+              <p className="mt-2 text-[15px] text-gray-500">
+                HN mentions over time for top skills in this category.
+              </p>
+              <div className="mt-6">
+                <MultiMetricsChart lines={lines} label="Social Mentions (HN)" />
+              </div>
+            </section>
+          ) : null;
+        })()}
+
         {/* Head to head */}
         {category.headToHead.length > 0 ? (
           <section className="border-t border-[var(--border)] py-14">

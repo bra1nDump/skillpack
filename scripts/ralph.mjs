@@ -12,7 +12,7 @@
  *   npm run ralph -- --category coding-clis --loop --interval 30
  */
 
-import { execSync, spawnSync } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,6 +29,8 @@ const CATEGORIES = [
   "ux-ui",
   "coding-clis",
   "web-browsing",
+  "software-factories",
+  "search-news",
 ];
 
 // ---------------------------------------------------------------------------
@@ -36,7 +38,7 @@ const CATEGORIES = [
 // ---------------------------------------------------------------------------
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { categories: [], loop: false, interval: 60 };
+  const opts = { categories: [], loop: false, interval: 60, concurrency: 1 };
 
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -52,6 +54,9 @@ function parseArgs() {
       case "--interval":
         opts.interval = parseInt(args[++i], 10);
         break;
+      case "--parallel":
+        opts.concurrency = parseInt(args[++i], 10) || 3;
+        break;
       default:
         console.error(`Unknown arg: ${args[i]}`);
         process.exit(1);
@@ -59,7 +64,7 @@ function parseArgs() {
   }
 
   if (opts.categories.length === 0) {
-    console.error("Usage: ralph --category <slug> | --all [--loop] [--interval <min>]");
+    console.error("Usage: ralph --category <slug> | --all [--loop] [--interval <min>] [--parallel <N>]");
     process.exit(1);
   }
 
@@ -100,7 +105,20 @@ function log(stage, msg) {
 // ---------------------------------------------------------------------------
 const ALLOWED_TOOLS = "Bash,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Agent";
 
-function runClaude({ systemPromptFile, prompt, stage }) {
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes}B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+function formatDuration(seconds) {
+  if (seconds < 60) return `${seconds.toFixed(0)}s`;
+  const m = Math.floor(seconds / 60);
+  const s = Math.round(seconds % 60);
+  return `${m}m ${s}s`;
+}
+
+async function runClaude({ systemPromptFile, prompt, stage }) {
   // Build the full prompt: agent personality + task
   let fullPrompt = "";
   if (systemPromptFile) {
@@ -115,29 +133,62 @@ function runClaude({ systemPromptFile, prompt, stage }) {
     "--verbose",
   ];
 
-  log(stage, "Spawning claude subprocess…");
+  const promptPreview = prompt.split("\n").find((l) => l.startsWith("TASK:"))?.slice(0, 100) || prompt.slice(0, 80);
+  log(stage, `Spawning claude subprocess…`);
+  log(stage, `  Prompt: ${systemPromptFile ? systemPromptFile.split(/[/\\]/).pop() : "(inline)"} + ${formatBytes(fullPrompt.length)}`);
+  log(stage, `  Task: ${promptPreview}…`);
+  log(stage, `  Tools: ${ALLOWED_TOOLS}`);
+  log(stage, `  Timeout: 30 min`);
   const start = Date.now();
 
-  // Pass prompt via stdin to avoid Windows command-line length limits
-  const result = spawnSync("claude", args, {
-    cwd: ROOT,
-    input: fullPrompt,
-    stdio: ["pipe", "pipe", "pipe"],
-    encoding: "utf-8",
-    timeout: 15 * 60 * 1000, // 15 min per stage
-    shell: true,
+  // Async spawn to allow parallel pipelines
+  const result = await new Promise((resolve) => {
+    const child = spawn("claude", args, {
+      cwd: ROOT,
+      stdio: ["pipe", "pipe", "pipe"],
+      shell: true,
+    });
+
+    let stdout = "";
+    let stderr = "";
+    child.stdout.on("data", (d) => { stdout += d.toString(); });
+    child.stderr.on("data", (d) => { stderr += d.toString(); });
+
+    child.stdin.write(fullPrompt);
+    child.stdin.end();
+
+    const timer = setTimeout(() => {
+      child.kill("SIGTERM");
+      resolve({ status: null, signal: "SIGTERM", stdout, stderr });
+    }, 30 * 60 * 1000);
+
+    child.on("close", (code, signal) => {
+      clearTimeout(timer);
+      resolve({ status: code, signal, stdout, stderr });
+    });
   });
 
-
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+  const elapsedSec = (Date.now() - start) / 1000;
+  const elapsed = elapsedSec.toFixed(1);
+  const duration = formatDuration(elapsedSec);
+  const outputSize = formatBytes((result.stdout || "").length);
 
   if (result.status !== 0) {
-    log(stage, `FAILED after ${elapsed}s (exit ${result.status})`);
-    if (result.stderr) log(stage, `stderr: ${result.stderr.slice(0, 500)}`);
+    const reason = result.signal === "SIGTERM" || result.status === null
+      ? "TIMEOUT (30 min limit reached)"
+      : `exit code ${result.status}`;
+    log(stage, `FAILED after ${duration} — ${reason}`);
+    if (result.stderr) {
+      const stderr = result.stderr.slice(0, 500).trim();
+      if (stderr) log(stage, `  stderr: ${stderr}`);
+    }
+    if (result.stdout) {
+      log(stage, `  Partial output: ${outputSize}`);
+    }
     return { ok: false, output: result.stdout || "", elapsed };
   }
 
-  log(stage, `Completed in ${elapsed}s`);
+  log(stage, `Completed in ${duration} — output: ${outputSize}`);
   return { ok: true, output: result.stdout || "", elapsed };
 }
 
@@ -145,7 +196,7 @@ function runClaude({ systemPromptFile, prompt, stage }) {
 // Pipeline stages
 // ---------------------------------------------------------------------------
 
-function stageDiscover(category, runDir) {
+async function stageDiscover(category, runDir) {
   const stage = "DISCOVER";
   const outDir = resolve(runDir, `discover_${category}`);
   ensureDir(outDir);
@@ -160,7 +211,7 @@ TASK: Run the full discover protocol. Search HN Algolia, GitHub, web search, and
 
 IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from agent-runs/agents.md. Also output findings to stdout.`;
 
-  const result = runClaude({
+  const result = await runClaude({
     systemPromptFile: resolve(ROOT, "agents/discover.md"),
     prompt,
     stage,
@@ -172,10 +223,13 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
     writeFileSync(findingsPath, result.output, "utf-8");
   }
 
+  const findingsSize = existsSync(findingsPath) ? formatBytes(readFileSync(findingsPath).length) : "0B";
+  log(stage, `  Findings: ${findingsPath.split(/[/\\]/).slice(-2).join("/")} (${findingsSize})`);
+
   return { ...result, findingsPath };
 }
 
-function stageDeepDive(category, runDir, discoverFindings) {
+async function stageDeepDive(category, runDir, discoverFindings) {
   const stage = "DEEP-DIVE";
   const outDir = resolve(runDir, `deep-dive_${category}`);
   ensureDir(outDir);
@@ -193,7 +247,7 @@ TASK: Run the full deep-dive protocol. Build evidence-backed understanding for e
 
 IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from agent-runs/agents.md.`;
 
-  const result = runClaude({
+  const result = await runClaude({
     systemPromptFile: resolve(ROOT, "agents/deep-dive.md"),
     prompt,
     stage,
@@ -204,10 +258,14 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
     writeFileSync(findingsPath, result.output, "utf-8");
   }
 
+  const findingsSize = existsSync(findingsPath) ? formatBytes(readFileSync(findingsPath).length) : "0B";
+  log(stage, `  Findings: ${findingsPath.split(/[/\\]/).slice(-2).join("/")} (${findingsSize})`);
+  log(stage, `  Input was: discover findings ${formatBytes(discoverFindings.length)}`);
+
   return { ...result, findingsPath };
 }
 
-function stageRank(category, runDir, discoverFindings, deepDiveFindings) {
+async function stageRank(category, runDir, discoverFindings, deepDiveFindings) {
   const stage = "RANK";
   const outDir = resolve(runDir, `rank_${category}`);
   ensureDir(outDir);
@@ -224,7 +282,7 @@ TASK: Produce a ranked recommendation. Weight evidence quality, real usage, rece
 
 IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from agent-runs/agents.md.`;
 
-  const result = runClaude({
+  const result = await runClaude({
     systemPromptFile: resolve(ROOT, "agents/rank.md"),
     prompt,
     stage,
@@ -235,10 +293,14 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
     writeFileSync(findingsPath, result.output, "utf-8");
   }
 
+  const findingsSize = existsSync(findingsPath) ? formatBytes(readFileSync(findingsPath).length) : "0B";
+  log(stage, `  Findings: ${findingsPath.split(/[/\\]/).slice(-2).join("/")} (${findingsSize})`);
+  log(stage, `  Input was: discover ${formatBytes(discoverFindings.length)} + deep-dive ${formatBytes(deepDiveFindings.length)}`);
+
   return { ...result, findingsPath };
 }
 
-function stageCatalogUpdate(category, rankFindingsPath) {
+async function stageCatalogUpdate(category, rankFindingsPath) {
   const stage = "CATALOG-UPDATE";
   const rankFindings = readFile(rankFindingsPath);
 
@@ -261,10 +323,34 @@ Also run: npm run metrics:collect to refresh star counts.
 
 Be conservative — only change what the evidence supports. Preserve the existing TypeScript types.`;
 
-  return runClaude({
+  return await runClaude({
     prompt,
     stage,
   });
+}
+
+function stageMetrics() {
+  const stage = "METRICS";
+  log(stage, "Collecting stars, downloads, and mentions…");
+  const start = Date.now();
+
+  const scripts = [
+    { name: "stars", cmd: "node scripts/collect-stars.mjs" },
+    { name: "downloads", cmd: "node scripts/collect-downloads.mjs" },
+    { name: "mentions", cmd: "node scripts/collect-mentions.mjs" },
+  ];
+
+  for (const s of scripts) {
+    try {
+      execSync(s.cmd, { cwd: ROOT, stdio: "pipe", timeout: 120_000 });
+      log(stage, `${s.name} collected`);
+    } catch (e) {
+      log(stage, `${s.name} FAILED (non-fatal): ${e.message?.slice(0, 200)}`);
+    }
+  }
+
+  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+  return { ok: true, output: "metrics collected", elapsed };
 }
 
 function stageQA() {
@@ -314,56 +400,100 @@ function getCategoryContext(category) {
 }
 
 // ---------------------------------------------------------------------------
-// Run pipeline for one category
+// Phase 1: Research (parallelizable) — Discover → Deep-Dive → Rank
 // ---------------------------------------------------------------------------
-async function runPipeline(category) {
+async function runResearch(category) {
   const ts = timestamp();
   const runDir = resolve(ROOT, "agent-runs", `${ts}_run_${category}`);
   ensureDir(runDir);
 
   console.log(`\n${"=".repeat(60)}`);
-  console.log(`  Ralph Pipeline — ${category}`);
+  console.log(`  Research — ${category}`);
   console.log(`  Run dir: ${runDir}`);
+  console.log(`  Started: ${new Date().toISOString()}`);
   console.log(`${"=".repeat(60)}\n`);
 
   const results = {};
 
   // Stage 1: Discover
-  log("PIPELINE", "Stage 1/5: Discover");
-  const discover = stageDiscover(category, runDir);
+  log(category, "Stage 1/3: Discover");
+  const discover = await stageDiscover(category, runDir);
   results.discover = discover;
   const discoverFindings = readFile(discover.findingsPath);
 
   // Stage 2: Deep-Dive
-  log("PIPELINE", "Stage 2/5: Deep-Dive");
-  const deepDive = stageDeepDive(category, runDir, discoverFindings);
+  log(category, "Stage 2/3: Deep-Dive");
+  const deepDive = await stageDeepDive(category, runDir, discoverFindings);
   results.deepDive = deepDive;
   const deepDiveFindings = readFile(deepDive.findingsPath);
 
   // Stage 3: Rank
-  log("PIPELINE", "Stage 3/5: Rank");
-  const rank = stageRank(category, runDir, discoverFindings, deepDiveFindings);
+  log(category, "Stage 3/3: Rank");
+  const rank = await stageRank(category, runDir, discoverFindings, deepDiveFindings);
   results.rank = rank;
 
-  // Stage 4: Catalog Update
-  log("PIPELINE", "Stage 4/5: Catalog Update");
-  results.catalogUpdate = stageCatalogUpdate(category, rank.findingsPath);
+  const totalElapsed = Object.values(results).reduce((sum, r) => sum + parseFloat(r.elapsed || "0"), 0);
+  log(category, `Research done in ${formatDuration(totalElapsed)}`);
 
-  // Stage 5: QA
-  log("PIPELINE", "Stage 5/5: QA");
-  results.qa = stageQA();
+  return { category, runDir, rankFindingsPath: rank.findingsPath, results };
+}
 
-  // Summary
-  console.log(`\n${"─".repeat(60)}`);
-  console.log("  Pipeline Summary");
-  console.log(`${"─".repeat(60)}`);
-  for (const [name, r] of Object.entries(results)) {
-    const icon = r.ok ? "✓" : "✗";
-    console.log(`  ${icon} ${name.padEnd(16)} ${r.elapsed}s`);
+// ---------------------------------------------------------------------------
+// Phase 2: Finalize (sequential) — Catalog Update → Metrics → QA
+// ---------------------------------------------------------------------------
+async function runFinalize(researchResults) {
+  console.log(`\n${"=".repeat(60)}`);
+  console.log(`  Finalize — ${researchResults.length} categories`);
+  console.log(`  Started: ${new Date().toISOString()}`);
+  console.log(`${"=".repeat(60)}\n`);
+
+  const finalResults = {};
+
+  // Catalog updates — one at a time to avoid race conditions
+  for (const r of researchResults) {
+    log("CATALOG", `Updating catalog for ${r.category}…`);
+    r.results.catalogUpdate = await stageCatalogUpdate(r.category, r.rankFindingsPath);
   }
-  console.log(`${"─".repeat(60)}\n`);
 
-  return results;
+  // Metrics — once for all
+  log("METRICS", "Collecting stars, downloads, and mentions…");
+  finalResults.metrics = stageMetrics();
+
+  // QA — once at the end
+  log("QA", "Running build + link check…");
+  finalResults.qa = stageQA();
+
+  return finalResults;
+}
+
+// ---------------------------------------------------------------------------
+// Print summary
+// ---------------------------------------------------------------------------
+function printSummary(researchResults, finalResults) {
+  console.log(`\n${"=".repeat(60)}`);
+  console.log(`  Ralph Pipeline — Final Summary`);
+  console.log(`  Finished: ${new Date().toISOString()}`);
+  console.log(`${"=".repeat(60)}`);
+
+  for (const r of researchResults) {
+    const stages = r.results;
+    const passed = Object.values(stages).filter((s) => s.ok).length;
+    const failed = Object.values(stages).filter((s) => !s.ok).length;
+    const total = Object.values(stages).reduce((sum, s) => sum + parseFloat(s.elapsed || "0"), 0);
+
+    console.log(`\n  ${r.category} (${formatDuration(total)} | ${passed}✓ ${failed}✗)`);
+    for (const [name, s] of Object.entries(stages)) {
+      const icon = s.ok ? "✓" : "✗";
+      console.log(`    ${icon} ${name.padEnd(16)} ${formatDuration(parseFloat(s.elapsed || "0"))}`);
+    }
+  }
+
+  console.log(`\n  Finalize`);
+  for (const [name, s] of Object.entries(finalResults)) {
+    const icon = s.ok ? "✓" : "✗";
+    console.log(`    ${icon} ${name.padEnd(16)} ${formatDuration(parseFloat(s.elapsed || "0"))}`);
+  }
+  console.log(`${"=".repeat(60)}\n`);
 }
 
 // ---------------------------------------------------------------------------
@@ -373,9 +503,42 @@ async function main() {
   const opts = parseArgs();
 
   const runOnce = async () => {
-    for (const category of opts.categories) {
-      await runPipeline(category);
+    const researchResults = [];
+
+    if (opts.concurrency <= 1) {
+      // Sequential research + finalize per category (legacy behavior)
+      for (const category of opts.categories) {
+        const r = await runResearch(category);
+        researchResults.push(r);
+      }
+    } else {
+      // Parallel research
+      const limit = Math.min(opts.concurrency, opts.categories.length);
+      console.log(`Running ${opts.categories.length} categories, ${limit} research agents in parallel\n`);
+      const queue = [...opts.categories];
+      const running = new Set();
+
+      await new Promise((resolve) => {
+        function next() {
+          if (queue.length === 0 && running.size === 0) return resolve();
+          while (running.size < limit && queue.length > 0) {
+            const cat = queue.shift();
+            running.add(cat);
+            runResearch(cat)
+              .then((r) => researchResults.push(r))
+              .catch((e) => log("ERROR", `${cat}: ${e.message}`))
+              .finally(() => { running.delete(cat); next(); });
+          }
+        }
+        next();
+      });
     }
+
+    // Phase 2: sequential finalize (catalog updates, metrics, QA)
+    const finalResults = await runFinalize(researchResults);
+
+    // Summary
+    printSummary(researchResults, finalResults);
   };
 
   if (opts.loop) {

@@ -28,35 +28,79 @@ agents/                       ← Research pipeline agent prompts
 
 agent-runs/                   ← Research run outputs
   agents.md                   ← Run folder structure and findings template
-  <timestamp>_<stage>_<scope>/
-    findings.md               ← Written output
-    assets/                   ← Screenshots, artifacts
+  <timestamp>_run_<category>/
+    discover_<category>/findings.md
+    deep-dive_<category>/findings.md
+    rank_<category>/findings.md
+
+scripts/                      ← Automation scripts
+  ralph.mjs                   ← Research pipeline orchestrator (spawns claude -p per stage)
+  collect-stars.mjs            ← GitHub star metrics collection
+  collect-downloads.mjs        ← npm/PyPI weekly download metrics
+  collect-mentions.mjs         ← HN mention counts (7-day window)
 
 src/                          ← Next.js application
-  app/                        ← Pages (homepage, /categories/[slug], /skills/[slug], /bundles/[slug])
-  lib/catalog.ts              ← Skill, category, bundle, and platform data (hardcoded, fed by pipeline)
+  app/                        ← Pages (homepage, /categories/[slug], /skills/[slug], etc.)
+  lib/catalog.ts              ← Skill, category, bundle, platform data (fed by pipeline)
+  lib/chart-theme.ts          ← Chart colors and styling
   components/                 ← Shared UI components
+  components/charts/           ← Recharts-based data visualizations
 ```
 
-## Research pipeline
+## Research pipeline (Ralph Loop)
+
+Orchestrated by `scripts/ralph.mjs`. Each stage spawns a `claude -p` subprocess with its own system prompt.
 
 ```
-Discover → Deep-Dive → Rank → QA → Publish
+Discover → Deep-Dive → Rank → Catalog Update → Metrics → QA
 ```
 
-1. **Discover** — AGGRESSIVELY find ALL contenders using web search, Twitter/X API, Reddit API, HN Algolia, GitHub trending, and registry checks. Missing a key player is a critical failure.
-2. **Deep-Dive** — build MEASURABLE evidence with inline artifacts, hard quality gates, and engagement metrics. Evidence not passing the bar gets DISCARDED. Deep-dive also contributes new finds.
-3. **Rank** — editorial ranking per category. Top 3-4 recommended, rest below the cut line. Evidence-first, opinionated.
-4. **QA** — block publish on dead links, weak signals, single-source claims, stale evidence. Also verifies content quality: does the page look good, communicate clearly, avoid duplication? Uses parallel subagents (Opus) for independent verification and Codex CLI for cross-tool feedback.
-5. **Publish** — build and deploy to Vercel.
+1. **Discover** (~5 min) — AGGRESSIVELY find ALL contenders using web search, Twitter/X, Reddit, HN Algolia, GitHub trending, registry checks. Missing a key player is a critical failure.
+2. **Deep-Dive** (~15-25 min) — build MEASURABLE evidence with inline artifacts, hard quality gates, and engagement metrics. Evidence not passing the bar gets DISCARDED. Also contributes new finds.
+3. **Rank** (~5 min) — editorial ranking per category. Top 3-4 recommended, rest below the cut line. Evidence-first, opinionated.
+4. **Catalog Update** (~5 min) — Claude reads rank findings and updates `src/lib/catalog.ts` — evidence, rankings, verdicts, signals.
+5. **Metrics** (~1 min) — collects GitHub stars, npm/PyPI downloads, HN mentions. No AI needed.
+6. **QA** (~2 min) — `npm run build` + `npm run qa:links`. Catches broken TypeScript or dead links.
 
-Each agent prompt lives in `agents/<name>.md`. Each run writes to `agent-runs/`.
+### Running the pipeline
+
+```bash
+# Single category
+npm run ralph -- --category coding-clis
+
+# All 7 categories (sequential, ~4-5 hours)
+npm run ralph -- --all
+
+# Parallel (3 categories at a time, ~2 hours)
+npm run ralph -- --all --parallel 3
+
+# All categories at once (needs ~3GB RAM)
+npm run ralph -- --all --parallel 7
+
+# Loop mode (repeat every 30 min)
+npm run ralph -- --all --parallel 3 --loop --interval 30
+
+# Direct invocation (same thing)
+node scripts/ralph.mjs --all --parallel 3
+```
+
+### Metrics collection (standalone)
+
+```bash
+# All metrics
+npm run metrics:all
+
+# Individual
+npm run metrics:collect      # GitHub stars
+npm run metrics:downloads    # npm/PyPI weekly downloads
+npm run metrics:mentions     # HN mentions (7-day, >5 points)
+```
 
 ## Research tools
 
 - **Web search** — broad queries, comparisons, "best X 2026"
-- **Twitter/X API** — `python ~/projects/bra1ndump/skills/twitter-x/x.py search "QUERY" --top --count 50`
-- **Reddit API** — `python ~/projects/bra1ndump/skills/reddit-search/reddit.py search "QUERY" --sort relevance --time month`
+- **Twitter/X** — `x-twitter` Claude skill (search, trending, count, user commands)
+- **Reddit** — `reddit-search` Claude skill (search, posts, info commands)
 - **HN Algolia** — `curl "https://hn.algolia.com/api/v1/search?query=QUERY&tags=story&numericFilters=points>10"`
 - **GitHub** — star counts, trending, recent releases
 
@@ -75,21 +119,32 @@ Full rules in [specification.md](specification.md) and [agents/deep-dive.md](age
 
 ## Entities
 
-- **Category** (formerly "Job") — narrow task category (e.g., Coding CLIs, Web Browsing)
+- **Category** — narrow task category (e.g., Coding CLIs, Web Browsing, Software Factories)
 - **Skill** — a specific tool/MCP server/agent that solves a category
 - **Platform** — underlying platform a skill connects to (e.g., Figma, Browser, Terminal)
-- **Bundle** — a full setup/stack that a known persona uses, referencing skills in our registry. Tracks what popular/trending Twitter personas actually ship with.
+- **Bundle** — a full setup/stack that a known persona uses, referencing skills in our registry
 
 ## Current categories
 
-- **Coding CLIs / Code Agents** — Claude Code, Aider, Continue, Cursor
+- **Coding CLIs / Code Agents** — Claude Code, Aider, Continue, Codex CLI, Gemini CLI
 - **Web Browsing / Browser Automation** — Browser Use, Stagehand, Playwright MCP
 - **Product / Business Development** — Google Workspace MCP, Firecrawl, Exa
 - **Teams of Agents / Software Factory** — OpenHands, Ralph Loop, SWE-agent
 - **UX / UI** — Figma MCP, write-access challengers, design automation
+- **Software Factories** — Devin, OpenHands, Factory, SWE-agent, Ralph Loop, Replit Agent
+- **Search & News** — Exa, Tavily, Firecrawl, Jina Reader, Brave Search, SearXNG
+
+## Tracked metrics per skill
+
+- **GitHub stars** — collected via GitHub API (`scripts/collect-stars.mjs`)
+- **Weekly downloads** — npm registry / PyPI stats (`scripts/collect-downloads.mjs`)
+- **Social mentions** — HN Algolia 7-day counts (`scripts/collect-mentions.mjs`)
+- **Evidence items** — [STRONG] / [MODERATE] tagged, multi-source verified
 
 ## Stack
 
-- Next.js 15+, Tailwind CSS v4, static generation
+- Next.js 16, Tailwind CSS v4, static generation
+- Lato + IBM Plex Mono fonts
+- Recharts for data visualizations
 - Deployed on Vercel
-- Research pipeline runs locally
+- Research pipeline runs locally via `ralph.mjs`
