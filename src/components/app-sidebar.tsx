@@ -4,44 +4,52 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { categoryList } from "@/lib/catalog";
-
-const navItems = [
-  { href: "/skills", label: "Skills", icon: "◈" },
-  { href: "/bundles", label: "Bundles", icon: "▤" },
-  { href: "/platforms", label: "Platforms", icon: "◇" },
-  { href: "/compare", label: "Compare", icon: "⇔" },
-];
+import { categoryList, skillList } from "@/lib/catalog";
+import { categoryIcons } from "@/lib/skill-filters";
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(href + "/");
-
   return (
     <div className="flex h-full w-[220px] min-w-[220px] flex-col bg-black">
-      {/* Brand */}
+      {/* Brand — skillpack.co */}
       <div className="border-b border-[#262626] px-[18px] pb-[14px] pt-[18px]">
         <Link href="/" onClick={onNavigate}>
-          <span className="font-mono text-[15px] font-bold tracking-tight text-white">
-            SKILL<span className="text-[var(--accent)]">BENCH</span>
+          <span className="font-mono text-[17px] font-bold leading-none tracking-[-0.5px] text-white">
+            skill<span className="text-[var(--accent)]">pack</span>
+            <span className="font-normal text-[#525252]">.co</span>
           </span>
         </Link>
-        <p className="mt-[5px] font-mono text-[9px] uppercase tracking-[1.5px] text-[#525252]">
-          Agent skill rankings
+        <p className="mt-[5px] font-mono text-[9px] uppercase tracking-[2px] text-[#525252]">
+          Skills for Claude Code
         </p>
       </div>
 
+      {/* PUBLISH CTA — very prominent */}
+      <div className="px-[18px] pt-[14px] pb-[10px]">
+        <Link
+          href="/publish"
+          onClick={onNavigate}
+          className="flex w-full items-center justify-center gap-1.5 bg-[var(--accent)] py-[11px] font-mono text-[12px] font-bold tracking-wider text-white transition-colors hover:bg-[var(--accent)]/90"
+        >
+          <span className="text-[14px] leading-none">+</span> PUBLISH A SKILL
+        </Link>
+      </div>
+
       {/* Main nav */}
-      <div className="py-3">
-        {navItems.map((item) => (
+      <div className="py-2">
+        {[
+          { href: "/skills", label: "Skills", icon: "◈" },
+          { href: "/bundles", label: "Bundles", icon: "▤" },
+          { href: "/platforms", label: "Platforms", icon: "◇" },
+          { href: "/compare", label: "Compare", icon: "⇔" },
+        ].map((item) => (
           <Link
             key={item.href}
             href={item.href}
             onClick={onNavigate}
             className={`flex items-center gap-2 border-l-2 px-[18px] py-2 text-[12.5px] transition-colors ${
-              isActive(item.href)
+              pathname === item.href || pathname.startsWith(item.href + "/")
                 ? "border-[var(--accent)] bg-[#171717] font-semibold text-white"
                 : "border-transparent text-[#A3A3A3] hover:bg-[#111] hover:text-white"
             }`}
@@ -55,34 +63,53 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       {/* Separator */}
       <div className="mx-[18px] border-t border-[#262626]" />
 
-      {/* Categories */}
-      <div className="flex-1 overflow-y-auto pt-2">
-        <p className="px-[18px] py-[6px] font-mono text-[8px] font-bold uppercase tracking-[1.5px] text-[#525252]">
-          Categories
+      {/* Browse — categories */}
+      <div className="flex-1 overflow-y-auto pt-1">
+        <p className="px-[18px] py-[6px] font-mono text-[9px] font-bold uppercase tracking-[1.5px] text-[#525252]">
+          Browse
         </p>
-        {categoryList.map((cat) => (
-          <Link
-            key={cat.slug}
-            href={`/categories/${cat.slug}`}
-            onClick={onNavigate}
-            className={`flex items-center justify-between px-[18px] py-[7px] text-[11px] transition-colors ${
-              pathname === `/categories/${cat.slug}`
-                ? "bg-[#171717] font-semibold text-white"
-                : "text-[#A3A3A3] hover:bg-[#111] hover:text-white"
-            }`}
-          >
-            <span>{cat.name}</span>
-            <span className="font-mono text-[10px] text-[#525252]">
-              {cat.ranking.length}
-            </span>
-          </Link>
-        ))}
+        {categoryList.map((cat) => {
+          const isActive = pathname === `/categories/${cat.slug}`;
+          const icon = categoryIcons[cat.slug] ?? "◎";
+          const count = skillList.filter((s) =>
+            s.relatedCategories.includes(cat.slug),
+          ).length;
+
+          return (
+            <Link
+              key={cat.slug}
+              href={`/categories/${cat.slug}`}
+              onClick={onNavigate}
+              className={`flex items-center gap-2.5 border-l-2 px-[18px] py-[9px] text-[12.5px] transition-colors ${
+                isActive
+                  ? "border-[var(--accent)] bg-[#171717] font-semibold text-white"
+                  : "border-transparent text-[#A3A3A3] hover:bg-[#111] hover:text-white"
+              }`}
+            >
+              <span className="w-[18px] text-center text-[12px] opacity-70">
+                {icon}
+              </span>
+              <span className="flex-1">{cat.name}</span>
+              <span
+                className={`font-mono text-[10px] ${isActive ? "text-[#A3A3A3]" : "text-[#737373]"}`}
+              >
+                {count || cat.ranking.length}
+              </span>
+            </Link>
+          );
+        })}
       </div>
 
       {/* Footer links */}
       <div className="flex gap-3 border-t border-[#262626] px-[18px] py-3 font-mono text-[10px] text-[#525252]">
-        <a href="https://github.com/bra1nDump/skillbench" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[#A3A3A3]">GitHub</a>
-        <Link href="/docs/how-we-rank" onClick={onNavigate} className="transition-colors hover:text-[#A3A3A3]">How We Rank</Link>
+        {["Docs", "API", "GitHub", "Discord"].map((l) => (
+          <span
+            key={l}
+            className="cursor-pointer transition-colors hover:text-[#A3A3A3]"
+          >
+            {l}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -90,7 +117,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
 export function DesktopSidebar() {
   return (
-    <aside className="sticky top-0 hidden h-screen flex-shrink-0 md:block">
+    <aside className="sticky top-0 hidden h-screen shrink-0 md:block">
       <SidebarContent />
     </aside>
   );
@@ -101,7 +128,6 @@ export function MobileNav() {
 
   const close = () => setOpen(false);
 
-  // Lock body scroll when open
   useEffect(() => {
     if (open) {
       document.documentElement.classList.add("overflow-hidden");
@@ -119,7 +145,8 @@ export function MobileNav() {
       <div className="sticky top-0 z-70 flex items-center justify-between bg-black px-4 py-3 md:hidden">
         <Link href="/" onClick={close}>
           <span className="font-mono text-[15px] font-bold tracking-tight text-white">
-            SKILL<span className="text-[var(--accent)]">BENCH</span>
+            skill<span className="text-[var(--accent)]">pack</span>
+            <span className="font-normal text-[#525252]">.co</span>
           </span>
         </Link>
         <button

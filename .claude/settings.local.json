@@ -11,7 +11,9 @@
       "Bash(grep:*)",
       "Bash(git diff:*)",
       "Bash(bash \"C:\\\\Users\\\\theso\\\\.claude\\\\plugins\\\\cache\\\\claude-plugins-official\\\\superpowers\\\\5.0.4\\\\skills\\\\brainstorming\\\\scripts\\\\start-server.sh\" --project-dir \"c:\\\\Projects\\\\Work\\\\skillbench\")",
-      "Bash(grep -A 40 'slug: \"\"\"\"claude-code\"\"\"\"' src/lib/catalog.ts)"
+      "Bash(grep -A 40 'slug: \"\"\"\"claude-code\"\"\"\"' src/lib/catalog.ts)",
+      "Bash(node -e \":*)",
+      "Bash(npx skills:*)"
     ]
   },
   "enabledPlugins": {

@@ -3,10 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SkillMetricsChart } from "@/components/charts/metrics-chart";
+import { ComplexityDots } from "@/components/complexity-dots";
 import { DarkCTA } from "@/components/dark-cta";
 import { DarkPageHeader } from "@/components/dark-page-header";
 import { ReadmePeek } from "@/components/readme-peek";
+import { TierPips } from "@/components/tier-pips";
 import { TrustBadge } from "@/components/trust-badge";
+import { TypeBadge } from "@/components/type-badge";
 import { VideoEmbed } from "@/components/video-embed";
 import { bundleList, categoryList, getSkill, skillList } from "@/lib/catalog";
 import { formatTimeAgo } from "@/lib/format-time";
@@ -33,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!skill) return {};
   return {
-    title: `${skill.name} — Skillbench`,
+    title: `${skill.name} — SkillPack`,
     description: skill.summary,
   };
 }
@@ -72,7 +75,35 @@ export default async function SkillPage({ params }: PageProps) {
           { label: "Evidence", value: String(skill.evidence.length) },
           ...(skill.packageSize ? [{ label: "Repo size", value: skill.packageSize.repoSizeKb >= 1024 ? `${(skill.packageSize.repoSizeKb / 1024).toFixed(1)} MB` : `${skill.packageSize.repoSizeKb} KB` }] : []),
         ]}
-      />
+      >
+        {/* SkillPack taxonomy */}
+        {(skill.skillType || skill.skillTier || skill.complexity) && (
+          <div className="mt-3 flex items-center gap-3">
+            {skill.skillType && <TypeBadge type={skill.skillType} />}
+            {skill.skillTier && (
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-[10px] text-[#737373]">{skill.skillTier}</span>
+                <TierPips tier={skill.skillTier} />
+              </div>
+            )}
+            {skill.complexity != null && (
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-[10px] text-[#737373]">Complexity</span>
+                <ComplexityDots level={skill.complexity} />
+              </div>
+            )}
+            {skill.tags && skill.tags.length > 0 && (
+              <div className="flex items-center gap-1">
+                {skill.tags.map((tag) => (
+                  <span key={tag} className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[9px] text-[#A3A3A3]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </DarkPageHeader>
       <main className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-8">
         {/* Product screenshot */}
         {(() => {

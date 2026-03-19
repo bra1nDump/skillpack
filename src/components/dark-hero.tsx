@@ -1,63 +1,54 @@
-import { Search } from "@/components/search";
-
-interface DarkHeroProps {
-  searchItems: {
-    label: string;
-    name: string;
-    href: string;
-    summary: string;
-    image?: string;
-  }[];
-  stats: { label: string; value: string; color?: string }[];
-}
-
-export function DarkHero({ searchItems, stats }: DarkHeroProps) {
+export function DarkHero() {
   return (
-    <div className="m-4 mb-0 rounded-lg bg-[var(--dark-bg)] p-7 text-white md:mx-4">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+    <div className="bg-[var(--dark-bg)] px-8 py-7 text-white">
+      <div className="mx-auto flex max-w-[1100px] flex-col gap-10 lg:flex-row lg:items-start">
         {/* Left: value prop */}
         <div className="min-w-0 flex-1">
-          <div className="mb-3 inline-flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--accent)]" />
-            <span className="font-mono text-[10px] tracking-[0.5px] text-[var(--accent)]">
-              LIVE RANKINGS
+          <div className="mb-3 flex gap-2">
+            <span className="rounded bg-[var(--accent)] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-white">
+              The Product
+            </span>
+            <span className="rounded border border-[var(--dark-border)] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-gray-400">
+              One Install
             </span>
           </div>
-          <h1 className="max-w-lg text-[26px] font-black leading-[1.15] tracking-[-0.5px]">
-            Find the actual meta for{" "}
-            <span className="text-[var(--accent)]">agent skills</span>
+          <h1 className="text-[28px] font-black leading-[1.15] tracking-[-0.5px]">
+            SkillPack is a skill.
+            <br />
+            <span className="text-gray-400">
+              It reads your project. Picks the best skills. Installs them.
+            </span>
           </h1>
-          <p className="mt-2.5 max-w-[380px] text-[12px] leading-[1.6] text-[var(--dark-muted)]">
-            Independent rankings backed by visible proof — GitHub stars, live
-            signals, head-to-head comparisons.
+          <p className="mt-2 max-w-[420px] text-[12.5px] leading-[1.55] text-[var(--dark-muted)]">
+            One skill that analyzes your codebase — framework, dependencies,
+            structure — then selects the highest-rated skills from the catalog,
+            resolves conflicts, and installs everything.
           </p>
-          <div className="mt-4 max-w-[380px]">
-            <Search items={searchItems} dark />
-          </div>
         </div>
 
-        {/* Right: live stats */}
-        <div className="min-w-[200px] flex-shrink-0">
-          <div className="rounded-md border border-[var(--dark-border)] bg-[var(--dark-surface)] p-4">
-            <p className="mb-3 font-mono text-[8px] uppercase tracking-[1.5px] text-[var(--dark-subtle)]">
-              Live stats
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <p
-                    className="font-mono text-[22px] font-bold"
-                    style={{ color: s.color || "#fff" }}
-                  >
-                    {s.value}
-                  </p>
-                  <p className="font-mono text-[9px] text-[var(--dark-subtle)]">
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Right: CLI demo */}
+        <div className="min-w-[380px] flex-shrink-0 rounded border border-[var(--dark-border)] bg-[var(--dark-surface)] p-4 font-mono text-[12px] leading-[1.85] text-gray-400">
+          <span className="text-gray-400"># One command. That&apos;s it.</span>
+          <br />
+          <span className="text-[var(--accent)]">$</span> claude plugin install{" "}
+          <span className="font-semibold text-white">skillpack</span>
+          <br />
+          <br />
+          <span className="text-gray-400">▸ Analyzing project...</span>
+          <br />
+          <span className="text-gray-400">
+            ▸ Detected Next.js 15 + Prisma + Vitest
+          </span>
+          <br />
+          <span className="text-gray-400">
+            ▸ Selecting 7 skills, avg ★4.7
+          </span>
+          <br />
+          <span className="text-gray-400">▸ No conflicts found</span>
+          <br />
+          <span className="text-emerald-500">
+            ✓ Installed: Full-Stack Next.js (7 skills)
+          </span>
         </div>
       </div>
     </div>

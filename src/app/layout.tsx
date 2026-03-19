@@ -19,9 +19,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Skillbench",
+  title: "SkillPack — Skills for Claude Code",
   description:
-    "Evidence-backed rankings for the best agent skills, platforms, and native capabilities by category.",
+    "The skill marketplace for Claude Code. Community-rated, retention-tracked, and ranked.",
 };
 
 export default function RootLayout({

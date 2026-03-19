@@ -5,6 +5,11 @@
       "source": "smithery.ai",
       "sourceType": "well-known",
       "computedHash": "5a4714b0b9f35966e22309a14b102aad0c7a23a877c40c5897ed7967539f5c4a"
+    },
+    "topskill": {
+      "source": "C:\\Projects\\Work\\skillbench\\skills\\topskill",
+      "sourceType": "local",
+      "computedHash": "a04b85f9ec7e17ba45fc0ee5ce0290a9dbed9dae957b7e58951b1f70c1a3f9b5"
     }
   }
 }

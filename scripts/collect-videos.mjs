@@ -18,7 +18,7 @@ try {
 
   if (fs.existsSync(envPath)) {
     for (const line of fs.readFileSync(envPath, "utf-8").split("\n")) {
-      const m = line.match(/^([A-Z_]+)=(.+)$/);
+      const m = line.match(/^([A-Z_0-9]+)=(.+?)?$/);
 
       if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
     }

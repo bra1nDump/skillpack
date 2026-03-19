@@ -98,7 +98,18 @@ export type CategorySlug =
   | "coding-clis"
   | "web-browsing"
   | "software-factories"
-  | "search-news";
+  | "search-news"
+  | "marketing"
+  | "business"
+  | "content-writing"
+  | "research"
+  | "automation"
+  | "security"
+  | "documentation"
+  | "data-analytics";
+
+export type SkillType = "Expertise" | "Generator" | "Guardian" | "Connector";
+export type SkillTier = "Atomic" | "Composite" | "Orchestrator" | "Pack";
 
 export type PlatformSlug =
   | "figma"
@@ -175,6 +186,17 @@ export type SkillRecord = {
     channel: string;
     date: string;
   }>;
+  // SkillPack taxonomy & metrics
+  skillType?: SkillType;
+  skillTier?: SkillTier;
+  rating?: number;        // 1-5 community average
+  reviewCount?: number;
+  retention?: number;     // 0-100 (30-day keep rate)
+  usage?: number;         // invocations/week
+  complexity?: number;    // 1-5
+  weekGrowth?: number;    // relative weekly growth rate
+  daysOld?: number;
+  tags?: string[];
 };
 
 export type CategoryRecord = {
@@ -372,10 +394,15 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "The trust leader with unmatched long-term durability — triple partnership with OpenAI Codex, GitHub Copilot, and Claude Code. Bidirectional since Mar 6 2026. Wins specifically when your team has Code Connect configured. Without it, Framelink produces cleaner context. Pricing is the primary barrier: free tier (6 calls/month) is non-functional.",
     docsUrl:
       "https://help.figma.com/hc/en-us/articles/35281385065751-Figma-MCP-collection-Compare-Figma-s-remote-and-desktop-MCP-servers",
-    githubStars: "429",
+    githubStars: "431",
     relatedCategories: ["ux-ui"],
     packageSize: { repoSizeKb: 91 },
-    repoHealth: { lastPushAt: "2026-03-11T23:09:37Z", lastPushDays: 5, openIssues: 0, forks: 27, archived: false, contributors: 6 },
+    repoHealth: { lastPushAt: "2026-03-11T23:09:37Z", lastPushDays: 7, openIssues: 1, forks: 28, archived: false, contributors: 6 },
+    daysOld: 226,
+    complexity: 1,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Triple partnership with OpenAI Codex, GitHub Copilot, and Claude Code — unmatched long-term durability signal",
       "Code Connect maps Figma components directly to your codebase components — no other server has this",
@@ -459,7 +486,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Best read-only design-to-code MCP. Use this unless you have Code Connect configured — 25% smaller output than Official, avoids prescriptive code that poisons LLM context. Works on free Figma plans with broadest editor support.",
     relatedCategories: ["ux-ui"],
     packageSize: { repoSizeKb: 789, languages: { "TypeScript": 127005, "JavaScript": 1648 } },
-    repoHealth: { lastPushAt: "2026-03-18T00:00:00Z", lastPushDays: 1, openIssues: 48, forks: 1089, archived: false, contributors: 24 },
+    repoHealth: { lastPushAt: "2026-03-18T22:04:51Z", lastPushDays: 0, openIssues: 45, forks: 1090, archived: false, contributors: 24 },
+    daysOld: 399,
+    complexity: 3,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Most-starred Figma MCP by 2x+ (13.7K stars), 38.6K npm/week",
       "Listed in Figma's official help docs as recommended third-party server",
@@ -541,7 +573,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Conditional pick. Strongest HN validation in the write-access lane, but solo maintainer and potential OpenPencil pivot raise durability concerns. Use if you want CLI-first workflow without a Figma plugin.",
     relatedCategories: ["ux-ui"],
     packageSize: { repoSizeKb: 1118, languages: { "TypeScript": 749839, "JavaScript": 196 } },
-    repoHealth: { lastPushAt: "2026-03-01T19:55:59Z", lastPushDays: 15, openIssues: 2, forks: 34, archived: false, contributors: 1 },
+    repoHealth: { lastPushAt: "2026-03-01T19:55:59Z", lastPushDays: 17, openIssues: 2, forks: 34, archived: false, contributors: 1 },
+    daysOld: 60,
+    complexity: 3,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Strongest HN validation of any write-access tool (115 points, 37 comments)",
       "CLI-first + Chrome DevTools Protocol — architecturally distinct (no plugin, no proxy)",
@@ -600,7 +637,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Emerging. Only tool publishing model-specific design quality benchmarks. Harness engineering angle is genuinely differentiated, but HN Show got only 2 points and no independent reviews found.",
     relatedCategories: ["ux-ui"],
     packageSize: { repoSizeKb: 9423, languages: { "TypeScript": 721360, "HTML": 30991, "JavaScript": 23416, "Shell": 3098, "Dockerfile": 187 } },
-    repoHealth: { lastPushAt: "2026-03-17T02:59:45Z", lastPushDays: 0, openIssues: 11, forks: 28, archived: false, contributors: 11 },
+    repoHealth: { lastPushAt: "2026-03-19T03:08:27Z", lastPushDays: 0, openIssues: 13, forks: 28, archived: false, contributors: 11 },
+    daysOld: 20,
+    complexity: 5,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Only tool publishing model-specific design quality benchmarks for Figma MCP",
       "Harness engineering steers agents toward Figma design best practices",
@@ -611,7 +653,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "No independent comparisons, reviews, or practitioner testimonials found",
       "Built on top of cursor-talk-to-figma-mcp — derivative, not foundational",
     ],
-    githubStars: "419",
+    githubStars: "426",
     evidence: [
       {
         quality: "moderate",
@@ -652,7 +694,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best general-purpose write-access Figma MCP for individual developers and small teams. More accessible than Console MCP, works on free Figma plans, lower setup complexity. Dropped to #4 as Console MCP's Uber validation is stronger enterprise evidence.",
     relatedCategories: ["ux-ui"],
-    repoHealth: { lastPushAt: "2026-03-07T00:00:00Z", lastPushDays: 12, openIssues: 0, forks: 699, archived: false, contributors: 0 },
+    repoHealth: { lastPushAt: "2026-03-07T06:29:17Z", lastPushDays: 12, openIssues: 71, forks: 699, archived: false, contributors: 6 },
+    daysOld: 367,
+    complexity: 4,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Built by Grab ($12B+ market cap) — genuine enterprise credibility",
       "6,505 stars, 699 forks — highest fork count in write-access lane, signals active ecosystem",
@@ -724,7 +771,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "The enterprise write-access leader. Uber's production uSpec validates this at scale — automated component specs across 7 stacks, accessibility in under 2 minutes. Hockey-stick npm trajectory is fastest-growing in the category. Local WebSocket means no rate limits and no data leaving your network.",
     relatedCategories: ["ux-ui"],
-    repoHealth: { lastPushAt: "2026-03-18T00:00:00Z", lastPushDays: 1, openIssues: 0, forks: 0, archived: false, contributors: 0 },
+    repoHealth: { lastPushAt: "2026-03-19T03:18:37Z", lastPushDays: 0, openIssues: 17, forks: 118, archived: false, contributors: 7 },
+    daysOld: 164,
+    complexity: 5,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Uber uSpec production usage — strongest enterprise validation in the entire category (thousands of engineers, hundreds of components, 7 stacks)",
       "57+ tools (22 read + 35+ write, 11 variable/token management) — broadest surface area",
@@ -793,6 +845,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "The open-source design MCP lane exists but isn't production-ready yet. Watch item — if development resumes and beta launches, it moves up.",
     relatedCategories: ["ux-ui"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Only fully open-source design platform with an official MCP",
       "Smashing Magazine coverage (Jan 2026) — strong independent signal",
@@ -845,6 +899,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Best Claude-specific write-access option. DXT installer reduces setup to one click for Claude Desktop. If you're all-in on Claude Code or Claude Desktop and need write-access to Figma without paying for Dev Mode, this is the natural pick.",
     relatedCategories: ["ux-ui"],
     repoHealth: { lastPushAt: "2026-02-28T00:00:00Z", lastPushDays: 17, openIssues: 0, forks: 0, archived: false, contributors: 1 },
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Claude Code + Claude Desktop purpose-built — optimized for the Claude workflow",
       "DXT one-click installer for Claude Desktop — lowest setup friction of any write-access tool",
@@ -888,7 +944,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Different lane from Figma MCP tools — not a Figma bridge, but a direct design-in-code editor. 24,918 stars and two HN hits above 200 points make this the most-starred tool in the UX/UI category. Best for frontend teams where designers work directly in the Next.js + Tailwind codebase and want to eliminate the Figma-to-code translation step.",
     relatedCategories: ["ux-ui"],
-    repoHealth: { lastPushAt: "2026-02-27T00:00:00Z", lastPushDays: 20, openIssues: 0, forks: 1877, archived: false, contributors: 0 },
+    repoHealth: { lastPushAt: "2026-02-27T02:35:09Z", lastPushDays: 20, openIssues: 353, forks: 1877, archived: false, contributors: 107 },
+    daysOld: 631,
+    complexity: 5,
+    tags: ["design", "ui"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Most-starred tool in the UX/UI category (24,918 stars) — more than Framelink",
       "Two HN hits above 200 points (408 pts May 2025, 227 pts Aug 2024) — top-tier community validation",
@@ -938,7 +999,13 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Clear diagramming lane leader. 3,371 stars and official Excalidraw org backing make it the default for AI-assisted diagramming. Different workflow from design-to-code — listed in UX/UI for visibility but doesn't compete with Figma MCPs.",
     relatedCategories: ["ux-ui"],
-    repoHealth: { lastPushAt: "2026-02-20T00:00:00Z", lastPushDays: 25, openIssues: 0, forks: 0, archived: false, contributors: 1 },
+    repoHealth: { lastPushAt: "2026-02-20T21:25:13Z", lastPushDays: 26, openIssues: 25, forks: 270, archived: false, contributors: 5 },
+    daysOld: 42,
+    complexity: 3,
+    tags: ["design", "ui"],
+    weekGrowth: -0.9083,
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Official Excalidraw org backing — maintained by the platform team",
       "3,371 stars — extraordinary velocity for a diagramming MCP",
@@ -983,6 +1050,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://firecrawl.dev",
     productUrl: "https://www.firecrawl.dev/playground",
     relatedCategories: ["product-business-development", "search-news"],
+    daysOld: 468,
+    complexity: 3,
+    tags: ["business", "productivity", "search", "research"],
+    weekGrowth: -0.9083,
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Official provider support",
       "Strong extraction and scraping shape",
@@ -995,10 +1068,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "5.8K+",
     packageSize: { repoSizeKb: 3304, languages: { "JavaScript": 87099, "TypeScript": 1810, "Dockerfile": 1379, "Shell": 158 } },
-    repoHealth: { lastPushAt: "2026-03-13T17:06:11Z", lastPushDays: 3, openIssues: 85, forks: 646, archived: false, contributors: 21 },
+    repoHealth: { lastPushAt: "2026-03-13T17:06:11Z", lastPushDays: 5, openIssues: 85, forks: 650, archived: false, contributors: 21 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 50577 },
+        { date: "2026-03", value: 5805 },
       ],
       stars: [
         { date: "2024-06", value: 8000 },
@@ -1106,7 +1179,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#6 in product-business-development, #2 research tool. Best for semantic discovery ('find companies like X'). npm declining (9.3K/wk, down from 11.2K). AIMultiple benchmark tested extraction, not discovery — 23% undersells Exa's actual strength.",
     relatedCategories: ["product-business-development", "search-news"],
     packageSize: { repoSizeKb: 4089, languages: { "TypeScript": 93029, "JavaScript": 3279, "Dockerfile": 962 } },
-    repoHealth: { lastPushAt: "2026-03-16T16:48:16Z", lastPushDays: 0, openIssues: 43, forks: 303, archived: false, contributors: 19 },
+    repoHealth: { lastPushAt: "2026-03-18T17:26:50Z", lastPushDays: 0, openIssues: 44, forks: 303, archived: false, contributors: 19 },
+    daysOld: 476,
+    complexity: 3,
+    tags: ["business", "productivity", "search", "research"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Fast search-first workflow",
       "Official provider support",
@@ -1242,7 +1320,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#2 overall, #1 enterprise operating surface for teams on the Atlassian stack. Highest stars (4.6K), deepest tool set (72 tools), 139K PyPI weekly downloads (primary channel). On-prem/Data Center support is the key moat vs official Rovo MCP.",
     relatedCategories: ["product-business-development"],
     packageSize: { repoSizeKb: 3454, languages: { "Python": 3133076, "Shell": 14639, "Dockerfile": 2071, "Go Template": 1668, "Jinja": 935 } },
-    repoHealth: { lastPushAt: "2026-03-02T14:51:28Z", lastPushDays: 14, openIssues: 176, forks: 1007, archived: false, contributors: 96 },
+    repoHealth: { lastPushAt: "2026-03-02T14:51:28Z", lastPushDays: 16, openIssues: 182, forks: 1017, archived: false, contributors: 96 },
+    daysOld: 471,
+    complexity: 5,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Deepest tool set: 72 tools across Jira and Confluence",
       "Highest stars of any business MCP server (4.6K+)",
@@ -1343,7 +1426,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#1 operating surface for product teams — 47K+ npm weekly downloads (17x Atlassian) is the strongest objective adoption signal. Notion 3.3 Custom Agents ecosystem positions MCP as multi-tool hub.",
     relatedCategories: ["product-business-development"],
     packageSize: { repoSizeKb: 1321, languages: { "TypeScript": 183247, "Dockerfile": 957, "JavaScript": 811 } },
-    repoHealth: { lastPushAt: "2026-03-13T22:45:48Z", lastPushDays: 3, openIssues: 116, forks: 506, archived: false, contributors: 22 },
+    repoHealth: { lastPushAt: "2026-03-18T00:25:06Z", lastPushDays: 1, openIssues: 120, forks: 510, archived: false, contributors: 22 },
+    daysOld: 373,
+    complexity: 3,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Official (makenotion org), MIT license",
       "47,612 npm weekly downloads — highest real-world install adoption",
@@ -1446,7 +1534,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://docs.slack.dev",
     relatedCategories: ["product-business-development"],
     packageSize: { repoSizeKb: 16576, languages: { "Go": 374112, "Makefile": 5786, "JavaScript": 2450, "Dockerfile": 874 } },
-    repoHealth: { lastPushAt: "2026-03-12T17:16:35Z", lastPushDays: 4, openIssues: 57, forks: 259, archived: false, contributors: 40 },
+    repoHealth: { lastPushAt: "2026-03-12T17:16:35Z", lastPushDays: 6, openIssues: 59, forks: 263, archived: false, contributors: 40 },
+    daysOld: 340,
+    complexity: 4,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Official Slack MCP launched Feb 2026 with GA support",
       "Strongest partner ecosystem: 50+ AI companies (OpenAI, Anthropic, Google, Cursor, Vercel, Notion, Dropbox)",
@@ -1514,7 +1607,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     npmPackage: "google-workspace-mcp",
     relatedCategories: ["product-business-development"],
     packageSize: { repoSizeKb: 13785, languages: { "Python": 1207556, "Go Template": 1841, "Dockerfile": 1250 } },
-    repoHealth: { lastPushAt: "2026-03-16T22:22:24Z", lastPushDays: 0, openIssues: 77, forks: 528, archived: false, contributors: 83 },
+    repoHealth: { lastPushAt: "2026-03-18T14:57:34Z", lastPushDays: 0, openIssues: 71, forks: 536, archived: false, contributors: 85 },
+    daysOld: 325,
+    complexity: 4,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Broadest single-server coverage: 12+ Google services (Gmail, Drive, Calendar, Docs, Sheets, Slides, Forms, Tasks, Contacts, Chat, Apps Script, Custom Search)",
       "Active development: 30 contributors, ~26 commits/week, v1.14.3",
@@ -1584,6 +1682,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://docs.openhands.dev",
     productUrl: "https://www.openhands.ai",
     relatedCategories: ["teams-of-agents", "software-factories"],
+    daysOld: 736,
+    complexity: 5,
+    tags: ["agents", "orchestration", "automation", "factory"],
+    weekGrowth: 0.1161,
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "68,800+ stars (verified), 455 contributors — largest open-source community by 10x",
       "4M+ downloads, accelerating",
@@ -1601,10 +1705,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "69K+",
     packageSize: { repoSizeKb: 290020, languages: { "Python": 9977416, "TypeScript": 3290360, "Go Template": 91342, "Jinja": 84778, "JavaScript": 34515, "Makefile": 17184, "CSS": 16232, "Shell": 14304, "Dockerfile": 8363, "Mako": 1339 } },
-    repoHealth: { lastPushAt: "2026-03-17T11:11:37Z", lastPushDays: 0, openIssues: 360, forks: 8680, archived: false, contributors: 455 },
+    repoHealth: { lastPushAt: "2026-03-19T09:10:08Z", lastPushDays: 0, openIssues: 330, forks: 8698, archived: false, contributors: 459 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 161864 },
+        { date: "2026-03", value: 69392 },
       ],
       stars: [
         { date: "2024-06", value: 15000 },
@@ -1741,7 +1845,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://ai-sdk.dev",
     relatedCategories: ["teams-of-agents"],
     packageSize: { repoSizeKb: 355, languages: { "TypeScript": 72705 } },
-    repoHealth: { lastPushAt: "2026-01-08T16:35:06Z", lastPushDays: 67, openIssues: 3, forks: 74, archived: false, contributors: 1 },
+    repoHealth: { lastPushAt: "2026-01-08T16:35:06Z", lastPushDays: 69, openIssues: 3, forks: 74, archived: false, contributors: 1 },
+    daysOld: 74,
+    complexity: 2,
+    tags: ["agents", "orchestration"],
+    skillType: "Generator",
+    skillTier: "Composite",
     strengths: [
       "Official Vercel trust",
       "Strong loop framing for continuous autonomy",
@@ -1753,7 +1862,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "More pattern than full factory out of the box",
       "Skeptics note context drift and ‘expensive token cost’ concerns",
     ],
-    githubStars: "719",
+    githubStars: "720",
     evidence: [
       {
         quality: "moderate",
@@ -1842,7 +1951,13 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     githubStars: "19K+",
     relatedCategories: ["teams-of-agents", "coding-clis"],
     packageSize: { repoSizeKb: 71491, languages: { "Python": 644251, "JavaScript": 10968, "CSS": 9035, "Shell": 5339, "C++": 3405, "Perl": 1876, "Dockerfile": 1724, "HTML": 1526, "C": 1330 } },
-    repoHealth: { lastPushAt: "2026-03-16T22:42:50Z", lastPushDays: 0, openIssues: 28, forks: 2025, archived: false, contributors: 96 },
+    repoHealth: { lastPushAt: "2026-03-16T22:42:50Z", lastPushDays: 2, openIssues: 26, forks: 2025, archived: false, contributors: 96 },
+    daysOld: 716,
+    complexity: 5,
+    tags: ["agents", "orchestration", "cli", "coding"],
+    weekGrowth: 1.211,
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Benchmark-native story",
       "Clear issue-solving shape",
@@ -1890,10 +2005,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     relatedCategories: ["coding-clis", "teams-of-agents"],
     githubStars: "80K+",
     packageSize: { repoSizeKb: 27334, languages: { "Shell": 61221, "Python": 38265, "TypeScript": 23117, "PowerShell": 5319, "Dockerfile": 2507 } },
-    repoHealth: { lastPushAt: "2026-03-17T00:28:12Z", lastPushDays: 0, openIssues: 6510, forks: 6460, archived: false, contributors: 49 },
+    repoHealth: { lastPushAt: "2026-03-18T22:29:36Z", lastPushDays: 0, openIssues: 6874, forks: 6582, archived: false, contributors: 49 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 7884635 },
+        { date: "2026-03", value: 79888 },
       ],
       stars: [
         { date: "2025-06", value: 5000 },
@@ -1905,6 +2020,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
         { date: "2026-03", value: 77384 },
       ],
     },
+    daysOld: 389,
+    complexity: 3,
+    tags: ["cli", "coding", "agents", "orchestration"],
+    weekGrowth: 1.211,
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "#1 SWE-bench Pro standardized (45.89%) — the authoritative benchmark now that Verified is saturated",
       "~4% of GitHub public commits — strongest real-usage signal (SemiAnalysis), $2.5B annualized revenue (fastest enterprise SaaS to $1B ARR — Constellation Research)",
@@ -2101,6 +2222,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#7 coding CLI — strong verification story (191K PyPI/week, 5.7M lifetime), but Codex CLI at 2.49M npm/week and Gemini CLI at 678K/week have overtaken Aider's download rank. Category pressure is real: HN thread 'Claude Code with Sonnet 4 is so good I have stopped using Aider' (#44154020). Best for Python devs who want fine-grained model control and git-native workflow. v0.86.2 (2026-02-12) is 5 weeks behind competitors shipping daily.",
     docsUrl: "https://aider.chat",
     relatedCategories: ["coding-clis", "software-factories"],
+    daysOld: 1044,
+    complexity: 5,
+    tags: ["cli", "coding", "automation", "factory"],
+    weekGrowth: 0.1077,
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "191,828/week PyPI installs (verified 2026-03-18) — 5.7M lifetime, 15B tokens/week: the most independently verifiable usage metric outside Claude Code",
       "Multi-model: any OpenAI-compatible API — no vendor lock-in",
@@ -2117,10 +2244,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "42K+",
     packageSize: { repoSizeKb: 140296, languages: { "Python": 1331380, "CSS": 67532, "Shell": 66537, "Tree-sitter Query": 64347, "JavaScript": 60909, "HTML": 44976, "PowerShell": 19648, "Dockerfile": 4405, "SCSS": 1957, "Ruby": 196 } },
-    repoHealth: { lastPushAt: "2026-03-17T01:21:34Z", lastPushDays: 0, openIssues: 1440, forks: 4035, archived: false, contributors: 180 },
+    repoHealth: { lastPushAt: "2026-03-17T01:21:34Z", lastPushDays: 2, openIssues: 1444, forks: 4052, archived: false, contributors: 180 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 189603 },
+        { date: "2026-03", value: 42130 },
       ],
       stars: [
         { date: "2024-06", value: 8000 },
@@ -2195,7 +2322,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     githubStars: "32K+",
     relatedCategories: ["coding-clis", "teams-of-agents"],
     packageSize: { repoSizeKb: 865595, languages: { "TypeScript": 9288010, "JavaScript": 824193, "Kotlin": 421240, "Python": 249328, "Rust": 76465, "Tree-sitter Query": 57082, "CSS": 52430, "Shell": 36934, "PowerShell": 17001, "Java": 4898, "HTML": 3606, "PHP": 1460, "C#": 673, "Jupyter Notebook": 541, "Scheme": 441, "Ruby": 363, "Dockerfile": 347, "Go": 166 } },
-    repoHealth: { lastPushAt: "2026-03-17T09:14:06Z", lastPushDays: 0, openIssues: 1417, forks: 4266, archived: false, contributors: 497 },
+    repoHealth: { lastPushAt: "2026-03-18T21:51:11Z", lastPushDays: 0, openIssues: 1477, forks: 4277, archived: false, contributors: 497 },
+    daysOld: 1030,
+    complexity: 5,
+    tags: ["cli", "coding", "agents", "orchestration"],
+    skillType: "Guardian",
+    skillTier: "Orchestrator",
     strengths: [
       "Async agents that enforce team rules on every PR",
       "CLI-first — runs in CI without IDE dependency",
@@ -2250,7 +2382,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://opencode.ai",
     relatedCategories: ["coding-clis"],
     packageSize: { repoSizeKb: 216805, languages: { "TypeScript": 9359737, "MDX": 7024392, "CSS": 539960, "Rust": 86790, "Astro": 31596, "JavaScript": 22252, "Shell": 17910, "Nix": 8487, "HTML": 4758, "Dockerfile": 2594 } },
-    repoHealth: { lastPushAt: "2026-03-17T11:18:59Z", lastPushDays: 0, openIssues: 7004, forks: 12924, archived: false, contributors: 823 },
+    repoHealth: { lastPushAt: "2026-03-19T10:28:17Z", lastPushDays: 0, openIssues: 7137, forks: 13159, archived: false, contributors: 823 },
+    daysOld: 322,
+    complexity: 5,
+    tags: ["cli", "coding"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "124,766 GitHub stars — largest AI coding repo by raw star count",
       "OpenAI official partnership (2026) — first major model vendor to officially support OpenCode",
@@ -2343,6 +2480,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#2 coding CLI. Terminal-Bench 77.3% (GPT-5.3-Codex) and 3-4x more token-efficient. Sandbox-first safety is a genuine differentiator. Free with ChatGPT removes the cost barrier. Trails Claude Code by ~5pp on SWE-bench Pro standardized (41.04% vs 45.89%).",
     docsUrl: "https://developers.openai.com/codex/cli/",
     relatedCategories: ["coding-clis"],
+    daysOld: 340,
+    complexity: 5,
+    tags: ["cli", "coding"],
+    weekGrowth: 0.0835,
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Terminal-Bench 77.3% (GPT-5.3-Codex) — strongest on terminal-native tasks (ForgeCode leads at 81.8%)",
       "3-4x more token-efficient than Claude Code (Morph study), API pricing 60-75% cheaper ($1.50 vs $5.00 input)",
@@ -2358,10 +2501,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "66K+",
     packageSize: { repoSizeKb: 353999, languages: { "Rust": 22325736, "Python": 410013, "TypeScript": 305266, "JavaScript": 86467, "Starlark": 32857, "PowerShell": 20389, "Shell": 18194, "HTML": 11005, "Nix": 4427, "Just": 2671, "Dockerfile": 2371, "Smarty": 2015, "C": 76 } },
-    repoHealth: { lastPushAt: "2026-03-17T11:09:18Z", lastPushDays: 0, openIssues: 2037, forks: 8788, archived: false, contributors: 380 },
+    repoHealth: { lastPushAt: "2026-03-19T10:27:26Z", lastPushDays: 0, openIssues: 2105, forks: 8844, archived: false, contributors: 383 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 2494468 },
+        { date: "2026-03", value: 66279 },
       ],
       stars: [
         { date: "2025-06", value: 8000 },
@@ -2459,6 +2602,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#3 coding CLI — best free entry point. 1K req/day free tier is unmatched, 1M context is the largest. SWE-bench Pro standardized 43.30% (#2, only 2.59pp behind Claude Code). File deletion incident (AI Incident Database #1178) and tool-calling weaknesses are real concerns.",
     docsUrl: "https://developers.google.com/gemini-code-assist/docs/gemini-cli",
     relatedCategories: ["coding-clis"],
+    daysOld: 335,
+    complexity: 5,
+    tags: ["cli", "coding"],
+    weekGrowth: 0.1471,
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Best free tier: 1K req/day with personal Google account — unmatched in category",
       "1M token native context window — largest in category",
@@ -2475,10 +2624,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "98K+",
     packageSize: { repoSizeKb: 60421, languages: { "TypeScript": 16049458, "JavaScript": 289706, "Shell": 22919, "Dockerfile": 1580, "Makefile": 1336, "HTML": 592 } },
-    repoHealth: { lastPushAt: "2026-03-17T05:51:03Z", lastPushDays: 0, openIssues: 2846, forks: 12341, archived: false, contributors: 578 },
+    repoHealth: { lastPushAt: "2026-03-19T09:13:09Z", lastPushDays: 0, openIssues: 2996, forks: 12416, archived: false, contributors: 587 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 678181 },
+        { date: "2026-03", value: 98337 },
       ],
       stars: [
         { date: "2025-06", value: 5000 },
@@ -2583,6 +2732,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://cline.bot",
     relatedCategories: ["coding-clis", "software-factories"],
     githubStars: "59K+",
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "3,354,473 VS Code installs (5M across editors, Jan 2026) — dominates IDE-embedded-agent segment",
       "$32M raise from Emergence Capital — most enterprise-funded tool in the IDE agent lane",
@@ -2663,6 +2814,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#5 coding CLI — distribution is the killer advantage (15M paid Copilot subscribers). Multi-model approach and Enterprise Agent Control Plane are unique. But CVE-2026-29783 (arbitrary code execution 2 days after GA) and no published benchmark scores are serious concerns.",
     relatedCategories: ["coding-clis"],
     githubStars: "1.1K+",
+    repoHealth: { lastPushAt: "2025-10-30T21:18:49Z", lastPushDays: 139, openIssues: 63, forks: 89, archived: true, contributors: 5 },
+    daysOld: 874,
+    complexity: 1,
+    tags: ["cli", "coding"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "15M paid Copilot subscribers get it automatically — largest distribution in category",
       "Multi-model: Claude Opus 4.6, Sonnet 4.6, GPT-5.3-Codex, Gemini 3 Pro — users pick per task",
@@ -2727,6 +2884,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://ampcode.com",
     relatedCategories: ["coding-clis", "software-factories"],
     githubStars: "N/A",
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Sub-agent architecture: Oracle (code analysis), Librarian (external libraries), Painter (code review) — most sophisticated in category",
       "Sourcegraph code intelligence DNA — deep codebase search and code graph",
@@ -2784,6 +2943,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://github.com/block/goose",
     relatedCategories: ["coding-clis"],
     githubStars: "33K+",
+    repoHealth: { lastPushAt: "2026-03-19T10:08:23Z", lastPushDays: 0, openIssues: 313, forks: 3073, archived: false, contributors: 401 },
+    daysOld: 572,
+    complexity: 5,
+    tags: ["cli", "coding"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Linux Foundation AAIF founding member — governance entirely outside any model vendor",
       "Provider-agnostic: any OpenAI-compatible endpoint, local models via Ollama",
@@ -2841,6 +3006,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://github.com/charmbracelet/crush",
     relatedCategories: ["coding-clis"],
     githubStars: "22K+",
+    repoHealth: { lastPushAt: "2026-03-19T01:19:34Z", lastPushDays: 0, openIssues: 345, forks: 1365, archived: false, contributors: 102 },
+    daysOld: 301,
+    complexity: 5,
+    tags: ["cli", "coding"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Best terminal UX in the category — Charmbracelet has 25K+ apps built on Bubble Tea",
       "Multi-model: any OpenAI-compatible API, not locked to one provider",
@@ -2895,6 +3066,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://github.com/QwenLM/qwen-code",
     relatedCategories: ["coding-clis"],
     githubStars: "21K+",
+    repoHealth: { lastPushAt: "2026-03-19T10:12:32Z", lastPushDays: 0, openIssues: 616, forks: 1840, archived: false, contributors: 363 },
+    daysOld: 266,
+    complexity: 5,
+    tags: ["cli", "coding"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Qwen3-Coder-Next: 70.6% SWE-bench Verified — highest open-weight model score in the category",
       "1,000 free daily requests via Qwen OAuth — best free tier for open-weight models",
@@ -2950,6 +3127,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://www.jetbrains.com/junie/",
     relatedCategories: ["coding-clis"],
     githubStars: "N/A",
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "JetBrains distribution: 11M+ paid IDE seats — largest potential install base in the category",
       "BYOK pricing: just pay for API keys, no additional subscription",
@@ -2995,6 +3174,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://www.augmentcode.com",
     relatedCategories: ["coding-clis"],
     githubStars: "153",
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "51.80% SWE-bench Pro on Augment scaffold — highest raw number in the category",
       "Augment Context Engine: semantic codebase index with deep code understanding",
@@ -3049,6 +3230,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://browser-use.com",
     productUrl: "https://browser-use.com",
     relatedCategories: ["web-browsing"],
+    daysOld: 503,
+    complexity: 5,
+    tags: ["browser", "web"],
+    weekGrowth: 0.0153,
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Vision + DOM hybrid approach for robust page understanding",
       "Large public traction and active development",
@@ -3062,10 +3249,10 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "81K+",
     packageSize: { repoSizeKb: 29608, languages: { "Python": 3161491, "Shell": 37706, "Dockerfile": 11201, "HTML": 7953 } },
-    repoHealth: { lastPushAt: "2026-03-17T09:54:51Z", lastPushDays: 0, openIssues: 264, forks: 9575, archived: false, contributors: 313 },
+    repoHealth: { lastPushAt: "2026-03-19T01:08:01Z", lastPushDays: 0, openIssues: 225, forks: 9605, archived: false, contributors: 314 },
     metrics: {
       downloads: [
-        { date: "2026-03", value: 1015429 },
+        { date: "2026-03", value: 81292 },
       ],
       stars: [
         { date: "2024-12", value: 10000 },
@@ -3192,6 +3379,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best MCP-native browser option for teams in Microsoft's ecosystem. The accessibility-snapshot approach is more reliable than vision-based alternatives for structured data extraction.",
     relatedCategories: ["web-browsing"],
+    daysOld: 362,
+    complexity: 3,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Microsoft/Playwright official backing",
       "Accessibility snapshots instead of screenshots — more reliable for structured tasks",
@@ -3205,9 +3397,9 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "29K+",
     packageSize: { repoSizeKb: 1838, languages: { "TypeScript": 78799, "CSS": 49316, "JavaScript": 12685, "Dockerfile": 2488, "HTML": 1384 } },
-    repoHealth: { lastPushAt: "2026-03-16T16:40:52Z", lastPushDays: 0, openIssues: 23, forks: 2340, archived: false, contributors: 63 },
+    repoHealth: { lastPushAt: "2026-03-19T05:31:14Z", lastPushDays: 0, openIssues: 24, forks: 2357, archived: false, contributors: 63 },
     metrics: {
-      downloads: [{ date: "2026-03", value: 29229 }],
+      downloads: [{ date: "2026-03", value: 29255 }],
       stars: [{ date: "2026-03", value: 29221 }],
     },
     evidence: [
@@ -3298,6 +3490,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://stagehand.dev",
     productUrl: "https://stagehand.dev",
     relatedCategories: ["web-browsing"],
+    daysOld: 724,
+    complexity: 5,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "TypeScript-native with clean act/extract/observe API",
       "Natural language selectors reduce brittle CSS/XPath dependencies",
@@ -3310,9 +3507,9 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "22K+",
     packageSize: { repoSizeKb: 79923, languages: { "TypeScript": 2901481, "MDX": 899694, "JavaScript": 59353, "HTML": 2063 } },
-    repoHealth: { lastPushAt: "2026-03-17T10:22:41Z", lastPushDays: 0, openIssues: 169, forks: 1417, archived: false, contributors: 38 },
+    repoHealth: { lastPushAt: "2026-03-19T09:31:36Z", lastPushDays: 0, openIssues: 172, forks: 1424, archived: false, contributors: 38 },
     metrics: {
-      downloads: [{ date: "2026-03", value: 555291 }],
+      downloads: [{ date: "2026-03", value: 21602 }],
       stars: [{ date: "2026-03", value: 21538 }],
     },
     evidence: [
@@ -3404,6 +3601,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://developer.chrome.com/blog/chrome-devtools-mcp-debug-your-browser-session",
     productUrl: "https://npmjs.org/package/chrome-devtools-mcp",
     relatedCategories: ["web-browsing"],
+    daysOld: 188,
+    complexity: 4,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Official Google Chrome team backing — institutional credibility",
       "26 tools across 6 categories including unique Core Web Vitals, CPU/network emulation, accessibility audits",
@@ -3417,9 +3619,9 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "30K+",
     packageSize: { repoSizeKb: 4612, languages: { "TypeScript": 725121, "JavaScript": 33447, "HTML": 290 } },
-    repoHealth: { lastPushAt: "2026-03-17T09:54:44Z", lastPushDays: 0, openIssues: 86, forks: 1755, archived: false, contributors: 63 },
+    repoHealth: { lastPushAt: "2026-03-18T17:05:39Z", lastPushDays: 0, openIssues: 86, forks: 1790, archived: false, contributors: 65 },
     metrics: {
-      downloads: [{ date: "2026-03", value: 422720 }],
+      downloads: [{ date: "2026-03", value: 30218 }],
       stars: [{ date: "2026-03", value: 30073 }],
     },
     evidence: [
@@ -3492,6 +3694,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://agent-browser.dev",
     productUrl: "https://agent-browser.dev",
     relatedCategories: ["web-browsing"],
+    daysOld: 67,
+    complexity: 5,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "93% context reduction vs Playwright MCP — verified by multiple independent sources",
       "Rust core with sub-50ms boot time",
@@ -3504,11 +3711,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "No deep debugging capabilities (use Chrome DevTools MCP for that)",
       "Does not work reliably against Cloudflare-protected sites",
     ],
-    githubStars: "23K+",
+    githubStars: "24K+",
     packageSize: { repoSizeKb: 15298, languages: { "Rust": 1108259, "TypeScript": 30024, "JavaScript": 16819, "Shell": 9524 } },
-    repoHealth: { lastPushAt: "2026-03-17T06:52:25Z", lastPushDays: 0, openIssues: 284, forks: 1346, archived: false, contributors: 79 },
+    repoHealth: { lastPushAt: "2026-03-19T07:40:33Z", lastPushDays: 0, openIssues: 300, forks: 1387, archived: false, contributors: 86 },
     metrics: {
-      downloads: [{ date: "2026-03", value: 284258 }],
+      downloads: [{ date: "2026-03", value: 23519 }],
       stars: [{ date: "2026-03", value: 23394 }],
     },
     evidence: [
@@ -3572,6 +3779,11 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://docs.skyvern.com",
     productUrl: "https://www.skyvern.com",
     relatedCategories: ["web-browsing"],
+    daysOld: 749,
+    complexity: 5,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Vision-LLM approach — handles websites never seen before, resilient to layout changes",
       "Enterprise features: CAPTCHA solving, 2FA handling, proxy networks, geo-targeting",
@@ -3586,9 +3798,9 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     ],
     githubStars: "21K+",
     packageSize: { repoSizeKb: 504631, languages: { "Python": 7398575, "TypeScript": 3126856, "MDX": 212529, "Jinja": 211313, "JavaScript": 115078, "HTML": 24540, "Shell": 16382, "CSS": 9740, "Dockerfile": 2580, "Mako": 635 } },
-    repoHealth: { lastPushAt: "2026-03-17T00:41:16Z", lastPushDays: 0, openIssues: 148, forks: 1851, archived: false, contributors: 82 },
+    repoHealth: { lastPushAt: "2026-03-19T08:11:34Z", lastPushDays: 0, openIssues: 151, forks: 1855, archived: false, contributors: 83 },
     metrics: {
-      downloads: [{ date: "2026-03", value: 166687 }],
+      downloads: [{ date: "2026-03", value: 20861 }],
       stars: [{ date: "2026-03", value: 20823 }],
     },
     evidence: [
@@ -3665,6 +3877,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best infrastructure pick for teams running browser automation at scale who need to reduce costs. Drop-in CDP replacement for Chrome headless in pipelines. Still beta — not a user-facing agent tool.",
     relatedCategories: ["web-browsing"],
+    repoHealth: { lastPushAt: "2026-03-19T09:47:25Z", lastPushDays: 0, openIssues: 85, forks: 835, archived: false, contributors: 31 },
+    daysOld: 1135,
+    complexity: 5,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "11x faster, 9x less memory vs Chrome headless — independently benchmarked",
       "140 concurrent instances vs 15 for Chrome on same hardware",
@@ -3728,6 +3946,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Below cut line — only 2.7K stars, not production-ready by creator's own characterization. But founder pedigree (Selenium, Appium creator), 443-point HN thread, near-daily releases, and W3C standards-first architecture demand close tracking. The only Lane 2 tool with credible cross-browser (Firefox + Safari) story.",
     relatedCategories: ["web-browsing"],
+    repoHealth: { lastPushAt: "2026-03-18T19:46:00Z", lastPushDays: 0, openIssues: 28, forks: 155, archived: false, contributors: 4 },
+    daysOld: 97,
+    complexity: 5,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Built by Jason Huggins — creator of Selenium (2004) and Appium (2012)",
       "443-point HN thread (Dec 2025) — 3rd highest in category before Chrome DevTools MCP Mar 2026 thread",
@@ -3792,6 +4016,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Lane 4 anchor (consumer agentic browsers) — 9,982 stars, YC-backed, 47 releases in ~10 months (v0.43.0 on 2026-03-12), AGPL-3.0. MCP server integration (31 tools) in v0.42.0, Skills/Memory/SOUL.md in v0.43.0. Demonstrably not vaporware. Thin contributor count (~10) and AGPL license limit enterprise adoption.",
     relatedCategories: ["web-browsing"],
+    repoHealth: { lastPushAt: "2026-03-19T10:07:14Z", lastPushDays: 0, openIssues: 29, forks: 954, archived: false, contributors: 12 },
+    daysOld: 304,
+    complexity: 5,
+    tags: ["browser", "web"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Chromium fork with native AI agent integration — not a plugin or overlay",
       "YC-backed with weekly releases: 47 releases in ~10 months, v0.43.0 on 2026-03-12",
@@ -3853,6 +4083,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "#2 CRM lane, behind HubSpot. 26.6K npm/week is primarily Salesforce DX developer tooling (SFDX developers), not CRM product teams. Agentforce-gated open CRM access keeps PulseMCP low (~2K/wk). Right choice only for existing Salesforce Enterprise customers already committed to Agentforce.",
     relatedCategories: ["product-business-development"],
+    repoHealth: { lastPushAt: "2026-03-19T06:47:57Z", lastPushDays: 0, openIssues: 26, forks: 81, archived: false, contributors: 32 },
+    daysOld: 329,
+    complexity: 4,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Pack",
     strengths: [
       "Official Salesforce backing with Agentforce platform integration",
       "26.6K npm/week — strong SFDX developer adoption",
@@ -3913,6 +4149,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "#7 in product-business-development. Official backing and 12+ AI client partnerships are strong trust signals. Cloud-only limitation and 10x star gap vs sooperset community server keep it behind.",
     relatedCategories: ["product-business-development"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Official Atlassian backing — GA since Feb 2026",
       "Partnerships with 12+ AI clients (AWS, ChatGPT, Claude, Cursor, Devin, Docker, Figma, GitHub, Google, etc.)",
@@ -3963,6 +4201,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "#8 in product-business-development. Niche but real — 2.5K npm/week shows genuine adoption. Fills the gap between spreadsheets and databases.",
     relatedCategories: ["product-business-development"],
+    repoHealth: { lastPushAt: "2026-03-07T23:51:38Z", lastPushDays: 11, openIssues: 6, forks: 133, archived: false, contributors: 10 },
+    daysOld: 461,
+    complexity: 3,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "2,476 npm/week — real adoption for a narrower tool",
       "Active development (last push 2026-03-07)",
@@ -4003,6 +4247,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "#1 in project/product management lane. Feb 2026 PM upgrade (triage, backlog prioritization, initiative creation, milestone management) elevated Linear from dev-only to full PM surface. ~2,743 combined npm/wk (mcp-linear 2,074 + linear-mcp 669), 12.9K PulseMCP/wk, #123 global.",
     relatedCategories: ["product-business-development"],
+    repoHealth: { lastPushAt: "2025-05-01T19:45:31Z", lastPushDays: 321, openIssues: 18, forks: 54, archived: false, contributors: 3 },
+    daysOld: 470,
+    complexity: 2,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Feb 2026 PM upgrade: initiatives, milestones, project labels, image support",
       "Linear is widely loved among startup and product engineering teams",
@@ -4076,6 +4326,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "#1 CRM lane for startup/SMB teams. 10.7K npm/wk (ahead of Exa), 12K PulseMCP/wk (6x Salesforce), 335K all-time (#93 global). Open ecosystem approach is closing the CRM gap vs Salesforce's Agentforce gate. Key caveat: currently read-only.",
     relatedCategories: ["product-business-development"],
+    repoHealth: { lastPushAt: "2025-04-25T16:57:42Z", lastPushDays: 327, openIssues: 4, forks: 0, archived: false },
+    daysOld: 327,
+    complexity: 1,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Open ecosystem — purpose-built for LLM interoperability across Claude, Cursor, ChatGPT",
       "First major CRM in ChatGPT deep-research connector / Registry",
@@ -4142,6 +4398,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#1 business automation/connector lane. 35.7K PulseMCP/wk (#46 global), 966K all-time. Unique breadth: 7,000+ apps in a single hosted MCP. No-install surface makes it the only MCP accessible to non-technical business users.",
     productUrl: "https://zapier.com/mcp",
     relatedCategories: ["product-business-development"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "30,000+ actions across 8,000+ apps — no other MCP comes close on breadth",
       "No installation or API key required — OAuth-based, zero setup",
@@ -4201,6 +4459,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#1 product analytics lane (no competition). 5.7M all-time PulseMCP visits (#5 globally across all MCP servers) with 20.6K/wk current. Zero catalog competition. Monorepo integration signals long-term product investment, not a side project.",
     productUrl: "https://posthog.com",
     relatedCategories: ["product-business-development"],
+    repoHealth: { lastPushAt: "2026-03-19T10:28:54Z", lastPushDays: 0, openIssues: 3239, forks: 2414, archived: false, contributors: 442 },
+    daysOld: 2246,
+    complexity: 5,
+    tags: ["business", "productivity"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "#5 all-time globally on PulseMCP — 5.7M visits, larger than Firecrawl, Notion, or Zapier on that metric",
       "Full PM analytics stack: feature flags, experiments, error tracking, funnel analysis, session replay",
@@ -4266,6 +4530,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Best orchestration layer. Only tool offering Best-of-N agent comparison and triple issue-tracker integration. Ry Walker Tier 1 independent validation outweighs modest star count.",
     productUrl: "https://emdash.ai",
     relatedCategories: ["teams-of-agents"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Ry Walker Tier 1 — only orchestrator in top 8 of 38-tool comparison",
       "Best-of-N: run same task on multiple agents, compare diffs, ship the best",
@@ -4327,6 +4593,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Best pure multiplexer. Highest raw community traction among orchestrators (7.2K stars, 512 PH). Privacy-first (Apache 2.0, zero telemetry, BYOK). Simple and focused.",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T05:39:16Z", lastPushDays: 0, openIssues: 376, forks: 527, archived: false, contributors: 48 },
+    daysOld: 149,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "7,386 stars — highest among orchestration-layer tools",
       "512 Product Hunt upvotes — strong consumer validation",
@@ -4389,6 +4661,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Enterprise-only with legitimate backing, but zero grassroots signal and an unverified benchmark claim. Large enterprises with white-glove support needs may benefit; not for individual developers or small teams.",
     productUrl: "https://www.factory.ai",
     relatedCategories: ["teams-of-agents", "software-factories"],
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "Terminal-Bench #1 at 58.75% (beat Claude Code 43.2%, Codex CLI 42.8%)",
       "$50M Series B at $300M valuation — Sequoia, NEA, NVIDIA, J.P. Morgan",
@@ -4469,6 +4743,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "The enterprise default for async autonomous coding. Wins on distribution and integration depth (lives inside GitHub where most code already is), not raw capability. SWE-bench 56.0% trails Claude Code (80.8%) by 25 points — pragmatic default, not best tool.",
     productUrl: "https://github.com/features/copilot",
     relatedCategories: ["software-factories"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "4.7M paid subscribers — largest distribution in category",
       "60M+ agentic code reviews completed, 12K+ orgs auto-reviewing",
@@ -4540,6 +4816,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Most innovative architecture in the category — event-driven triggers are genuinely new. But 12 days old with zero independent validation. Needs 30+ days of production evidence before confidence can increase.",
     productUrl: "https://cursor.com/blog/automations",
     relatedCategories: ["software-factories"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Only contender with event-driven triggers (Slack, PagerDuty, Linear, webhooks, cron)",
       "Each automation spins up a cloud sandbox with user-configured instructions, MCPs, and models",
@@ -4601,6 +4879,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Highest-funded pure-play, but the gap between self-reported (67% merge rate) and independent results (15% success) is the defining data point. Business metrics are strong; product evidence on complex tasks is weak.",
     productUrl: "https://devin.ai",
     relatedCategories: ["software-factories"],
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "$10.2B valuation, ~$900M total funding — highest-funded in category",
       "$150M+ combined ARR (incl. Windsurf acquisition)",
@@ -4671,6 +4951,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Google-backed with a unique proactive scanning feature, but every independent review says 'not yet a daily driver.' Notable absence of SWE-bench scores. Best for free experimentation.",
     productUrl: "https://jules.google",
     relatedCategories: ["software-factories"],
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "Google backing ensures longevity and resources",
       "Proactive task scanning — only tool that finds work to do unprompted",
@@ -4734,6 +5016,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://www.augmentcode.com",
     relatedCategories: ["software-factories"],
     githubStars: "N/A",
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "$252M total funding — largest in software-factories category after Cognition",
       "~70.6% SWE-bench Verified (third-party report) — if accurate, highest in category",
@@ -4782,6 +5066,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://replit.com",
     relatedCategories: ["software-factories"],
     githubStars: "N/A",
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "Parallel sub-agents (auth, DB, backend, frontend simultaneously) — most sophisticated UX in category",
       "ChatGPT distribution partnership — potentially massive non-developer reach",
@@ -4829,6 +5115,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Watch list. Extraordinary star growth (10K in 10 weeks) but zero independent validation — no HN posts, no Reddit discussion, no reviews. Cannot rank until independent evidence appears. Potential star inflation flag.",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T08:43:19Z", lastPushDays: 0, openIssues: 17, forks: 727, archived: false, contributors: 62 },
+    daysOld: 69,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "10,110 stars in ~10 weeks — extraordinary growth rate",
       "32 agents, 5 execution modes including Swarm and Ultrapilot",
@@ -4875,6 +5167,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Watch list. Autonomous CI fix feature is genuinely novel and unique in category. Too early to rank at 1 month old with no HN engagement. Revisit in 60 days.",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T10:11:40Z", lastPushDays: 0, openIssues: 75, forks: 4483, archived: false, contributors: 44 },
+    daysOld: 754,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "Autonomous CI fix, merge conflict resolution — unique in category",
       "Backed by 27K-star Composio parent project",
@@ -4912,6 +5210,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Watch list. Benchmark leader in multi-agent research (GAIA, DeepSearchQA) but not a coding tool. Does not belong in coding-specific rankings unless it ships coding features.",
     productUrl: "https://getspine.ai",
     relatedCategories: ["teams-of-agents"],
+    skillType: "Expertise",
+    skillTier: "Orchestrator",
     strengths: [
       "GAIA Level 3 #1 (61.5%) — top multi-agent research benchmark",
       "DeepSearchQA #1 (87.6%, beat Perplexity by 8.1%)",
@@ -4962,6 +5262,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://langchain-ai.github.io/langgraph/",
     productUrl: "https://www.langchain.com/langgraph",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T03:50:41Z", lastPushDays: 0, openIssues: 454, forks: 4636, archived: false, contributors: 275 },
+    daysOld: 952,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Expertise",
+    skillTier: "Composite",
     strengths: [
       "40.2M PyPI downloads/month — highest in category by 7×",
       "Independently-verified Fortune 500 deployments: LinkedIn, Uber, Replit, Elastic, Klarna, Cloudflare, Coinbase, Home Depot, Workday",
@@ -5020,6 +5326,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://docs.crewai.com",
     productUrl: "https://www.crewai.com",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T09:12:22Z", lastPushDays: 0, openIssues: 401, forks: 6284, archived: false, contributors: 284 },
+    daysOld: 874,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "5.7M PyPI downloads/month — 3× growth in 6 months",
       "Named Fortune 500 customers: PwC, IBM, Capgemini, NVIDIA, DocuSign (multi-source confirmed)",
@@ -5032,7 +5344,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Observability less mature than LangGraph without AMP Suite",
       "For complex long-running stateful workflows, LangGraph's architecture is more appropriate",
     ],
-    githubStars: "46K+",
+    githubStars: "47K+",
     evidence: [
       {
         quality: "strong",
@@ -5088,6 +5400,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://openai.github.io/openai-agents-python/",
     productUrl: "https://platform.openai.com/docs/agents",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T07:49:28Z", lastPushDays: 0, openIssues: 70, forks: 3285, archived: false, contributors: 226 },
+    daysOld: 373,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Expertise",
+    skillTier: "Composite",
     strengths: [
       "17.5M PyPI downloads/month (nominally highest, likely includes bundled distribution)",
       "Exceptionally low 58 open issues vs 3,300 forks — tight maintenance",
@@ -5146,6 +5464,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://mastra.ai/docs",
     productUrl: "https://mastra.ai",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T10:05:02Z", lastPushDays: 0, openIssues: 387, forks: 1750, archived: false, contributors: 355 },
+    daysOld: 589,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Expertise",
+    skillTier: "Composite",
     strengths: [
       "2.0M npm downloads/month — only JS-native framework at this scale",
       "22,115 GitHub stars; perfect 52/52 weekly commit cadence; 15,971 total commits",
@@ -5216,6 +5540,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://google.github.io/adk-python/",
     productUrl: "https://cloud.google.com/vertex-ai/generative-ai/docs/adk",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T10:11:25Z", lastPushDays: 0, openIssues: 599, forks: 3093, archived: false, contributors: 259 },
+    daysOld: 351,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Expertise",
+    skillTier: "Composite",
     strengths: [
       "4.3M PyPI downloads/month — significant for under-10-month-old framework",
       "Multi-language: Python, TypeScript, Go, Java — widest language breadth in category",
@@ -5265,6 +5595,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://strandsagents.com/latest/",
     productUrl: "https://aws.amazon.com/bedrock/agents/",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-18T20:04:59Z", lastPushDays: 0, openIssues: 428, forks: 723, archived: false, contributors: 100 },
+    daysOld: 308,
+    complexity: 2,
+    tags: ["agents", "orchestration"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Official AWS SDK — supported tooling for Bedrock teams",
       "Internal AWS usage: Amazon Q Developer, AWS Glue, VPC Reachability Analyzer",
@@ -5316,6 +5652,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://huggingface.co/docs/smolagents",
     productUrl: "https://huggingface.co/smolagents",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-13T18:25:52Z", lastPushDays: 5, openIssues: 439, forks: 2380, archived: false, contributors: 199 },
+    daysOld: 468,
+    complexity: 3,
+    tags: ["agents", "orchestration"],
+    skillType: "Expertise",
+    skillTier: "Composite",
     strengths: [
       "26,100 GitHub stars — strong research community",
       "CodeAgent paradigm (code-based tool-calling vs JSON) is genuinely differentiated",
@@ -5364,6 +5706,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://docs.n8n.io",
     productUrl: "https://n8n.io",
     relatedCategories: ["teams-of-agents"],
+    repoHealth: { lastPushAt: "2026-03-19T10:30:29Z", lastPushDays: 0, openIssues: 1428, forks: 55956, archived: false, contributors: 581 },
+    daysOld: 2462,
+    complexity: 5,
+    tags: ["agents", "orchestration"],
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "179,860 GitHub stars — largest OSS workflow repo by 2×",
       "3,000+ enterprise customers, ~200,000 active users",
@@ -5412,6 +5760,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://brave.com/search/api/",
     productUrl: "https://brave.com/search/api/",
     relatedCategories: ["search-news"],
+    repoHealth: { lastPushAt: "2026-03-17T20:23:19Z", lastPushDays: 1, openIssues: 20, forks: 140, archived: false, contributors: 17 },
+    daysOld: 279,
+    complexity: 3,
+    tags: ["search", "research"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Independent index (40B pages) — not a Google wrapper",
       "Fastest latency in independent benchmark (669ms)",
@@ -5425,7 +5779,7 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Free tier recently reduced (~1,000 queries vs previous 5,000)",
       "Search API is secondary to Brave's browser business",
     ],
-    githubStars: "793",
+    githubStars: "797",
     evidence: [
       {
         quality: "strong",
@@ -5492,6 +5846,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#4 in search-news — the only option where no query ever leaves your infrastructure. 26,644 stars, active development. Not independently benchmarked on quality, but unmatched on privacy and cost.",
     docsUrl: "https://docs.searxng.org",
     relatedCategories: ["search-news"],
+    repoHealth: { lastPushAt: "2026-03-18T14:15:52Z", lastPushDays: 0, openIssues: 223, forks: 2621, archived: false, contributors: 335 },
+    daysOld: 1801,
+    complexity: 5,
+    tags: ["search", "research"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Zero cost — no API keys, no per-query charges",
       "Full data sovereignty — queries never leave your infrastructure",
@@ -5555,6 +5915,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://tavily.com",
     productUrl: "https://tavily.com",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "LangChain default search tool — biggest distribution moat",
       "1.28M weekly downloads (highest in category)",
@@ -5627,6 +5989,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "#6 in search-news — simplest possible single-URL extraction. ReaderLM-v2 is strong for edge/on-device. But OSS repo has had no commits for 10+ months and Firecrawl is a strict superset. On a downward trajectory.",
     docsUrl: "https://jina.ai/reader",
     relatedCategories: ["search-news"],
+    repoHealth: { lastPushAt: "2025-05-08T07:21:34Z", lastPushDays: 315, openIssues: 126, forks: 779, archived: false, contributors: 7 },
+    daysOld: 708,
+    complexity: 4,
+    tags: ["search", "research"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Simplest possible interface — just prepend r.jina.ai/ to any URL",
       "ReaderLM-v2: 1.5B params, 512K context, 29 languages, ICLR 2025",
@@ -5696,6 +6064,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "#7 in search-news — the open-source self-hosted choice. 62K stars, Apache-2.0, actively maintained (v0.8.5 released 2026-03-18). Three independent comparisons show lower success rate vs Firecrawl (89.7% vs 95.3%) but wins on license, cost, and developer control.",
     relatedCategories: ["search-news"],
+    repoHealth: { lastPushAt: "2026-03-18T15:36:14Z", lastPushDays: 0, openIssues: 32, forks: 6351, archived: false, contributors: 57 },
+    daysOld: 679,
+    complexity: 5,
+    tags: ["search", "research"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Apache-2.0 license — best in category for enterprise embedding",
       "62,188 GitHub stars (#2 in category)",
@@ -5759,6 +6133,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://parallel.ai",
     productUrl: "https://parallel.ai",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "AIMultiple #4 (14.21) — top-tier quality",
       "BrowseComp 48%/58% (vs GPT-4 browsing 1%)",
@@ -5805,6 +6181,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://you.com/apis",
     productUrl: "https://you.com/resources/research-api-by-you-com",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "OpenAI integrated You.com as core search provider",
       "Self-reported #1 DeepSearchQA: 83.67% accuracy, 93.16% F1",
@@ -5853,6 +6231,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://www.linkup.so",
     productUrl: "https://www.linkup.so",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "$10M seed from Gradient",
       "Angels: Datadog CEO (Olivier Pomel), Mistral CEO (Arthur Mensch)",
@@ -5911,6 +6291,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://perplexity.ai",
     productUrl: "https://perplexity.ai",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Highest accuracy in HumAI benchmark (87%)",
       "94% citation quality (HumAI)",
@@ -5961,6 +6343,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Below cut line in search-news. Unique proprietary data angle (50+ sources: SEC, clinical trials) but almost all evidence is self-reported. Minimal traction. Needs independent verification.",
     docsUrl: "https://valyu.network",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "50+ proprietary data sources (SEC, clinical trials)",
       "Claims 94% SimpleQA, 79% FreshQA",
@@ -6004,6 +6388,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://serper.dev",
     productUrl: "https://serper.dev",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "3-10x cheaper than alternatives ($0.30/1K queries)",
       "LangChain integration",
@@ -6046,6 +6432,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Below cut line in search-news. Niche high-volume crawling tool. Benchmark claims entirely self-reported. Tiny community (2.3K stars).",
     docsUrl: "https://spider.cloud",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Rust-based — claims 100K pages/sec, 7x Firecrawl throughput",
       "MIT license",
@@ -6084,6 +6472,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Below cut line in search-news. Platform lock-in (Gemini API only). Not a standalone search API. If Gemini Deep Research exits preview with MCP support, deep research lane shifts dramatically.",
     docsUrl: "https://ai.google.dev/gemini-api/docs/grounding",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Atomic",
     strengths: [
       "Native to Gemini API",
       "5,000 free prompts/month",
@@ -6125,6 +6515,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     verdict:
       "Below cut line in search-news. #1 in Browser MCP Benchmark (100% extraction success, 90% automation). 2,214 stars, 60+ MCP tools. Not a search API — web access infrastructure. The only option for scraping sites with aggressive anti-bot defenses.",
     relatedCategories: ["search-news"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "#1 in AIMultiple 2026 Browser MCP Benchmark — 100% web search/extraction success",
       "90% browser automation success rate",
@@ -6189,6 +6581,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://www.hyperbrowser.ai/",
     productUrl: "https://www.hyperbrowser.ai/",
     relatedCategories: ["search-news"],
+    repoHealth: { lastPushAt: "2025-11-20T01:32:08Z", lastPushDays: 119, openIssues: 7, forks: 66, archived: false, contributors: 6 },
+    daysOld: 386,
+    complexity: 3,
+    tags: ["search", "research"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "90% browser automation success — tied #1 in Browser MCP Benchmark",
       "Stealth-first: CAPTCHA solving, IP rotation, fingerprint management",
@@ -6248,6 +6646,12 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     docsUrl: "https://docs.scrapegraphai.com/api-reference/introduction",
     productUrl: "https://scrapegraphai.com/",
     relatedCategories: ["search-news"],
+    repoHealth: { lastPushAt: "2026-03-18T23:54:49Z", lastPushDays: 0, openIssues: 1, forks: 2019, archived: false, contributors: 117 },
+    daysOld: 781,
+    complexity: 4,
+    tags: ["search", "research"],
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "Unique LLM graph pipeline — describe extraction goal, AI builds the graph",
       "23,033 GitHub stars",
@@ -6314,6 +6718,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Watch — real download signal (124K PyPI/week) and strong model capability (K2.5, HN 388 pts). Limited Western ecosystem integration and no SWE-bench Pro or Terminal-Bench scores. Best for Chinese developer ecosystem or teams using Moonshot AI models.",
     relatedCategories: ["coding-clis"],
     githubStars: "7K+",
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "K2.5 model with real capability: HN 388 pts on launch",
       "124K PyPI weekly downloads — real adoption signal",
@@ -6348,6 +6754,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Watch — real download signal (131K npm/week) and meaningful seed funding ($8M). OpenRouter-native architecture is a genuine differentiator for teams wanting model flexibility without managing API keys. Needs stronger differentiation beyond OpenRouter integration.",
     relatedCategories: ["coding-clis"],
     githubStars: "17K+",
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "OpenRouter-native: broadest model selection via single API",
       "131K npm weekly downloads — real traction",
@@ -6384,6 +6792,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Reference only in coding-clis — Cursor is primarily an IDE, not a CLI agent. $29.3B valuation and strong adoption are real, but closed-source, paid, and IDE-first puts it outside the terminal-native category. Best for developers who want a polished commercial IDE with integrated AI.",
     relatedCategories: ["coding-clis"],
     githubStars: "N/A",
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "$29.3B valuation — most adopted commercial AI IDE",
       "Polished UX with agent modes (Jan 2026)",
@@ -6420,6 +6830,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Reference only in coding-clis — Warp is an AI terminal, not a coding CLI agent. Strong UX and 75.8% SWE-bench Verified are real signals, but 4,350 open issues and closed-source licensing are concerns. Best for developers who want an AI-first terminal experience rather than a code agent.",
     relatedCategories: ["coding-clis"],
     githubStars: "26K+",
+    skillType: "Connector",
+    skillTier: "Composite",
     strengths: [
       "75.8% SWE-bench Verified — strong benchmark performance",
       "26K+ stars, TIME Best Inventions recognition",
@@ -6456,6 +6868,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
       "Watch — spec-driven approach is architecturally sound and GovCloud presence is meaningful for regulated industries. But too early to rank higher without a verified benchmark, user count, or independent case study. Outage controversy unresolved.",
     relatedCategories: ["coding-clis", "software-factories"],
     githubStars: "N/A",
+    skillType: "Generator",
+    skillTier: "Orchestrator",
     strengths: [
       "AWS GovCloud launch (Feb 2026) — signals real enterprise intent for regulated industries",
       "Spec-driven workflow (requirements → design → implementation) — genuine differentiator for compliance-heavy teams",
@@ -6504,6 +6918,8 @@ export const skills: Record<SkillSlug, SkillRecord> = {
     productUrl: "https://github.com/RooVeterinaryInc/roocode",
     relatedCategories: ["coding-clis"],
     githubStars: "22K+",
+    skillType: "Connector",
+    skillTier: "Orchestrator",
     strengths: [
       "5.0/5 VS Code rating on 1,372,346 installs — unusually strong quality signal for any VS Code extension",
       "1.37M VS Code installs — strong distribution without the supply chain flag that burdens Cline",
@@ -8864,7 +9280,104 @@ export const categories: Record<CategorySlug, CategoryRecord> = {
       "If SearXNG gets independent benchmark inclusion, it either validates as competitive or gets exposed as lower quality. Currently ungradeable on search quality.",
       "If Linkup or Airweave gains >10K stars and benchmark results, they enter the ranked list.",
     ],
-  },};
+  },
+  "marketing": {
+    slug: "marketing",
+    name: "Marketing",
+    deck: "Skills for SEO, content optimization, ad copy, social media calendars, competitor analysis, and growth automation.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "business": {
+    slug: "business",
+    name: "Business",
+    deck: "Skills for pitch decks, financial modeling, contract review, OKR frameworks, invoicing, and business operations.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "content-writing": {
+    slug: "content-writing",
+    name: "Content & Writing",
+    deck: "Skills for blog posts, newsletters, technical writing, style guide enforcement, and editorial workflows.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "research": {
+    slug: "research",
+    name: "Research",
+    deck: "Skills for literature review, market research, patent analysis, academic workflows, and structured research pipelines.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "automation": {
+    slug: "automation",
+    name: "Automation",
+    deck: "Skills for bot building, MCP bridges, workflow automation, and connecting Claude to external services.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "security": {
+    slug: "security",
+    name: "Security",
+    deck: "Skills for SAST scanning, secret detection, dependency auditing, accessibility checks, and security guardrails.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "documentation": {
+    slug: "documentation",
+    name: "Documentation",
+    deck: "Skills for API docs generation, README crafting, changelog writing, PDF reports, and documentation automation.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+  "data-analytics": {
+    slug: "data-analytics",
+    name: "Data & Analytics",
+    deck: "Skills for data cleaning, ML training loops, chart building, CSV pipelines, and analytics workflows.",
+    verdict: [],
+    meta: [],
+    ranking: [],
+    observedOutputs: [],
+    liveSignals: [],
+    headToHead: [],
+    whatChangesThis: [],
+  },
+};
 
 export const platforms: Record<PlatformSlug, PlatformRecord> = {
   figma: {
@@ -8959,6 +9472,14 @@ export const categoryList = [
   categories["ux-ui"],
   categories["software-factories"],
   categories["search-news"],
+  categories["marketing"],
+  categories["business"],
+  categories["content-writing"],
+  categories["research"],
+  categories["automation"],
+  categories["security"],
+  categories["documentation"],
+  categories["data-analytics"],
 ];
 
 export const skillList = Object.values(skills);

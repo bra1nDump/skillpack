@@ -31,6 +31,14 @@ const CATEGORIES = [
   "web-browsing",
   "software-factories",
   "search-news",
+  "marketing",
+  "business",
+  "content-writing",
+  "research",
+  "automation",
+  "security",
+  "documentation",
+  "data-analytics",
 ];
 
 // ---------------------------------------------------------------------------
@@ -414,11 +422,10 @@ function stageMetrics() {
   const start = Date.now();
 
   const scripts = [
-    { name: "stars", cmd: "node scripts/collect-stars.mjs" },
+    { name: "github", cmd: "node scripts/collect-github.mjs" },
     { name: "downloads", cmd: "node scripts/collect-downloads.mjs" },
     { name: "mentions", cmd: "node scripts/collect-mentions.mjs" },
-    { name: "package-size", cmd: "node scripts/collect-package-size.mjs" },
-    { name: "repo-health", cmd: "node scripts/collect-repo-health.mjs" },
+    { name: "classify", cmd: "node scripts/classify-skills.mjs" },
   ];
 
   for (const s of scripts) {
