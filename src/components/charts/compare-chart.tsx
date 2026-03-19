@@ -36,7 +36,7 @@ export function CompareStarsChart({ skills }: { skills: CompareSkill[] }) {
         <BarChart data={data} layout="vertical" margin={{ top: 4, right: 12, bottom: 4, left: 4 }}>
           <CartesianGrid horizontal={false} stroke={CHART_COLORS.gridLine} />
           <XAxis type="number" tick={AXIS_STYLE} tickFormatter={formatStars} axisLine={false} tickLine={false} />
-          <YAxis type="category" dataKey="name" tick={AXIS_STYLE} width={120} axisLine={false} tickLine={false} />
+          <YAxis type="category" dataKey="name" tick={AXIS_STYLE} width={160} axisLine={false} tickLine={false} />
           <Tooltip {...TOOLTIP_STYLE} formatter={(value) => [formatStars(Number(value)), "Stars"]} />
           <Bar dataKey="stars" radius={[0, 4, 4, 0]} barSize={20}>
             {data.map((_, i) => (
@@ -63,7 +63,7 @@ export function CompareEvidenceChart({ skills }: { skills: CompareSkill[] }) {
         <BarChart data={data} layout="vertical" margin={{ top: 4, right: 12, bottom: 4, left: 4 }}>
           <CartesianGrid horizontal={false} stroke={CHART_COLORS.gridLine} />
           <XAxis type="number" tick={AXIS_STYLE} axisLine={false} tickLine={false} allowDecimals={false} />
-          <YAxis type="category" dataKey="name" tick={AXIS_STYLE} width={120} axisLine={false} tickLine={false} />
+          <YAxis type="category" dataKey="name" tick={AXIS_STYLE} width={160} axisLine={false} tickLine={false} />
           <Tooltip {...TOOLTIP_STYLE} />
           <Legend
             wrapperStyle={{ fontSize: 10, fontFamily: "var(--font-ibm-plex-mono), monospace", color: CHART_COLORS.muted }}

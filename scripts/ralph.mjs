@@ -84,6 +84,7 @@ function parseArgs() {
 function timestamp() {
   const d = new Date();
   const pad = (n) => String(n).padStart(2, "0");
+
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}`;
 }
 
@@ -97,6 +98,7 @@ function readFile(path) {
 
 function log(stage, msg) {
   const ts = new Date().toISOString().slice(11, 19);
+
   console.log(`[${ts}] [${stage}] ${msg}`);
 }
 
@@ -115,14 +117,17 @@ function formatDuration(seconds) {
   if (seconds < 60) return `${seconds.toFixed(0)}s`;
   const m = Math.floor(seconds / 60);
   const s = Math.round(seconds % 60);
+
   return `${m}m ${s}s`;
 }
 
-async function runClaude({ systemPromptFile, prompt, stage }) {
+async function runClaude({ systemPromptFile, prompt, stage, timeoutMin = 30 }) {
   // Build the full prompt: agent personality + task
   let fullPrompt = "";
+
   if (systemPromptFile) {
     const systemPrompt = readFileSync(systemPromptFile, "utf-8");
+
     fullPrompt += `<system-instructions>\n${systemPrompt}\n</system-instructions>\n\n`;
   }
   fullPrompt += prompt;
@@ -134,11 +139,12 @@ async function runClaude({ systemPromptFile, prompt, stage }) {
   ];
 
   const promptPreview = prompt.split("\n").find((l) => l.startsWith("TASK:"))?.slice(0, 100) || prompt.slice(0, 80);
-  log(stage, `Spawning claude subprocess…`);
+
+  log(stage, "Spawning claude subprocess…");
   log(stage, `  Prompt: ${systemPromptFile ? systemPromptFile.split(/[/\\]/).pop() : "(inline)"} + ${formatBytes(fullPrompt.length)}`);
   log(stage, `  Task: ${promptPreview}…`);
   log(stage, `  Tools: ${ALLOWED_TOOLS}`);
-  log(stage, `  Timeout: 30 min`);
+  log(stage, `  Timeout: ${timeoutMin} min`);
   const start = Date.now();
 
   // Async spawn to allow parallel pipelines
@@ -151,6 +157,7 @@ async function runClaude({ systemPromptFile, prompt, stage }) {
 
     let stdout = "";
     let stderr = "";
+
     child.stdout.on("data", (d) => { stdout += d.toString(); });
     child.stderr.on("data", (d) => { stderr += d.toString(); });
 
@@ -160,7 +167,7 @@ async function runClaude({ systemPromptFile, prompt, stage }) {
     const timer = setTimeout(() => {
       child.kill("SIGTERM");
       resolve({ status: null, signal: "SIGTERM", stdout, stderr });
-    }, 30 * 60 * 1000);
+    }, timeoutMin * 60 * 1000);
 
     child.on("close", (code, signal) => {
       clearTimeout(timer);
@@ -175,11 +182,13 @@ async function runClaude({ systemPromptFile, prompt, stage }) {
 
   if (result.status !== 0) {
     const reason = result.signal === "SIGTERM" || result.status === null
-      ? "TIMEOUT (30 min limit reached)"
+      ? `TIMEOUT (${timeoutMin} min limit reached)`
       : `exit code ${result.status}`;
+
     log(stage, `FAILED after ${duration} — ${reason}`);
     if (result.stderr) {
       const stderr = result.stderr.slice(0, 500).trim();
+
       if (stderr) log(stage, `  stderr: ${stderr}`);
     }
     if (result.stdout) {
@@ -199,6 +208,7 @@ async function runClaude({ systemPromptFile, prompt, stage }) {
 async function stageDiscover(category, runDir) {
   const stage = "DISCOVER";
   const outDir = resolve(runDir, `discover_${category}`);
+
   ensureDir(outDir);
 
   const catalogSnippet = getCategoryContext(category);
@@ -219,11 +229,13 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
 
   // If claude wrote the file directly, great. Otherwise write stdout.
   const findingsPath = resolve(outDir, "findings.md");
+
   if (!existsSync(findingsPath) && result.output) {
     writeFileSync(findingsPath, result.output, "utf-8");
   }
 
   const findingsSize = existsSync(findingsPath) ? formatBytes(readFileSync(findingsPath).length) : "0B";
+
   log(stage, `  Findings: ${findingsPath.split(/[/\\]/).slice(-2).join("/")} (${findingsSize})`);
 
   return { ...result, findingsPath };
@@ -232,6 +244,7 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
 async function stageDeepDive(category, runDir, discoverFindings) {
   const stage = "DEEP-DIVE";
   const outDir = resolve(runDir, `deep-dive_${category}`);
+
   ensureDir(outDir);
 
   const catalogSnippet = getCategoryContext(category);
@@ -254,11 +267,13 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
   });
 
   const findingsPath = resolve(outDir, "findings.md");
+
   if (!existsSync(findingsPath) && result.output) {
     writeFileSync(findingsPath, result.output, "utf-8");
   }
 
   const findingsSize = existsSync(findingsPath) ? formatBytes(readFileSync(findingsPath).length) : "0B";
+
   log(stage, `  Findings: ${findingsPath.split(/[/\\]/).slice(-2).join("/")} (${findingsSize})`);
   log(stage, `  Input was: discover findings ${formatBytes(discoverFindings.length)}`);
 
@@ -268,6 +283,7 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
 async function stageRank(category, runDir, discoverFindings, deepDiveFindings) {
   const stage = "RANK";
   const outDir = resolve(runDir, `rank_${category}`);
+
   ensureDir(outDir);
 
   const prompt = `You are ranking the "${category}" category for Skillbench.
@@ -289,11 +305,13 @@ IMPORTANT: Write your findings to ${outDir}/findings.md using the structure from
   });
 
   const findingsPath = resolve(outDir, "findings.md");
+
   if (!existsSync(findingsPath) && result.output) {
     writeFileSync(findingsPath, result.output, "utf-8");
   }
 
   const findingsSize = existsSync(findingsPath) ? formatBytes(readFileSync(findingsPath).length) : "0B";
+
   log(stage, `  Findings: ${findingsPath.split(/[/\\]/).slice(-2).join("/")} (${findingsSize})`);
   log(stage, `  Input was: discover ${formatBytes(discoverFindings.length)} + deep-dive ${formatBytes(deepDiveFindings.length)}`);
 
@@ -318,6 +336,9 @@ Based on these findings, update src/lib/catalog.ts for the "${category}" categor
 - Update verdicts if the meta has shifted
 - Add any NEW CONTENDER entries to the skills array if flagged
 - Keep existing data that isn't contradicted by new findings
+- If deep-dive findings contain YouTube video data, add a "videos" array to the skill entry:
+  videos: [{ title: "...", youtubeId: "11-char-id", channel: "...", date: "YYYY-MM-DD" }]
+  The SkillRecord type already has this field — just populate it from the findings.
 
 CRITICAL RULE — every contender in a category ranking MUST have a full skill entry:
 - Every ranking item MUST use "skillSlug" pointing to a skill entry in the skills object — NEVER use "externalUrl" alone.
@@ -336,8 +357,59 @@ Be conservative — only change what the evidence supports. Preserve the existin
   });
 }
 
+async function stageScreenshots(category) {
+  const stage = "SCREENSHOTS";
+
+  const prompt = `TASK: Find and install real product-in-use screenshots for skills in the "${category}" category.
+
+Step 1 — read src/lib/catalog.ts and find all skills where relatedCategories includes "${category}".
+For each skill, note its slug and repo (e.g. "anthropics/claude-code").
+
+Step 2 — for each skill, check if public/screenshots/{slug}.png already exists.
+If it exists, view the image to decide: does it show the product ACTIVELY BEING USED (terminal output, real workflow, agent completing a task)? If yes AND image is high quality (not blurry, width >= 800px), skip. Otherwise replace it.
+
+Step 3 — for each skill needing a screenshot:
+a) Search for product-in-use screenshots:
+   - WebFetch the raw README: https://raw.githubusercontent.com/{repo}/main/README.md
+     Look for embedded images (![...](...)) that show the tool in action
+   - WebFetch the raw README on "master" branch too if "main" returns 404
+   - WebSearch: '"{skill name}" screenshot terminal' and '"{skill name}" demo in use'
+   - Check official docs page if docsUrl exists
+
+b) Download up to 5 candidate images:
+   mkdir -p public/screenshots/candidates/{slug}
+   curl -L -sS -o "public/screenshots/candidates/{slug}/c1.png" "URL1" --max-time 15
+   (repeat for each candidate, c1 through c5)
+
+c) QUALITY CHECK — after downloading, verify resolution:
+   Use: identify "public/screenshots/candidates/{slug}/cN.png" or file size check.
+   REJECT any image smaller than 800x400 pixels or under 50KB — these are thumbnails/badges.
+
+d) View each remaining candidate and score 1-10:
+   - 8-10: Product clearly in use (terminal running, UI showing real workflow, agent output)
+   - 5-7: Plausible but unclear
+   - 1-4: Landing page, logo, badge, or unrelated
+
+e) Install winner (score >= 7):
+   cp "public/screenshots/candidates/{slug}/cN.png" "public/screenshots/{slug}.png"
+
+IMPORTANT RULES:
+- Minimum resolution: 800x400 pixels. NEVER install a low-res or thumbnail image.
+- Prioritize README images — they are usually the best product-in-use shots.
+- EVERY skill must have a screenshot attempt. Do not skip skills.
+- Skip installing only if no candidate scores 7+ AND meets minimum resolution.`;
+
+  return await runClaude({
+    systemPromptFile: resolve(ROOT, "agents/screenshot-scout.md"),
+    prompt,
+    stage,
+    timeoutMin: 60,
+  });
+}
+
 function stageMetrics() {
   const stage = "METRICS";
+
   log(stage, "Collecting stars, downloads, and mentions…");
   const start = Date.now();
 
@@ -359,11 +431,13 @@ function stageMetrics() {
   }
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+
   return { ok: true, output: "metrics collected", elapsed };
 }
 
 function stageQA() {
   const stage = "QA";
+
   log(stage, "Running build + link check…");
   const start = Date.now();
 
@@ -372,6 +446,7 @@ function stageQA() {
     log(stage, "Build passed");
   } catch (e) {
     const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+
     log(stage, `Build FAILED after ${elapsed}s`);
     log(stage, e.stderr?.toString().slice(-500) || e.message);
     return { ok: false, output: "build failed", elapsed };
@@ -386,6 +461,7 @@ function stageQA() {
   }
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+
   return { ok: true, output: "QA passed", elapsed };
 }
 
@@ -398,10 +474,12 @@ function getCategoryContext(category) {
     const catalog = readFileSync(catalogPath, "utf-8");
     // Extract a rough snippet around the category slug
     const idx = catalog.indexOf(`slug: "${category}"`);
+
     if (idx === -1) return `Category slug: ${category} (not found in catalog)`;
     // Grab ~2000 chars around it
     const start = Math.max(0, idx - 200);
     const end = Math.min(catalog.length, idx + 2000);
+
     return catalog.slice(start, end);
   } catch {
     return `Category slug: ${category}`;
@@ -414,6 +492,7 @@ function getCategoryContext(category) {
 async function runResearch(category) {
   const ts = timestamp();
   const runDir = resolve(ROOT, "agent-runs", `${ts}_run_${category}`);
+
   ensureDir(runDir);
 
   console.log(`\n${"=".repeat(60)}`);
@@ -427,21 +506,25 @@ async function runResearch(category) {
   // Stage 1: Discover
   log(category, "Stage 1/3: Discover");
   const discover = await stageDiscover(category, runDir);
+
   results.discover = discover;
   const discoverFindings = readFile(discover.findingsPath);
 
   // Stage 2: Deep-Dive
   log(category, "Stage 2/3: Deep-Dive");
   const deepDive = await stageDeepDive(category, runDir, discoverFindings);
+
   results.deepDive = deepDive;
   const deepDiveFindings = readFile(deepDive.findingsPath);
 
   // Stage 3: Rank
   log(category, "Stage 3/3: Rank");
   const rank = await stageRank(category, runDir, discoverFindings, deepDiveFindings);
+
   results.rank = rank;
 
   const totalElapsed = Object.values(results).reduce((sum, r) => sum + parseFloat(r.elapsed || "0"), 0);
+
   log(category, `Research done in ${formatDuration(totalElapsed)}`);
 
   return { category, runDir, rankFindingsPath: rank.findingsPath, results };
@@ -464,6 +547,15 @@ async function runFinalize(researchResults) {
     r.results.catalogUpdate = await stageCatalogUpdate(r.category, r.rankFindingsPath);
   }
 
+  // Screenshots — find real product-in-use images (parallel, all categories at once)
+  log("SCREENSHOTS", `Finding product screenshots for ${researchResults.length} categories in parallel…`);
+  await Promise.all(
+    researchResults.map(async (r) => {
+      log("SCREENSHOTS", `Starting screenshots for ${r.category}…`);
+      r.results.screenshots = await stageScreenshots(r.category);
+    }),
+  );
+
   // Metrics — once for all
   log("METRICS", "Collecting stars, downloads, and mentions…");
   finalResults.metrics = stageMetrics();
@@ -480,7 +572,7 @@ async function runFinalize(researchResults) {
 // ---------------------------------------------------------------------------
 function printSummary(researchResults, finalResults) {
   console.log(`\n${"=".repeat(60)}`);
-  console.log(`  Ralph Pipeline — Final Summary`);
+  console.log("  Ralph Pipeline — Final Summary");
   console.log(`  Finished: ${new Date().toISOString()}`);
   console.log(`${"=".repeat(60)}`);
 
@@ -493,13 +585,15 @@ function printSummary(researchResults, finalResults) {
     console.log(`\n  ${r.category} (${formatDuration(total)} | ${passed}✓ ${failed}✗)`);
     for (const [name, s] of Object.entries(stages)) {
       const icon = s.ok ? "✓" : "✗";
+
       console.log(`    ${icon} ${name.padEnd(16)} ${formatDuration(parseFloat(s.elapsed || "0"))}`);
     }
   }
 
-  console.log(`\n  Finalize`);
+  console.log("\n  Finalize");
   for (const [name, s] of Object.entries(finalResults)) {
     const icon = s.ok ? "✓" : "✗";
+
     console.log(`    ${icon} ${name.padEnd(16)} ${formatDuration(parseFloat(s.elapsed || "0"))}`);
   }
   console.log(`${"=".repeat(60)}\n`);
@@ -518,11 +612,13 @@ async function main() {
       // Sequential research + finalize per category (legacy behavior)
       for (const category of opts.categories) {
         const r = await runResearch(category);
+
         researchResults.push(r);
       }
     } else {
       // Parallel research
       const limit = Math.min(opts.concurrency, opts.categories.length);
+
       console.log(`Running ${opts.categories.length} categories, ${limit} research agents in parallel\n`);
       const queue = [...opts.categories];
       const running = new Set();
@@ -532,6 +628,7 @@ async function main() {
           if (queue.length === 0 && running.size === 0) return resolve();
           while (running.size < limit && queue.length > 0) {
             const cat = queue.shift();
+
             running.add(cat);
             runResearch(cat)
               .then((r) => researchResults.push(r))

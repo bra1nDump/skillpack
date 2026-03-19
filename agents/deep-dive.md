@@ -56,6 +56,34 @@ For EACH contender, collect and verify ALL of these:
    - Demo repos, tutorial videos, or benchmark results
    - Production usage testimonials with specifics
 
+5. YOUTUBE VIDEOS (collect for every contender):
+
+   Use WebFetch directly on YouTube search result URLs to get real video IDs.
+   Do NOT rely on WebSearch — it won't return YouTube video IDs reliably.
+
+   Step A — fetch each of these URLs (replace QUERY with URL-encoded search term):
+   ```
+   https://www.youtube.com/results?search_query=TOOL+NAME+review+2026
+   https://www.youtube.com/results?search_query=TOOL+NAME+tutorial+2026
+   https://www.youtube.com/results?search_query=TOOL+NAME+vs+alternative
+   ```
+
+   Step B — in the HTML response, find the JSON block that starts with `var ytInitialData = `.
+   Extract the `videoId` values (11-char strings like "dQw4w9WgXcQ") from `videoRenderer` objects.
+   Also extract `title.runs[0].text`, `ownerText.runs[0].text` (channel), and `publishedTimeText.simpleText`.
+
+   Step C — minimum bar: pick videos with view counts > 5K visible in the page JSON,
+   OR from channels with clearly high subscriber counts. Take up to 3 per skill.
+
+   Step D — record in findings.md:
+   ```
+   YouTube videos for [skill]:
+   - youtubeId: "ABC123XYZ12", title: "...", channel: "...", date: "2026-01-15"
+   - youtubeId: "DEF456UVW34", title: "...", channel: "...", date: "2026-02-03"
+   ```
+
+   These will be added to `videos: []` in the catalog by the catalog-update agent.
+
 SIGNAL QUALITY BAR (MANDATORY — HARD GATES):
 
 Every artifact MUST pass ALL of these or be DISCARDED:

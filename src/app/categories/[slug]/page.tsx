@@ -81,37 +81,6 @@ export default async function CategoryPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Observed outputs */}
-        {category.observedOutputs.length > 0 ? (
-          <section className="border-t border-[var(--border)] py-14">
-            <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
-              Observed outputs
-            </p>
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {category.observedOutputs.map((item) => (
-                <article key={item.title} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5">
-                  <a href={item.href} target="_blank" rel="noreferrer" className="group block">
-                    <p className="text-[15px] font-semibold text-gray-800 transition-colors group-hover:text-gray-900">
-                      {item.title}
-                    </p>
-                  </a>
-                  <p className="mt-2 text-[15px] leading-6 text-gray-500">{item.summary}</p>
-                  <div className="mt-4 flex items-center gap-3">
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[13px] font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent)]"
-                    >
-                      View source →
-                    </a>
-                    <span className="font-mono text-[12px] text-gray-500">{item.date}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ) : null}
 
         {/* Ranking */}
         <section className="border-t border-[var(--border)] py-14">

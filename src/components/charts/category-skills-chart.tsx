@@ -46,7 +46,7 @@ function StarsChart({ data }: { data: CategorySkillData[] }) {
             type="category"
             dataKey="name"
             tick={AXIS_STYLE}
-            width={120}
+            width={160}
             axisLine={false}
             tickLine={false}
           />
@@ -92,7 +92,7 @@ function EvidenceChart({ data }: { data: CategorySkillData[] }) {
             type="category"
             dataKey="name"
             tick={AXIS_STYLE}
-            width={120}
+            width={160}
             axisLine={false}
             tickLine={false}
           />

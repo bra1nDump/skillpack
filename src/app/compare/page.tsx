@@ -175,13 +175,21 @@ function CompareContent() {
               <p className="mb-4 font-mono text-[13px] uppercase tracking-widest text-gray-500">
                 Quick stats
               </p>
-              <table className="w-full text-[15px]">
+              <table className="w-full text-[15px]" style={{ tableLayout: "fixed" }}>
+                <colgroup>
+                  <col className="w-[140px]" />
+                  {selected.map((s) => (
+                    <col key={s.slug} />
+                  ))}
+                </colgroup>
                 <thead>
                   <tr className="border-b border-[var(--border)]">
                     <th className="pb-3 pr-4 text-left font-mono text-[12px] uppercase tracking-wider text-gray-500">Metric</th>
                     {selected.map((s) => (
-                      <th key={s.slug} className="px-3 pb-3 text-center font-mono text-[12px] uppercase tracking-wider text-gray-500">
-                        {s.name}
+                      <th key={s.slug} className="break-words px-3 pb-3 text-center font-mono text-[12px] uppercase tracking-wider text-gray-500">
+                        <Link href={`/skills/${s.slug}`} className="transition-colors hover:text-[var(--accent)]">
+                          {s.name}
+                        </Link>
                       </th>
                     ))}
                   </tr>

@@ -1,15 +1,18 @@
 import Link from "next/link";
 
-import { TopSkillsChart } from "@/components/charts/top-skills-chart";
-import { DarkCTA } from "@/components/dark-cta";
 import { DarkHero } from "@/components/dark-hero";
+import { SkillsList } from "@/components/skills-list";
+import { TopSkillHero } from "@/components/topskill-hero";
+import { TrendingSkills } from "@/components/trending-skills";
 import { TrustBadge } from "@/components/trust-badge";
 import { bundleList, categoryList, getSkill, platformList, skillList } from "@/lib/catalog";
 import { getTopMovers } from "@/lib/changelog";
 import { parseStars } from "@/lib/parse-stars";
+import { getScreenshotUrl } from "@/lib/screenshots";
 import { computeTrend } from "@/lib/trend";
+import { computeTrustScore } from "@/lib/trust-score";
 
-import type { TopSkillData } from "@/components/charts/top-skills-chart";
+import type { TrendingSkillItem } from "@/components/trending-skills";
 
 const pipeline = [
   {
@@ -42,7 +45,40 @@ const pipeline = [
   },
 ];
 
-const topMovers = getTopMovers(5);
+const rawTopMovers = getTopMovers(12);
+const trendingSkills: TrendingSkillItem[] = rawTopMovers.map((m) => ({
+  slug: m.slug,
+  name: m.name,
+  detail: m.detail,
+  trustScore: m.trustScore,
+  screenshotUrl: getScreenshotUrl(m.slug),
+}));
+
+// Recently active: skills pushed most recently (smallest lastPushDays)
+const recentlyActive = skillList
+  .filter((s) => s.repoHealth?.lastPushDays != null && s.repoHealth.lastPushDays < 30)
+  .sort((a, b) => (a.repoHealth!.lastPushDays) - (b.repoHealth!.lastPushDays))
+  .slice(0, 6);
+
+// Full registry items sorted by trust score desc
+const registryItems = skillList
+  .map((skill) => ({
+    slug: skill.slug,
+    name: skill.name,
+    repo: skill.repo,
+    status: skill.status,
+    official: skill.official,
+    githubStars: skill.githubStars,
+    evidenceCount: skill.evidence.length,
+    verdict: skill.verdict,
+    trustScore: computeTrustScore(skill),
+    starsTrend: computeTrend(skill.metrics?.stars),
+    screenshotUrl: getScreenshotUrl(skill.slug),
+    categories: categoryList
+      .filter((j) => skill.relatedCategories.includes(j.slug))
+      .map((j) => ({ slug: j.slug, name: j.name })),
+  }))
+  .sort((a, b) => b.trustScore - a.trustScore);
 
 const searchItems = [
   ...categoryList.map((category) => ({
@@ -50,30 +86,35 @@ const searchItems = [
     name: category.name,
     href: `/categories/${category.slug}`,
     summary: category.deck,
+    image: undefined as string | undefined,
   })),
   ...skillList.map((skill) => ({
     label: "Skill",
     name: skill.name,
     href: `/skills/${skill.slug}`,
     summary: skill.summary,
+    image: getScreenshotUrl(skill.slug) ?? undefined,
   })),
   ...platformList.map((platform) => ({
     label: "Platform",
     name: platform.name,
     href: `/platforms/${platform.slug}`,
     summary: platform.summary,
+    image: undefined as string | undefined,
   })),
   ...bundleList.map((bundle) => ({
     label: "Bundle",
     name: bundle.name,
     href: `/bundles/${bundle.slug}`,
     summary: `${bundle.persona} — ${bundle.summary}`,
+    image: undefined as string | undefined,
   })),
 ];
 
 const totalStars = skillList.reduce((sum, s) => sum + parseStars(s.githubStars), 0);
 const totalDownloads = skillList.reduce((sum, s) => {
   const dl = s.metrics?.downloads;
+
   return sum + (dl && dl.length > 0 ? dl[dl.length - 1].value : 0);
 }, 0);
 
@@ -86,20 +127,29 @@ function formatBigNumber(n: number): string {
 // Aggregate trends
 const allStarsData = skillList.flatMap((s) => s.metrics?.stars ?? []);
 const starsByMonth = new Map<string, number>();
+
 for (const p of allStarsData) {
   starsByMonth.set(p.date, (starsByMonth.get(p.date) ?? 0) + p.value);
 }
 const starsSorted = [...starsByMonth.entries()].sort();
-const totalStarsTrend = starsSorted.length >= 2
-  ? computeTrend([
-      { date: starsSorted[starsSorted.length - 2][0], value: starsSorted[starsSorted.length - 2][1] },
-      { date: starsSorted[starsSorted.length - 1][0], value: starsSorted[starsSorted.length - 1][1] },
+const totalStarsTrend =
+  starsSorted.length >= 2
+    ? computeTrend([
+      {
+        date: starsSorted[starsSorted.length - 2][0],
+        value: starsSorted[starsSorted.length - 2][1],
+      },
+      {
+        date: starsSorted[starsSorted.length - 1][0],
+        value: starsSorted[starsSorted.length - 1][1],
+      },
     ])
-  : null;
+    : null;
 
-const starsTrendStr = totalStarsTrend && totalStarsTrend.direction !== "flat"
-  ? ` ${totalStarsTrend.direction === "up" ? "↑" : "↓"}${totalStarsTrend.pct}%`
-  : "";
+const starsTrendStr =
+  totalStarsTrend && totalStarsTrend.direction !== "flat"
+    ? ` ${totalStarsTrend.direction === "up" ? "↑" : "↓"}${totalStarsTrend.pct}%`
+    : "";
 
 const heroStats = [
   { label: "categories", value: String(categoryList.length) },
@@ -117,50 +167,98 @@ const bestRightNow = categoryList.map((category) => ({
   rank: category.ranking.length,
 }));
 
-const evidenceHighlights = categoryList
-  .flatMap((category) =>
-    category.liveSignals.slice(0, 1).map((signal) => ({
-      categoryName: category.name,
-      categorySlug: category.slug,
-      ...signal,
-    })),
-  )
-  .slice(0, 5);
-
-const topComparisons = categoryList
-  .flatMap((category) =>
-    category.headToHead.slice(0, 1).map((pair) => ({
-      categoryName: category.name,
-      categorySlug: category.slug,
-      ...pair,
-    })),
-  )
-  .slice(0, 5);
-
 export default function Home() {
   return (
     <>
       {/* Dark Hero */}
       <DarkHero searchItems={searchItems} stats={heroStats} />
 
-      {/* Content sections */}
+      {/* Meta Skill: topskill */}
+      <TopSkillHero />
+
       <div className="px-6 sm:px-8">
+
+        {/* Trending this week */}
+        {trendingSkills.length > 0 && (
+          <section className="border-t border-[var(--border)] py-12">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+                  Trending this week
+                </p>
+                <p className="mt-1 text-[14px] text-gray-500">
+                  Biggest star growth since last data collection.
+                </p>
+              </div>
+              <Link
+                href="/skills"
+                className="group inline-flex items-center gap-1 text-[13px] font-medium text-gray-500 transition-colors hover:text-gray-900"
+              >
+                All skills <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+              </Link>
+            </div>
+            <TrendingSkills skills={trendingSkills} />
+          </section>
+        )}
+
+        {/* Recently active */}
+        {recentlyActive.length > 0 && (
+          <section className="border-t border-[var(--border)] py-12">
+            <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+              Recently active
+            </p>
+            <p className="mt-1 mb-6 text-[14px] text-gray-500">
+              Skills with repository activity in the last 30 days.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {recentlyActive.map((skill) => {
+                const score = computeTrustScore(skill);
+
+                return (
+                  <Link
+                    key={skill.slug}
+                    href={`/skills/${skill.slug}`}
+                    className="group flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 transition-all hover:border-[var(--border-hover)] hover:bg-[var(--surface-2)]"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="truncate text-[14px] font-semibold text-gray-900 transition-colors group-hover:text-[var(--accent)]">
+                          {skill.name}
+                        </p>
+                        <TrustBadge score={score} />
+                      </div>
+                      <p className="mt-0.5 font-mono text-[11px] text-gray-500">
+                        {skill.repoHealth?.lastPushDays === 0
+                          ? "today"
+                          : `${skill.repoHealth?.lastPushDays}d ago`}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
         {/* Top picks per category */}
-        <section className="border-t border-[var(--border)] py-14">
+        <section className="border-t border-[var(--border)] py-12">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
                 Best right now
               </p>
-              <p className="mt-2 text-[15px] text-gray-500">
+              <p className="mt-1 text-[14px] text-gray-500">
                 Top pick per category, ranked by evidence weight and workflow fit.
               </p>
             </div>
-            <Link href="/categories" className="group inline-flex w-fit items-center gap-1 rounded-lg border border-[var(--border)] px-3 py-1.5 text-[13px] font-medium text-gray-500 transition-all hover:border-[var(--border-hover)] hover:bg-gray-50 hover:text-gray-900">
+            <Link
+              href="/categories"
+              className="group inline-flex w-fit items-center gap-1 rounded-lg border border-[var(--border)] px-3 py-1.5 text-[13px] font-medium text-gray-500 transition-all hover:border-[var(--border-hover)] hover:bg-gray-50 hover:text-gray-900"
+            >
               All categories <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
             </Link>
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {bestRightNow.map((item) => (
               <Link
                 key={item.categorySlug}
@@ -180,9 +278,7 @@ export default function Home() {
                   <span className="inline-flex items-center rounded bg-emerald-50 px-1.5 py-0.5 font-mono text-[13px] font-medium text-emerald-600">
                     #1
                   </span>
-                  <span className="text-[12px] text-gray-500">
-                    of {item.rank} ranked
-                  </span>
+                  <span className="text-[12px] text-gray-500">of {item.rank} ranked</span>
                 </div>
               </Link>
             ))}
@@ -190,119 +286,61 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Dark CTA #1 */}
-      <DarkCTA
-        title="Every ranking shows its proof."
-        subtitle="GitHub stars, social signals, head-to-head comparisons — not opinions."
-        buttonText="HOW WE RANK →"
-        buttonHref="/docs/agents"
-        variant="primary"
-      />
-
-      <div className="px-6 sm:px-8">
-        {/* Popularity by stars */}
-        {(() => {
-          const topByStars: TopSkillData[] = skillList
-            .map((s) => ({ name: s.name, stars: parseStars(s.githubStars), slug: s.slug }))
-            .filter((s) => s.stars > 0)
-            .sort((a, b) => b.stars - a.stars)
-            .slice(0, 10);
-
-          return topByStars.length > 1 ? (
-            <section className="border-t border-[var(--border)] py-14">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
-                    Popularity by stars
-                  </p>
-                  <p className="mt-2 text-[15px] text-gray-500">
-                    Top skills by GitHub stars. Click a bar to see details.
-                  </p>
-                </div>
-                <Link href="/compare" className="group inline-flex w-fit items-center gap-1 rounded-lg border border-[var(--border)] px-3 py-1.5 text-[13px] font-medium text-gray-500 transition-all hover:border-[var(--border-hover)] hover:bg-gray-50 hover:text-gray-900">
-                  Compare skills <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
-                </Link>
-              </div>
-              <div className="mt-8">
-                <TopSkillsChart data={topByStars} />
-              </div>
-            </section>
-          ) : null;
-        })()}
-
-        {/* Key comparisons */}
-        <section className="border-t border-[var(--border)] py-14">
-          <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
-            Head to head
-          </p>
-          <p className="mt-2 text-[15px] text-gray-500">
-            The matchups that matter most right now.
-          </p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {topComparisons.map((pair) => (
-              <Link
-                key={`${pair.left}-${pair.right}`}
-                href={`/categories/${pair.categorySlug}`}
-                className="group rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 transition-all hover:border-[var(--border-hover)] hover:bg-[var(--surface-2)]"
-              >
-                <p className="font-mono text-[12px] uppercase tracking-wider text-gray-500">
-                  {pair.categoryName}
-                </p>
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="text-[15px] font-semibold text-gray-900">{pair.left}</span>
-                  <span className="rounded bg-gray-100 px-1.5 py-0.5 text-[12px] font-medium text-gray-500">vs</span>
-                  <span className="text-[15px] font-semibold text-gray-900">{pair.right}</span>
-                </div>
-                <p className="mt-2 line-clamp-2 text-[13px] leading-5 text-gray-500">
-                  {pair.gist}
-                </p>
-              </Link>
-            ))}
+      {/* Full Skill Registry */}
+      <div className="border-t border-[var(--border)] bg-[var(--surface)] px-6 py-12 sm:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+                Skill registry
+              </p>
+              <p className="mt-1 text-[14px] text-gray-500">
+                {skillList.length} skills ranked by trust score. Each backed by public evidence.
+              </p>
+            </div>
+            <Link
+              href="/skills"
+              className="group inline-flex w-fit items-center gap-1 rounded-lg border border-[var(--border)] px-3 py-1.5 text-[13px] font-medium text-gray-500 transition-all hover:border-[var(--border-hover)] hover:bg-white hover:text-gray-900"
+            >
+              Full page view <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+            </Link>
           </div>
-        </section>
-
-        {/* Evidence feed */}
-        <section className="border-t border-[var(--border)] py-14">
-          <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
-            Latest signals
-          </p>
-          <p className="mt-2 text-[15px] text-gray-500">
-            Strongest recent evidence from across all tracked categories.
-          </p>
-          <div className="mt-8 grid gap-4 lg:grid-cols-5">
-            {evidenceHighlights.map((signal) => (
-              <article key={signal.title} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[13px] uppercase tracking-wider text-gray-500">
-                    {signal.categoryName}
-                  </span>
-                  <span className="font-mono text-[12px] text-gray-500">{signal.date}</span>
-                </div>
-                <a
-                  href={signal.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-3 inline-block text-[15px] font-medium leading-snug text-gray-800 transition-colors hover:text-gray-900"
-                >
-                  {signal.title}
-                </a>
-                <p className="mt-2 line-clamp-3 text-[13px] leading-5 text-gray-500">
-                  {signal.note}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
+          <SkillsList skills={registryItems} />
+        </div>
       </div>
 
-      {/* Dark CTA #2 */}
-      <DarkCTA
-        title="Know a skill we're missing?"
-        subtitle="Submit it. We'll run the full pipeline and publish the evidence."
-        buttonText="SUBMIT A SKILL →"
-        buttonHref="/docs/agents"
-        variant="ghost"
-      />
+      {/* Publish your own skill — prominent CTA */}
+      <div className="mx-4 my-1 overflow-hidden rounded-lg border-2 border-[var(--accent)]/40 bg-[var(--dark-bg)]">
+        <div className="flex flex-col gap-6 p-7 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[1.5px] text-[var(--accent)]">
+              Open registry
+            </p>
+            <h2 className="mt-2 text-[22px] font-black tracking-tight text-white">
+              Built a skill worth sharing?
+            </h2>
+            <p className="mt-2 max-w-[440px] text-[13px] leading-relaxed text-[var(--dark-muted)]">
+              Submit it. We run the full 4-stage research pipeline — discover, deep-dive, rank,
+              QA — and publish the evidence. Every skill on this registry earned its spot.
+            </p>
+            <div className="mt-5 inline-flex items-center gap-2 rounded border border-[var(--dark-border)] bg-[var(--dark-surface)] px-4 py-2.5 font-mono text-[13px]">
+              <span className="text-emerald-500">$</span>
+              <span className="text-white">npx skills publish</span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 lg:items-end lg:text-right">
+            <Link
+              href="/docs/agents"
+              className="inline-flex items-center justify-center gap-2 rounded bg-[var(--accent)] px-6 py-3 font-mono text-[11px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-[var(--accent)]/90"
+            >
+              Submit a skill →
+            </Link>
+            <p className="text-[11px] text-[var(--dark-subtle)]">
+              We review every submission
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="px-6 sm:px-8">
         {/* Categories */}
@@ -316,7 +354,10 @@ export default function Home() {
                 Each answers a narrow question, backed by visible public proof.
               </p>
             </div>
-            <Link href="/categories" className="group inline-flex w-fit items-center gap-1 rounded-lg border border-[var(--border)] px-3 py-1.5 text-[13px] font-medium text-gray-500 transition-all hover:border-[var(--border-hover)] hover:bg-gray-50 hover:text-gray-900">
+            <Link
+              href="/categories"
+              className="group inline-flex w-fit items-center gap-1 rounded-lg border border-[var(--border)] px-3 py-1.5 text-[13px] font-medium text-gray-500 transition-all hover:border-[var(--border-hover)] hover:bg-gray-50 hover:text-gray-900"
+            >
               View all <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
             </Link>
           </div>
@@ -448,37 +489,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Top movers */}
-        {topMovers.length > 0 && (
-          <section className="border-t border-[var(--border)] py-14">
-            <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
-              Top movers this month
-            </p>
-            <p className="mt-2 text-[15px] text-gray-500">
-              Skills with the biggest star growth since last data collection.
-            </p>
-            <div className="mt-6 space-y-3">
-              {topMovers.map((item) => (
-                <Link
-                  key={item.slug}
-                  href={`/skills/${item.slug}`}
-                  className="group flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--surface)] px-5 py-4 transition-all hover:border-[var(--border-hover)] hover:bg-[var(--surface-2)]"
-                >
-                  <div className="flex items-center gap-3">
-                    <p className="text-[15px] font-semibold text-gray-900 transition-colors group-hover:text-[var(--accent)]">
-                      {item.name}
-                    </p>
-                    <TrustBadge score={item.trustScore} />
-                  </div>
-                  <span className="font-mono text-[13px] font-bold text-emerald-600">
-                    {item.detail}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
     </>
   );

@@ -10,9 +10,11 @@ import path from "node:path";
 // Load .env if present
 try {
   const envPath = path.resolve(".env");
+
   if (fs.existsSync(envPath)) {
     for (const line of fs.readFileSync(envPath, "utf-8").split("\n")) {
       const m = line.match(/^([A-Z_]+)=(.+)$/);
+
       if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
     }
   }
@@ -28,9 +30,11 @@ function extractSkillRepos() {
 
   for (const line of lines) {
     const slugMatch = line.match(/slug:\s*"([^"]+)"/);
+
     if (slugMatch) currentSlug = slugMatch[1];
 
     const repoMatch = line.match(/^\s*repo:\s*"([^"]+)"/);
+
     if (repoMatch && currentSlug) {
       skills.push({ slug: currentSlug, repo: repoMatch[1] });
       currentSlug = null;
@@ -42,6 +46,7 @@ function extractSkillRepos() {
 
 function makeHeaders() {
   const headers = { "User-Agent": "skillbench-metrics/1.0" };
+
   if (GITHUB_TOKEN) headers["Authorization"] = `Bearer ${GITHUB_TOKEN}`;
   return headers;
 }
@@ -50,8 +55,10 @@ async function fetchRepoHealth(repo) {
   const res = await fetch(`https://api.github.com/repos/${repo}`, {
     headers: makeHeaders(),
   });
+
   if (!res.ok) {
     const rateRemaining = res.headers.get("x-ratelimit-remaining");
+
     throw new Error(`HTTP ${res.status} (rate-limit remaining: ${rateRemaining})`);
   }
   const data = await res.json();
@@ -76,17 +83,21 @@ async function fetchContributorCount(repo) {
       `https://api.github.com/repos/${repo}/contributors?per_page=1&anon=true`,
       { headers: makeHeaders() },
     );
+
     if (!res.ok) return null;
 
     // Parse Link header for last page = total count
     const link = res.headers.get("link");
+
     if (link) {
       const lastMatch = link.match(/page=(\d+)>;\s*rel="last"/);
+
       if (lastMatch) return parseInt(lastMatch[1], 10);
     }
 
     // No pagination = single page, count the results
     const data = await res.json();
+
     return Array.isArray(data) ? data.length : null;
   } catch {
     return null;
@@ -96,6 +107,7 @@ async function fetchContributorCount(repo) {
 function updateSkillHealth(source, slug, health) {
   const slugPattern = new RegExp(`slug:\\s*"${slug}"`);
   const slugIndex = source.search(slugPattern);
+
   if (slugIndex === -1) {
     console.warn(`  ⚠ Could not find slug "${slug}" in catalog.ts`);
     return source;
@@ -111,15 +123,18 @@ function updateSkillHealth(source, slug, health) {
 
   // Check if repoHealth already exists
   const existingPattern = /repoHealth:\s*\{[^}]*\}/;
+
   if (existingPattern.test(block)) {
     block = block.replace(existingPattern, newValue);
   } else {
     // Insert before metrics or before strengths
     const insertBefore = block.search(/\s+metrics:\s*\{/);
+
     if (insertBefore !== -1) {
       block = block.slice(0, insertBefore) + `\n    ${newValue},` + block.slice(insertBefore);
     } else {
       const strengthsIdx = block.search(/\s+strengths:\s*\[/);
+
       if (strengthsIdx !== -1) {
         block = block.slice(0, strengthsIdx) + `\n    ${newValue},` + block.slice(strengthsIdx);
       }
@@ -152,11 +167,13 @@ async function main() {
     try {
       const health = await fetchRepoHealth(repo);
       const contributors = await fetchContributorCount(repo);
+
       health.contributors = contributors;
 
       source = updateSkillHealth(source, slug, health);
 
       const freshLabel = health.lastPushDays < 7 ? "🟢" : health.lastPushDays < 30 ? "🟡" : "🔴";
+
       console.log(
         `  ✓ ${slug}: ${freshLabel} ${health.lastPushDays}d ago, ${health.openIssues} issues, ${health.forks} forks${contributors ? `, ${contributors} contributors` : ""}${health.archived ? " [ARCHIVED]" : ""}`,
       );

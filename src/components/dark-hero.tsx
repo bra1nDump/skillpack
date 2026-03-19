@@ -6,6 +6,7 @@ interface DarkHeroProps {
     name: string;
     href: string;
     summary: string;
+    image?: string;
   }[];
   stats: { label: string; value: string; color?: string }[];
 }

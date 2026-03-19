@@ -9,13 +9,13 @@
     "lint": "eslint",
     "qa:links": "node scripts/qa/check-links.mjs",
     "qa:publish": "npm run lint && npm run build && npm run qa:links",
-    "screenshots": "node scripts/capture-screenshots.mjs",
-    "metrics:collect": "node scripts/collect-stars.mjs",
+"metrics:collect": "node scripts/collect-stars.mjs",
     "metrics:downloads": "node scripts/collect-downloads.mjs",
     "metrics:mentions": "node scripts/collect-mentions.mjs",
     "metrics:package-size": "node scripts/collect-package-size.mjs",
     "metrics:health": "node scripts/collect-repo-health.mjs",
     "metrics:all": "node scripts/collect-stars.mjs && node scripts/collect-downloads.mjs && node scripts/collect-mentions.mjs && node scripts/collect-package-size.mjs && node scripts/collect-repo-health.mjs",
+    "videos:collect": "node scripts/collect-videos.mjs",
     "ralph": "node scripts/ralph.mjs",
     "ralph:loop": "node scripts/ralph.mjs --loop"
   },
@@ -37,8 +37,7 @@
     "eslint-config-next": "16.1.6",
     "eslint-plugin-perfectionist": "^5.6.0",
     "eslint-plugin-sonarjs": "^4.0.2",
-    "playwright": "^1.58.2",
-    "tailwindcss": "^4",
+"tailwindcss": "^4",
     "typescript": "^5"
   }
 }

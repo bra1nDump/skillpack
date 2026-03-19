@@ -7,6 +7,7 @@ import { DarkCTA } from "@/components/dark-cta";
 import { DarkPageHeader } from "@/components/dark-page-header";
 import { ReadmePeek } from "@/components/readme-peek";
 import { TrustBadge } from "@/components/trust-badge";
+import { VideoEmbed } from "@/components/video-embed";
 import { bundleList, categoryList, getSkill, skillList } from "@/lib/catalog";
 import { formatTimeAgo } from "@/lib/format-time";
 import { fetchGitHubReadme } from "@/lib/github-readme";
@@ -95,6 +96,29 @@ export default async function SkillPage({ params }: PageProps) {
           ) : null;
         })()
         }
+
+        {/* Videos */}
+        {skill.videos && skill.videos.length > 0 && (
+          <section className="border-t border-[var(--border)] py-14">
+            <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+              Videos
+            </p>
+            <p className="mt-2 text-[15px] text-gray-500">
+              Reviews, tutorials, and comparisons from the community.
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {skill.videos.map((video) => (
+                <VideoEmbed
+                  key={video.youtubeId}
+                  youtubeId={video.youtubeId}
+                  title={video.title}
+                  channel={video.channel}
+                  date={video.date}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Repo health */}
         {skill.repoHealth && (
@@ -359,6 +383,57 @@ export default async function SkillPage({ params }: PageProps) {
           buttonHref="/docs/agents"
           variant="ghost"
         />
+
+        {/* Similar skills */}
+        {(() => {
+          const similar = skillList
+            .filter(
+              (s) =>
+                s.slug !== skill.slug &&
+                s.relatedCategories.some((c) => skill.relatedCategories.includes(c)),
+            )
+            .map((s) => ({ skill: s, score: computeTrustScore(s), screenshot: getScreenshotUrl(s.slug) }))
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 4);
+
+          return similar.length > 0 ? (
+            <section className="border-t border-[var(--border)] py-14">
+              <p className="font-mono text-[13px] uppercase tracking-widest text-[var(--accent)]">
+                Similar skills
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {similar.map(({ skill: s, score, screenshot }) => (
+                  <Link
+                    key={s.slug}
+                    href={`/skills/${s.slug}`}
+                    className="group rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 transition-all hover:border-[var(--border-hover)] hover:bg-[var(--surface-2)]"
+                  >
+                    {screenshot && (
+                      <div className="mb-3 h-20 overflow-hidden rounded border border-[var(--border)]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={screenshot}
+                          alt=""
+                          className="h-full w-full object-cover object-top"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <p className="flex-1 truncate text-[14px] font-semibold text-gray-900 transition-colors group-hover:text-[var(--accent)]">
+                        {s.name}
+                      </p>
+                      <TrustBadge score={score} />
+                    </div>
+                    <p className="mt-1 line-clamp-2 text-[12px] leading-5 text-gray-500">
+                      {s.summary}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null;
+        })()}
 
         {/* README */}
         <section className="border-t border-[var(--border)] py-14">

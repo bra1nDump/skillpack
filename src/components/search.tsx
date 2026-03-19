@@ -8,6 +8,7 @@ type SearchItem = {
   name: string;
   href: string;
   summary: string;
+  image?: string;
 };
 
 export function Search({ items, dark }: { items: SearchItem[]; dark?: boolean }) {
@@ -96,27 +97,40 @@ export function Search({ items, dark }: { items: SearchItem[]; dark?: boolean })
                 setOpen(false);
                 setQuery("");
               }}
-              className="block border-b border-[var(--border)] px-4 py-3 last:border-b-0 hover:bg-gray-50"
+              className="flex items-center gap-3 border-b border-[var(--border)] px-4 py-3 last:border-b-0 hover:bg-gray-50"
             >
-              <span
-                className={`inline-block rounded px-1.5 py-0.5 font-mono text-[13px] uppercase tracking-wider ${
-                  item.label === "Skill"
-                    ? "bg-[var(--accent)]/10 text-[var(--accent)]"
-                    : item.label === "Bundle"
-                      ? "bg-violet-50 text-violet-600"
-                      : item.label === "Category"
-                        ? "bg-emerald-50 text-emerald-600"
-                        : "bg-gray-100 text-gray-500"
-                }`}
-              >
-                {item.label}
-              </span>
-              <p className="mt-1 text-[15px] font-medium text-gray-800">
-                {item.name}
-              </p>
-              <p className="mt-0.5 line-clamp-1 text-[13px] text-gray-500">
-                {item.summary}
-              </p>
+              {item.image && (
+                <div className="h-8 w-12 flex-shrink-0 overflow-hidden rounded border border-[var(--border)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="h-full w-full object-cover object-top"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <span
+                  className={`inline-block rounded px-1.5 py-0.5 font-mono text-[13px] uppercase tracking-wider ${
+                    item.label === "Skill"
+                      ? "bg-[var(--accent)]/10 text-[var(--accent)]"
+                      : item.label === "Bundle"
+                        ? "bg-violet-50 text-violet-600"
+                        : item.label === "Category"
+                          ? "bg-emerald-50 text-emerald-600"
+                          : "bg-gray-100 text-gray-500"
+                  }`}
+                >
+                  {item.label}
+                </span>
+                <p className="mt-1 text-[15px] font-medium text-gray-800">
+                  {item.name}
+                </p>
+                <p className="mt-0.5 line-clamp-1 text-[13px] text-gray-500">
+                  {item.summary}
+                </p>
+              </div>
             </Link>
           ))}
         </div>

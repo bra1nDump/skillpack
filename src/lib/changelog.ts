@@ -16,10 +16,12 @@ export function getTopMovers(limit = 3): ChangelogItem[] {
 
   for (const skill of skillList) {
     const stars = skill.metrics?.stars;
+
     if (stars && stars.length >= 2) {
       const prev = stars[stars.length - 2].value;
       const latest = stars[stars.length - 1].value;
       const delta = latest - prev;
+
       if (delta > 0) {
         items.push({
           slug: skill.slug,
@@ -43,12 +45,15 @@ export function getDownloadMovers(limit = 3): ChangelogItem[] {
 
   for (const skill of skillList) {
     const dl = skill.metrics?.downloads;
+
     if (dl && dl.length >= 2) {
       const prev = dl[dl.length - 2].value;
       const latest = dl[dl.length - 1].value;
       const delta = latest - prev;
+
       if (delta > 0 && prev > 0) {
         const pct = Math.round((delta / prev) * 100);
+
         items.push({
           slug: skill.slug,
           name: skill.name,
