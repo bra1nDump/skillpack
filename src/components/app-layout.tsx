@@ -10,7 +10,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Desktop: sticky sidebar */}
         <DesktopSidebar />
 
-        <main className="flex w-full min-w-0 flex-1 flex-col overflow-x-hidden bg-white">
+        <main className="flex w-full min-w-0 flex-1 flex-col overflow-x-clip bg-white">
           <div className="flex-1">{children}</div>
           <footer className="border-t border-[var(--border)] px-8 py-4">
             <div className="flex items-center justify-between">

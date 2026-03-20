@@ -21,6 +21,7 @@ export type SkillRowData = {
   daysOld?: number;
   weekGrowth?: number;
   tags?: string[];
+  relatedCategories?: string[];
   trustScore?: number;
   // Future (needs backend): rating, reviewCount, retention, usage
 };

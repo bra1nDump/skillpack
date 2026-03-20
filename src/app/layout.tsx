@@ -1,7 +1,5 @@
 import { IBM_Plex_Mono, Lato } from "next/font/google";
 
-import { AppLayout } from "@/components/app-layout";
-
 import type { Metadata } from "next";
 
 import "./globals.css";
@@ -19,7 +17,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SkillPack — Skills for Claude Code",
+  title: "SkillPack — Skills and Agents",
   description:
     "The skill marketplace for Claude Code. Community-rated, retention-tracked, and ranked.",
 };
@@ -34,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${lato.variable} ${ibmPlexMono.variable} antialiased`}
       >
-        <AppLayout>{children}</AppLayout>
+        {children}
       </body>
     </html>
   );

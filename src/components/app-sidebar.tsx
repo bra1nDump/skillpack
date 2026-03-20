@@ -21,7 +21,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           </span>
         </Link>
         <p className="mt-[5px] font-mono text-[9px] uppercase tracking-[2px] text-[#525252]">
-          Skills for Claude Code
+          Skills and Agents
         </p>
       </div>
 
@@ -30,16 +30,15 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <Link
           href="/publish"
           onClick={onNavigate}
-          className="flex w-full items-center justify-center gap-1.5 bg-[var(--accent)] py-[11px] font-mono text-[12px] font-bold tracking-wider text-white transition-colors hover:bg-[var(--accent)]/90"
+          className="flex w-full items-center justify-center gap-1.5 bg-[#E63946] py-[11px] font-mono text-[12px] font-bold tracking-wider text-white transition-colors hover:bg-[#c5303b]"
         >
-          <span className="text-[14px] leading-none">+</span> PUBLISH A SKILL
+          <span className="text-[14px] leading-none">+</span> PUBLISH YOUR SKILL
         </Link>
       </div>
 
       {/* Main nav */}
       <div className="py-2">
         {[
-          { href: "/skills", label: "Skills", icon: "◈" },
           { href: "/bundles", label: "Bundles", icon: "▤" },
           { href: "/platforms", label: "Platforms", icon: "◇" },
           { href: "/compare", label: "Compare", icon: "⇔" },
@@ -102,13 +101,20 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
       {/* Footer links */}
       <div className="flex gap-3 border-t border-[#262626] px-[18px] py-3 font-mono text-[10px] text-[#525252]">
-        {["Docs", "API", "GitHub", "Discord"].map((l) => (
-          <span
-            key={l}
-            className="cursor-pointer transition-colors hover:text-[#A3A3A3]"
+        {[
+          { label: "Docs", href: "/docs/methodology" },
+          { label: "SkillPack", href: "/skillpack" },
+          { label: "GitHub", href: "https://github.com/bra1nDump/skillbench/" },
+        ].map((l) => (
+          <Link
+            key={l.label}
+            href={l.href}
+            onClick={onNavigate}
+            className="transition-colors hover:text-[#A3A3A3]"
+            target={l.label==="GitHub" ? "_blank" : "" }
           >
-            {l}
-          </span>
+            {l.label}
+          </Link>
         ))}
       </div>
     </div>

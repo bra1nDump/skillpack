@@ -22,22 +22,26 @@ const TIER_ORDER = { Atomic: 1, Composite: 2, Orchestrator: 3, Pack: 4 };
 
 const PAGE_SIZE = 20;
 
-const COLUMNS: { key: SortKey; label: string }[] = [
+const COLUMNS: { key: SortKey; label: string; tip?: string }[] = [
   { key: null, label: "SKILL" },
-  { key: "tier", label: "TIER" },
-  { key: "trust", label: "TRUST" },
-  { key: "complexity", label: "COMPLEXITY" },
-  { key: "updated", label: "UPDATED" },
-  { key: "installs", label: "INSTALLS" },
+  { key: "tier", label: "TIER", tip: "Atomic → Composite → Orchestrator → Pack. Measures how many moving parts the skill coordinates." },
+  { key: "trust", label: "TRUST", tip: "0-100 score based on stars, evidence quality, repo health, and community signals." },
+  { key: "complexity", label: "COMPLEXITY", tip: "1-5 dots. How much setup, config, and expertise the skill demands to run." },
+  { key: "updated", label: "UPDATED", tip: "How recently the repo received a push." },
+  { key: "installs", label: "INSTALLS", tip: "Weekly downloads from npm / PyPI." },
   { key: null, label: "" },
 ];
+
+type CategoryOption = { slug: string; name: string };
 
 export function SkillCatalog({
   skills,
   activeCategoryName,
+  categories,
 }: {
   skills: SkillRowData[];
   activeCategoryName?: string;
+  categories?: CategoryOption[];
 }) {
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,6 +49,8 @@ export function SkillCatalog({
   const [showCount, setShowCount] = useState(PAGE_SIZE);
   const [sortKey, setSortKey] = useState<SortKey>(null);
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
 
   const handleSort = (key: SortKey) => {
     if (!key) return;
@@ -71,6 +77,16 @@ export function SkillCatalog({
           (s.repo?.toLowerCase().includes(q) ?? false) ||
           (s.skillType?.toLowerCase().includes(q) ?? false),
       );
+    }
+
+    // Category filter
+    if (categoryFilter) {
+      list = list.filter((s) => s.relatedCategories?.includes(categoryFilter));
+    }
+
+    // Type filter
+    if (typeFilter) {
+      list = list.filter((s) => s.skillType === typeFilter);
     }
 
     // Tab filtering
@@ -123,7 +139,7 @@ export function SkillCatalog({
     }
 
     return list;
-  }, [skills, activeTab, searchQuery, sortKey, sortDir]);
+  }, [skills, activeTab, searchQuery, sortKey, sortDir, categoryFilter, typeFilter]);
 
   const visibleSkills = filteredSkills.slice(0, showCount);
   const hasMore = showCount < filteredSkills.length;
@@ -170,9 +186,9 @@ export function SkillCatalog({
           {/* Publish button */}
           <Link
             href="/publish"
-            className="flex items-center gap-1 bg-gray-900 px-3.5 py-1.5 font-mono text-[10px] font-bold text-white transition-colors hover:bg-gray-800"
+            className="flex items-center gap-1 bg-[#E63946] px-4 py-2 font-mono text-[11px] font-bold tracking-wide text-white transition-colors hover:bg-[#c5303b]"
           >
-            <span className="text-[12px] leading-none">+</span> PUBLISH
+            <span className="text-[13px] leading-none">+</span> PUBLISH YOUR SKILL
           </Link>
         </div>
       </div>
@@ -199,6 +215,41 @@ export function SkillCatalog({
         ))}
       </div>
 
+      {/* Filters row */}
+      {categories && categories.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 border-b border-[var(--border)] bg-[var(--surface)] px-3.5 py-2">
+          <select
+            value={categoryFilter ?? ""}
+            onChange={(e) => { setCategoryFilter(e.target.value || null); setShowCount(PAGE_SIZE); }}
+            className="cursor-pointer rounded border border-[var(--border)] bg-white px-2 py-1 font-mono text-[10px] text-gray-600 hover:border-gray-400 focus:border-gray-500 focus:outline-none"
+          >
+            <option value="">All categories</option>
+            {categories.map((c) => (
+              <option key={c.slug} value={c.slug}>{c.name}</option>
+            ))}
+          </select>
+          <select
+            value={typeFilter ?? ""}
+            onChange={(e) => { setTypeFilter(e.target.value || null); setShowCount(PAGE_SIZE); }}
+            className="cursor-pointer rounded border border-[var(--border)] bg-white px-2 py-1 font-mono text-[10px] text-gray-600 hover:border-gray-400 focus:border-gray-500 focus:outline-none"
+          >
+            <option value="">All types</option>
+            {["Expertise", "Generator", "Guardian", "Connector"].map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+          {(categoryFilter || typeFilter) && (
+            <button
+              type="button"
+              onClick={() => { setCategoryFilter(null); setTypeFilter(null); }}
+              className="cursor-pointer font-mono text-[10px] text-gray-400 hover:text-gray-600"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Tab description */}
       <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-3.5 py-1.5">
         <span className="font-mono text-[10px] text-gray-500">
@@ -221,15 +272,24 @@ export function SkillCatalog({
           <span
             key={col.label || "_empty"}
             onClick={() => handleSort(col.key)}
-            className={`font-mono text-[9px] font-bold tracking-wider select-none ${
+            className={`group/tip relative font-mono text-[9px] font-bold tracking-wider select-none ${
               col.key
                 ? "cursor-pointer transition-colors hover:text-gray-700"
                 : ""
             } ${sortKey === col.key ? "text-gray-900" : "text-gray-400"}`}
           >
             {col.label}
+            {col.tip && <span className="ml-0.5 text-gray-300 group-hover/tip:text-gray-500">?</span>}
             {sortKey === col.key && (
               <span className="ml-0.5">{sortDir === "desc" ? "↑" : "↓"}</span>
+            )}
+            {col.tip && (
+              <span className="absolute top-full left-0 z-50 hidden pt-1 group-hover/tip:block">
+                <span className="block w-48 rounded bg-gray-900 px-2.5 py-2 text-[10px] font-normal leading-snug tracking-normal text-gray-200 shadow-lg">
+                  {col.tip}
+                  <a href="/docs/methodology" className="mt-1 block text-[var(--accent)] hover:underline">How we measure →</a>
+                </span>
+              </span>
             )}
           </span>
         ))}
@@ -285,7 +345,7 @@ export function SkillCatalog({
           </div>
           <Link
             href="/publish"
-            className="shrink-0 bg-[var(--accent)] px-6 py-2.5 font-mono text-[12px] font-bold tracking-wider text-white transition-colors hover:bg-[var(--accent)]/90"
+            className="shrink-0 bg-[#E63946] px-6 py-2.5 font-mono text-[12px] font-bold tracking-wider text-white transition-colors hover:bg-[#c5303b]"
           >
             PUBLISH YOUR SKILL →
           </Link>

@@ -473,6 +473,96 @@ function stageQA() {
 }
 
 // ---------------------------------------------------------------------------
+// Auto-fix corrupted catalog.ts from LLM output
+// ---------------------------------------------------------------------------
+function stageFix() {
+  const stage = "FIX";
+  const catalogPath = resolve(ROOT, "src/lib/catalog.ts");
+
+  log(stage, "Attempting auto-fix of catalog.ts…");
+  const start = Date.now();
+
+  try {
+    let src = readFileSync(catalogPath, "utf-8");
+    let fixes = 0;
+
+    // Fix 1: Duplicated array tails — tags: ["a", "b"], "b"], "b"],
+    const beforeTags = src;
+
+    src = src.replace(/^(\s*tags:\s*\[[^\]]+\])(?:,\s*(?:"[^"]*"(?:,\s*"[^"]*")*\])+)+,?/gm, (match, first) => {
+      return first + ",";
+    });
+    if (src !== beforeTags) {
+      const count = (beforeTags.match(/tags:.*\], "/g) || []).length;
+
+      fixes += count;
+      log(stage, `  Fixed ${count} corrupted tags arrays`);
+    }
+
+    // Fix 2: Extra closing braces — languages: { ... } } } } },
+    const beforeBraces = src;
+
+    src = src.replace(/(languages:\s*\{[^}]+\})\s*(\}\s*){2,}/g, "$1 }");
+    if (src !== beforeBraces) {
+      const count = (beforeBraces.match(/languages:.*\} \} \}/g) || []).length;
+
+      fixes += count;
+      log(stage, `  Fixed ${count} extra closing braces`);
+    }
+
+    // Fix 3: packageSize without languages but with extra braces
+    const beforePkg = src;
+
+    src = src.replace(/(packageSize:\s*\{\s*repoSizeKb:\s*\d+)\s*\}\s*(\}\s*){2,}/g, "$1 }");
+    if (src !== beforePkg) fixes++;
+
+    // Fix 4: Invalid skillType enum values
+    const typeMap = { "CLI Tool": "Generator", "Tool": "Generator", "Service": "Connector", "Agent": "Orchestrator", "Suite": "Generator", "Platform": "Connector" };
+
+    for (const [bad, good] of Object.entries(typeMap)) {
+      const re = new RegExp(`skillType: "${bad}"`, "g");
+      const count = (src.match(re) || []).length;
+
+      if (count > 0) {
+        src = src.replace(re, `skillType: "${good}"`);
+        fixes += count;
+        log(stage, `  Fixed ${count} invalid skillType "${bad}" → "${good}"`);
+      }
+    }
+
+    // Fix 5: Invalid skillTier enum values
+    const tierMap = { "Standalone": "Atomic", "Single": "Atomic", "Multi": "Composite", "Bundle": "Pack" };
+
+    for (const [bad, good] of Object.entries(tierMap)) {
+      const re = new RegExp(`skillTier: "${bad}"`, "g");
+      const count = (src.match(re) || []).length;
+
+      if (count > 0) {
+        src = src.replace(re, `skillTier: "${good}"`);
+        fixes += count;
+        log(stage, `  Fixed ${count} invalid skillTier "${bad}" → "${good}"`);
+      }
+    }
+
+    if (fixes > 0) {
+      writeFileSync(catalogPath, src, "utf-8");
+      log(stage, `  Applied ${fixes} total fixes`);
+    } else {
+      log(stage, "  No known corruption patterns found");
+    }
+
+    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+
+    return { ok: true, output: `${fixes} fixes`, elapsed, fixes };
+  } catch (e) {
+    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+
+    log(stage, `  Auto-fix error: ${e.message}`);
+    return { ok: false, output: e.message, elapsed, fixes: 0 };
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Category context extractor
 // ---------------------------------------------------------------------------
 function getCategoryContext(category) {
@@ -540,7 +630,7 @@ async function runResearch(category) {
 // ---------------------------------------------------------------------------
 // Phase 2: Finalize (sequential) — Catalog Update → Metrics → QA
 // ---------------------------------------------------------------------------
-async function runFinalize(researchResults) {
+async function runFinalize(researchResults, concurrency = 1) {
   console.log(`\n${"=".repeat(60)}`);
   console.log(`  Finalize — ${researchResults.length} categories`);
   console.log(`  Started: ${new Date().toISOString()}`);
@@ -554,22 +644,59 @@ async function runFinalize(researchResults) {
     r.results.catalogUpdate = await stageCatalogUpdate(r.category, r.rankFindingsPath);
   }
 
-  // Screenshots — find real product-in-use images (parallel, all categories at once)
-  log("SCREENSHOTS", `Finding product screenshots for ${researchResults.length} categories in parallel…`);
-  await Promise.all(
-    researchResults.map(async (r) => {
-      log("SCREENSHOTS", `Starting screenshots for ${r.category}…`);
-      r.results.screenshots = await stageScreenshots(r.category);
-    }),
-  );
+  // Screenshots — find real product-in-use images (concurrency-limited, same as research)
+  const screenshotLimit = Math.min(concurrency, researchResults.length);
+
+  log("SCREENSHOTS", `Finding product screenshots for ${researchResults.length} categories, ${screenshotLimit} in parallel…`);
+  {
+    const queue = [...researchResults];
+    const running = new Set();
+
+    await new Promise((resolve) => {
+      function next() {
+        if (queue.length === 0 && running.size === 0) return resolve();
+        while (running.size < screenshotLimit && queue.length > 0) {
+          const r = queue.shift();
+
+          running.add(r.category);
+          log("SCREENSHOTS", `Starting screenshots for ${r.category}…`);
+          stageScreenshots(r.category)
+            .then((res) => { r.results.screenshots = res; })
+            .catch((e) => log("SCREENSHOTS", `${r.category} FAILED: ${e.message}`))
+            .finally(() => { running.delete(r.category); next(); });
+        }
+      }
+      next();
+    });
+  }
 
   // Metrics — once for all
   log("METRICS", "Collecting stars, downloads, and mentions…");
   finalResults.metrics = stageMetrics();
 
-  // QA — once at the end
-  log("QA", "Running build + link check…");
-  finalResults.qa = stageQA();
+  // QA — with auto-fix retry loop (max 5 attempts)
+  const MAX_QA_RETRIES = 5;
+
+  for (let attempt = 1; attempt <= MAX_QA_RETRIES; attempt++) {
+    log("QA", `Attempt ${attempt}/${MAX_QA_RETRIES} — running build + link check…`);
+    finalResults.qa = stageQA();
+
+    if (finalResults.qa.ok) break;
+
+    if (attempt === MAX_QA_RETRIES) {
+      log("QA", `Build still failing after ${MAX_QA_RETRIES} fix attempts — giving up`);
+      break;
+    }
+
+    log("QA", "Build failed — attempting auto-fix…");
+    const fix = stageFix();
+
+    finalResults.fix = fix;
+    if (fix.fixes === 0) {
+      log("QA", "No fixable patterns found — manual intervention needed");
+      break;
+    }
+  }
 
   return finalResults;
 }
@@ -648,7 +775,7 @@ async function main() {
     }
 
     // Phase 2: sequential finalize (catalog updates, metrics, QA)
-    const finalResults = await runFinalize(researchResults);
+    const finalResults = await runFinalize(researchResults, opts.concurrency);
 
     // Summary
     printSummary(researchResults, finalResults);

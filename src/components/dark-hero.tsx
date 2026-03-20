@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function DarkHero() {
   return (
     <div className="bg-[var(--dark-bg)] px-8 py-7 text-white">
@@ -24,6 +26,12 @@ export function DarkHero() {
             structure — then selects the highest-rated skills from the catalog,
             resolves conflicts, and installs everything.
           </p>
+          <Link
+            href="/skillpack"
+            className="mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] font-bold tracking-wide text-[var(--accent)] transition-colors hover:text-white"
+          >
+            LEARN MORE →
+          </Link>
         </div>
 
         {/* Right: CLI demo */}

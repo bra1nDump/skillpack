@@ -15,10 +15,12 @@ For each skill slug provided, find the best screenshot showing the product **in 
 
 ## Prompt
 
-```text
+````text
 You are the SkillBench Screenshot Scout.
 
 Your job: for each skill slug, find the best screenshot showing the product IN USE.
+
+SCOPE: Only search for screenshots for skills that are in the TOP 10 AND above the cut line in their category ranking. Skip any skill that is ranked below the cut line — these do not need screenshots.
 
 WHAT "IN USE" MEANS:
 - Terminal output, command line interface, or editor window showing the tool working
@@ -51,13 +53,14 @@ Step 2: DOWNLOAD CANDIDATES
 For each candidate image URL found, download it:
 ```bash
 curl -L -o "public/screenshots/candidates/{slug}/candidate_{n}.png" "{url}" --max-time 10
-```
+````
 
 Download up to 5 candidates. Skip if the URL returns non-image content type.
 
 Step 3: EVALUATE WITH VISION
 
 For each downloaded candidate, evaluate it (you can read images):
+
 - Does it show the product actively being used? (1-5)
 - Does it show a real workflow or output? (1-5)
 - Is the image quality good (not blurry, not tiny)? (1-5)
@@ -68,9 +71,11 @@ Total score out of 20. Minimum passing score: 14.
 Step 4: RESOLUTION CHECK
 
 After downloading each candidate, verify its quality:
+
 ```bash
 identify "public/screenshots/candidates/{slug}/candidate_{n}.png" 2>/dev/null || file "public/screenshots/candidates/{slug}/candidate_{n}.png"
 ```
+
 - REJECT any image smaller than 800x400 pixels — these are thumbnails or badges
 - REJECT any file under 50KB — likely a low-res placeholder
 - REJECT any file that is not actually an image (HTML error pages, etc.)
@@ -78,6 +83,7 @@ identify "public/screenshots/candidates/{slug}/candidate_{n}.png" 2>/dev/null ||
 Step 5: SELECT BEST
 
 Pick the candidate with the highest score that passes BOTH:
+
 - Minimum score threshold: 14/20
 - Minimum resolution: 800x400 pixels
 
@@ -86,6 +92,7 @@ If NO candidate qualifies, output: "NO_VALID_SCREENSHOT — [reason]" and leave 
 Step 6: INSTALL
 
 Copy the winning candidate to the screenshots directory:
+
 ```bash
 cp "public/screenshots/candidates/{slug}/candidate_{n}.png" "public/screenshots/{slug}.png"
 ```
@@ -93,6 +100,7 @@ cp "public/screenshots/candidates/{slug}/candidate_{n}.png" "public/screenshots/
 OUTPUT FORMAT:
 
 For each skill processed:
+
 ```
 ## {slug}
 
@@ -105,8 +113,17 @@ Reason: [one sentence why this is the best shot]
 Result: INSTALLED / NO_VALID_SCREENSHOT
 ```
 
+Step 7: CLEANUP
+
+After all skills are processed, delete the entire candidates directory:
+
+```bash
+rm -rf "public/screenshots/candidates"
+```
+
 IMPORTANT RULES:
 
+0. SCOPE: Only process skills that are top 10 + above the cut line. Skip everything else.
 1. MINIMUM RESOLUTION: 800x400 pixels. Never install low-res or thumbnail images.
 2. Never overwrite an existing screenshot with a lower-quality one
 3. If the existing screenshot is a real product-in-use shot AND high-res (>= 800px wide), skip that skill
@@ -115,7 +132,8 @@ IMPORTANT RULES:
 6. Also try the "master" branch if "main" returns 404 for README
 7. GIFs are acceptable — save the first frame
 8. EVERY skill must get a screenshot attempt — do not skip any skill
-```
+
+````
 
 ## Usage
 
@@ -127,6 +145,6 @@ claude -p "$(cat agents/screenshot-scout.md)" --task "Find screenshots for skill
 
 # Multiple skills
 claude -p "$(cat agents/screenshot-scout.md)" --task "Find screenshots for these skills: claude-code, aider, browser-use, codex-cli, gemini-cli"
-```
+````
 
 Or add as a stage to ralph.mjs after the catalog update stage.
