@@ -1,14 +1,18 @@
+import { auth } from "@/lib/auth";
+
 import { DesktopSidebar, MobileNav } from "./app-sidebar";
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
+export async function AppLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <>
       {/* Mobile: top bar + overlay menu */}
-      <MobileNav />
+      <MobileNav session={session} />
 
       <div className="flex w-full min-h-screen">
         {/* Desktop: sticky sidebar */}
-        <DesktopSidebar />
+        <DesktopSidebar session={session} />
 
         <main className="flex w-full min-w-0 flex-1 flex-col overflow-x-clip bg-white">
           <div className="flex-1">{children}</div>

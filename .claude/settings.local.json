@@ -13,7 +13,9 @@
       "Bash(bash \"C:\\\\Users\\\\theso\\\\.claude\\\\plugins\\\\cache\\\\claude-plugins-official\\\\superpowers\\\\5.0.4\\\\skills\\\\brainstorming\\\\scripts\\\\start-server.sh\" --project-dir \"c:\\\\Projects\\\\Work\\\\skillbench\")",
       "Bash(grep -A 40 'slug: \"\"\"\"claude-code\"\"\"\"' src/lib/catalog.ts)",
       "Bash(node -e \":*)",
-      "Bash(npx skills:*)"
+      "Bash(npx skills:*)",
+      "Bash(mkdir -p c:/Projects/Work/skillbench/src/app/api/auth/[...nextauth])",
+      "Bash(mkdir -p c:/Projects/Work/skillbench/src/app/api/skills/[id])"
     ]
   },
   "enabledPlugins": {

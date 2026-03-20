@@ -1,13 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import type { Session } from "next-auth";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { categoryList, skillList } from "@/lib/catalog";
 import { categoryIcons } from "@/lib/skill-filters";
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+import { AuthButton } from "./auth-button";
+
+function SidebarContent({ onNavigate, session }: { onNavigate?: () => void; session: Session | null }) {
   const pathname = usePathname();
 
   return (
@@ -25,20 +28,15 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </p>
       </div>
 
-      {/* PUBLISH CTA — very prominent */}
-      <div className="px-[18px] pt-[14px] pb-[10px]">
-        <Link
-          href="/publish"
-          onClick={onNavigate}
-          className="flex w-full items-center justify-center gap-1.5 bg-[#E63946] py-[11px] font-mono text-[12px] font-bold tracking-wider text-white transition-colors hover:bg-[#c5303b]"
-        >
-          <span className="text-[14px] leading-none">+</span> PUBLISH YOUR SKILL
-        </Link>
+      {/* PUBLISH CTA / User info */}
+      <div className="px-[18px] pt-[14px] pb-[10px]" onClick={onNavigate}>
+        <AuthButton session={session} />
       </div>
 
       {/* Main nav */}
       <div className="py-2">
         {[
+          { href: "/community", label: "Community", icon: "★" },
           { href: "/bundles", label: "Bundles", icon: "▤" },
           { href: "/platforms", label: "Platforms", icon: "◇" },
           { href: "/compare", label: "Compare", icon: "⇔" },
@@ -121,15 +119,15 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-export function DesktopSidebar() {
+export function DesktopSidebar({ session }: { session: Session | null }) {
   return (
     <aside className="sticky top-0 hidden h-screen shrink-0 md:block">
-      <SidebarContent />
+      <SidebarContent session={session} />
     </aside>
   );
 }
 
-export function MobileNav() {
+export function MobileNav({ session }: { session: Session | null }) {
   const [open, setOpen] = useState(false);
 
   const close = () => setOpen(false);
@@ -186,7 +184,7 @@ export function MobileNav() {
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <SidebarContent onNavigate={close} />
+        <SidebarContent onNavigate={close} session={session} />
       </aside>
     </>
   );

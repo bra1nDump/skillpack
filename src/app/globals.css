@@ -46,6 +46,10 @@ a {
   text-decoration: none;
 }
 
+button, [role="button"], input[type="submit"], a[href] {
+  cursor: pointer;
+}
+
 ::selection {
   background: rgba(230, 57, 70, 0.2);
   color: #000;
