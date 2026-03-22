@@ -33,6 +33,8 @@ Fewer screens, fewer components, more consistency. Every screen should use simil
 - Solutions can be **built on top of other solutions.** Notion MCP is built on Notion — they're related but distinct solutions solving different problems (AI-accessible knowledge vs. knowledge management itself).
 - Framing around problems makes the value proposition instantly clear to visitors: "I have this problem, what's the best solution?"
 
+**Bundles → Key Players / Innovators.** People and companies pushing full opinionated setups. Harder to rank than individual solutions, but extremely valuable to track — how is their AI adoption going? What are they switching to? This evolves the current "bundles" concept from a static snapshot of someone's stack into a living profile of how key players are adopting AI across multiple problem spaces.
+
 **Example problem page headers:**
 - **Coding** — "How do I write code with AI?" Today it's CLIs (Claude Code, Cursor), tomorrow it's Slack with coding agents talking to each other. The problem stays the same, solutions evolve.
 - **Memory** — "How do agents remember context across sessions?"
