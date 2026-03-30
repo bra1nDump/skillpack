@@ -64,6 +64,9 @@ function SidebarContent({ onNavigate, session }: { onNavigate?: () => void; sess
           const count = skillList.filter((s) =>
             s.relatedCategories.includes(cat.slug),
           ).length;
+          const displayCount = count || cat.ranking.length;
+
+          if (displayCount === 0) return null;
 
           return (
             <Link

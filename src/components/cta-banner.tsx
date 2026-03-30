@@ -106,8 +106,8 @@ export function CtaBanner({
   // Variant 5: Inline — same bg as hero, no card border
   if (variant === 5) {
     return (
-      <div className="border-t border-[#262626] px-2 py-5 text-white sm:px-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-[#262626] px-2 pb-5 pt-8 text-white sm:px-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-5">
           <div className="hidden sm:block">
             <p className="text-[14px] font-bold">Try SkillPack</p>
             <p className="mt-0.5 text-[12px] text-gray-500">
@@ -119,7 +119,7 @@ export function CtaBanner({
             {starButton}
           </div>
         </div>
-        <div className="mt-3 flex flex-col gap-2 border-t border-[#262626] pt-3 sm:flex-row sm:items-center sm:gap-3">
+        <div className="mt-5 flex flex-col gap-2 border-t border-[#262626] pt-4 sm:flex-row sm:items-center sm:gap-3">
           <span className="text-[11px] text-gray-500">Stay updated:</span>
           <SubscribeForm variant="dark" />
         </div>

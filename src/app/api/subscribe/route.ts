@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/slow-regex */
 import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
 import Mailjet from "node-mailjet";

@@ -64,7 +64,7 @@ export function DarkHero() {
       </div>
 
       {/* CTA: Install + Star + Subscribe — part of hero */}
-      <div className="mx-auto mt-8 max-w-[1100px]">
+      <div className="mx-auto mt-12 max-w-[1100px]">
         <CtaBanner variant={5} />
       </div>
     </div>
