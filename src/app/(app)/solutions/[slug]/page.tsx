@@ -69,11 +69,10 @@ export default async function SolutionPage({ params }: PageProps) {
         badge={{ text: skill.status, variant: skill.status }}
         labels={labels}
         aside={screenshotUrl ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={screenshotUrl}
             alt={`${skill.name} in action`}
-            width={720}
-            height={450}
             className="h-full w-full object-cover object-top"
           />
         ) : undefined}

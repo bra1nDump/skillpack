@@ -206,12 +206,12 @@ export function SkillsList({ skills }: { skills: SkillItem[] }) {
             </div>
             <div className="flex flex-col items-end gap-2 sm:flex-shrink-0">
               {skill.screenshotUrl && (
-                <div className="overflow-hidden rounded-lg border border-[var(--border)]" style={{ width: 128 }}>
+                <div className="h-[72px] w-[128px] overflow-hidden rounded-lg border border-[var(--border)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={skill.screenshotUrl}
                     alt=""
-                    className="h-auto w-full object-cover"
+                    className="h-full w-full object-cover object-top"
                     loading="lazy"
                   />
                 </div>

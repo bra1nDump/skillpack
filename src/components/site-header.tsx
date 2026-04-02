@@ -5,11 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { href: "/categories", label: "Categories" },
-  { href: "/skills", label: "Skills" },
-  { href: "/bundles", label: "Bundles" },
-  { href: "/platforms", label: "Platforms" },
-  { href: "/compare", label: "Compare" },
+  { href: "/problems", label: "Problems" },
+  { href: "/solutions", label: "Solutions" },
 ];
 
 export function SiteHeader() {

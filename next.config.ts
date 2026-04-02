@@ -7,12 +7,6 @@ const nextConfig: NextConfig = {
       { source: "/categories/:slug", destination: "/problems/:slug", permanent: true },
       { source: "/skills", destination: "/solutions", permanent: true },
       { source: "/skills/:slug", destination: "/solutions/:slug", permanent: true },
-      { source: "/bundles", destination: "/", permanent: false },
-      { source: "/bundles/:slug", destination: "/", permanent: false },
-      { source: "/platforms", destination: "/", permanent: false },
-      { source: "/platforms/:slug", destination: "/", permanent: false },
-      { source: "/compare", destination: "/", permanent: false },
-      { source: "/community", destination: "/", permanent: false },
     ];
   },
 };

@@ -25,7 +25,10 @@
       "Bash(head -80 /c/Projects/Work/skillbench/src/app/\\\\\\(app\\\\\\)/solutions/[slug]/page.tsx)",
       "Bash(ls -la /c/Projects/Work/skillbench/src/app/\\\\\\(app\\\\\\)/)",
       "Bash(grep '^ *| \"\"\"\"[^\"\"\"\"]*\"\"\"\"' src/lib/catalog.ts)",
-      "Bash(node -e \"const {skillList} = require\\(''./src/lib/catalog''\\); console.log\\(''Total skills:'', skillList.length\\)\")"
+      "Bash(node -e \"const {skillList} = require\\(''./src/lib/catalog''\\); console.log\\(''Total skills:'', skillList.length\\)\")",
+      "Bash(cat /c/Projects/Work/skillbench/src/app/\\\\\\(landing\\\\\\)/start/landing-content.tsx)",
+      "Bash(head -50 /c/Projects/Work/skillbench/src/app/\\\\\\(app\\\\\\)/changelog/page.tsx)",
+      "Bash(head -100 /c/Projects/Work/skillbench/src/app/\\\\\\(app\\\\\\)/publish/page.tsx)"
     ]
   },
   "enabledPlugins": {

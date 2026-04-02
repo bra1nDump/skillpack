@@ -11,10 +11,8 @@ export function SiteFooter() {
           </p>
         </div>
         <nav className="flex items-center gap-5 text-[13px] text-gray-500">
-          <Link href="/categories" className="transition-colors hover:text-gray-900">Categories</Link>
-          <Link href="/skills" className="transition-colors hover:text-gray-900">Skills</Link>
-          <Link href="/bundles" className="transition-colors hover:text-gray-900">Bundles</Link>
-          <Link href="/platforms" className="transition-colors hover:text-gray-900">Platforms</Link>
+          <Link href="/problems" className="transition-colors hover:text-gray-900">Problems</Link>
+          <Link href="/solutions" className="transition-colors hover:text-gray-900">Solutions</Link>
         </nav>
       </div>
     </footer>
