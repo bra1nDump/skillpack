@@ -7,7 +7,7 @@ const MEASURES = [
 
 export function MeasureStrip() {
   return (
-    <div className="grid grid-cols-4 border-b border-[var(--border)] px-8">
+    <div className="grid grid-cols-2 gap-y-2 border-b border-[var(--border)] px-4 sm:grid-cols-4 sm:gap-y-0 sm:px-8">
       {MEASURES.map((m, i) => (
         <div
           key={m.title}

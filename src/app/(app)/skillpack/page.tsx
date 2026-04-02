@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { categoryList, skillList } from "@/lib/catalog";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -76,17 +78,7 @@ export default function SkillPackPage() {
     <main className="mx-auto w-full max-w-4xl px-6 py-10 sm:px-8">
       {/* Hero */}
       <div className="pb-10">
-        <div className="mb-4 flex gap-2">
-          <span className="rounded bg-[var(--accent)] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-white">
-            The Product
-          </span>
-          <span className="rounded border border-[var(--border)] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-gray-400">
-            Open Source
-          </span>
-          <span className="rounded border border-[var(--border)] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-gray-400">
-            One Install
-          </span>
-        </div>
+      
         <h1 className="text-[36px] font-black leading-[1.1] tracking-[-1px] text-gray-900">
           SkillPack
         </h1>
@@ -104,12 +96,12 @@ export default function SkillPackPage() {
         </p>
 
         {/* Quick install */}
-        <div className="mt-6 inline-flex items-center gap-3 rounded-lg border border-[var(--dark-border)] bg-[var(--dark-bg)] px-5 py-3">
-          <span className="font-mono text-[14px] text-gray-400">$</span>
-          <code className="font-mono text-[14px] font-semibold text-white">
-            npx skills add bra1nDump/skillpack@skillpack
+        <div className="mt-6 flex w-full items-center gap-2 overflow-x-auto rounded-lg border border-[var(--dark-border)] bg-[var(--dark-bg)] px-4 py-3 sm:inline-flex sm:w-auto sm:gap-3 sm:px-5">
+          <span className="font-mono text-[12px] text-gray-400 sm:text-[14px]">$</span>
+          <code className="whitespace-nowrap font-mono text-[12px] font-semibold text-white sm:text-[14px]">
+            npx skills add bra1nDump/skillpack
           </code>
-          <span className="rounded bg-emerald-500/20 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400">
+          <span className="shrink-0 rounded bg-emerald-500/20 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400">
             READY
           </span>
         </div>
@@ -205,7 +197,7 @@ export default function SkillPackPage() {
           Option 1: Via the skills CLI
         </h3>
         <CodeBlock>
-          <span className="text-[var(--accent)]">$</span> npx skills add bra1nDump/skillpack@skillpack -g -y
+          <span className="text-[var(--accent)]">$</span> npx skills add bra1nDump/skillpack -g -y
         </CodeBlock>
         <P>
           This installs SkillPack globally so it&apos;s available in any project.
@@ -220,7 +212,7 @@ export default function SkillPackPage() {
           If you prefer manual setup, create a <code className="rounded bg-gray-100 px-1.5 py-0.5 text-[0.92em] text-gray-700">.agents/skills/skillpack/SKILL.md</code> file
           in your project root and paste the skill definition from the{" "}
           <a
-            href="https://github.com/nicholasoxford/skills"
+            href="https://github.com/bra1nDump/skillpack"
             target="_blank"
             rel="noreferrer"
             className="text-[var(--accent)] hover:underline"
@@ -229,24 +221,6 @@ export default function SkillPackPage() {
           </a>
           .
         </P>
-
-        <h3 className="mt-8 text-[15px] font-bold text-gray-800">
-          Option 3: Search and install
-        </h3>
-        <CodeBlock>
-          <span className="text-gray-500"># Find skills for your needs</span>
-          <br />
-          <span className="text-[var(--accent)]">$</span> npx skills find react
-          <br />
-          <span className="text-[var(--accent)]">$</span> npx skills find testing
-          <br />
-          <span className="text-[var(--accent)]">$</span> npx skills find figma
-          <br />
-          <br />
-          <span className="text-gray-500"># Install specific skills</span>
-          <br />
-          <span className="text-[var(--accent)]">$</span> npx skills add {"<owner/repo@skill>"} -g -y
-        </CodeBlock>
       </Section>
 
       {/* What it looks at */}
@@ -360,20 +334,38 @@ export default function SkillPackPage() {
               </tr>
             </thead>
             <tbody>
-              {[
-                ["Writing / editing code", "Coding CLIs"],
-                ["Browser automation / scraping", "Web Browsing"],
-                ["Research / finding info", "Search & News"],
-                ["Design / UI work", "UX & UI"],
-                ["Multi-agent coordination", "Teams of Agents"],
-                ["CI/CD / build systems", "Software Factories"],
-                ["CRM / analytics / PM tools", "Product & Business"],
-                ["SEO / copy / ads", "Marketing"],
-                ["Security / auditing", "Security"],
-                ["Docs / READMEs", "Documentation"],
-                ["Data / ML / charts", "Data & Analytics"],
-                ["Bots / workflow automation", "Automation"],
-              ].map(([need, cat]) => (
+              {([
+                ["Writing / editing code", "Coding CLIs / Code Agents", "coding-clis"],
+                ["Browser automation / scraping", "Web Browsing / Browser Automation", "web-browsing"],
+                ["CRM / analytics / PM tools", "Product / Business Development", "product-business-development"],
+                ["Multi-agent coordination", "Teams of Agents / Multi-Agent Orchestration", "teams-of-agents"],
+                ["Design / UI work", "UX / UI", "ux-ui"],
+                ["CI/CD / build systems", "Software Factories", "software-factories"],
+                ["Research / finding info", "Search & News", "search-news"],
+                ["SEO / copy / ads", "Marketing", "marketing"],
+                ["Finance / operations", "Business", "business"],
+                ["Blog posts / copy / editing", "Content & Writing", "content-writing"],
+                ["Deep research / academic", "Research", "research"],
+                ["Bots / workflow automation", "Automation", "automation"],
+                ["Security / auditing", "Security", "security"],
+                ["Docs / READMEs / API docs", "Documentation", "documentation"],
+                ["Data / ML / charts", "Data & Analytics", "data-analytics"],
+                ["Scheduling / email / tasks", "Personal Assistants", "personal-assistants"],
+                ["Context / conversation history", "Memory Systems", "memory-systems"],
+                ["Profiling / optimization", "Performance", "performance"],
+                ["Observability / tracing", "Analytics & LLM Tracing", "analytics-llm-tracing"],
+                ["Frontend / component libraries", "Web Development & UI Frameworks", "web-dev-ui-frameworks"],
+                ["Agent tooling / orchestration", "Agent Harnesses", "agent-harnesses"],
+                ["Wikis / second brain", "Knowledge Management", "knowledge-management"],
+                ["AI rollout / best practices", "AI Adoption & Best Practices", "ai-adoption"],
+              ] as const).filter(([, , slug]) => {
+                const cat = categoryList.find((c) => c.slug === slug);
+                const count = skillList.filter(
+                  (s) => s.relatedCategories.includes(slug),
+                ).length || cat?.ranking.length || 0;
+
+                return count > 0;
+              }).map(([need, cat, slug]) => (
                 <tr
                   key={need}
                   className="border-b border-[var(--border)] last:border-0"
@@ -381,7 +373,7 @@ export default function SkillPackPage() {
                   <td className="px-4 py-2 text-gray-600">{need}</td>
                   <td className="px-4 py-2">
                     <Link
-                      href={`/problems/${cat.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}`}
+                      href={`/problems/${slug}`}
                       className="text-[var(--accent)] hover:underline"
                     >
                       {cat}
@@ -417,16 +409,16 @@ export default function SkillPackPage() {
       </Section>
 
       {/* Bottom CTA */}
-      <div className="mt-10 flex items-center justify-between rounded-lg bg-[var(--dark-bg)] p-6 text-white">
+      <div className="mt-10 flex flex-col gap-4 rounded-lg bg-[var(--dark-bg)] p-5 text-white sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
           <p className="text-[16px] font-black">Ready to try it?</p>
           <p className="mt-1 text-[13px] text-gray-400">
             One command. Picks the best skills for your project.
           </p>
         </div>
-        <div className="shrink-0 rounded border border-[var(--dark-border)] bg-[var(--dark-surface)] px-5 py-2.5 font-mono text-[13px]">
+        <div className="shrink-0 overflow-x-auto rounded border border-[var(--dark-border)] bg-[var(--dark-surface)] px-4 py-2.5 font-mono text-[12px] sm:px-5 sm:text-[13px]">
           <span className="text-gray-500">$ </span>
-          <span className="font-semibold text-white">npx skills add bra1nDump/skillpack@skillpack</span>
+          <span className="whitespace-nowrap font-semibold text-white">npx skills add bra1nDump/skillpack</span>
         </div>
       </div>
     </main>

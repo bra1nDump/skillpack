@@ -58,16 +58,16 @@ export function SkillCatalog({
   const hasMore = showCount < filteredSkills.length;
 
   return (
-    <div className="px-8 pb-16 pt-5">
+    <div className="px-4 pb-16 pt-5 sm:px-8">
       {/* Header + filters */}
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="font-mono text-[14px] font-bold uppercase tracking-[1.5px] text-gray-900">
           {activeCategoryName ?? "Leaderboard"}
           <span className="ml-2 font-normal text-gray-400">
             {filteredSkills.length}
           </span>
         </h2>
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2.5">
           {/* Problem filter */}
           {categories && categories.length > 0 && (
             <select
@@ -90,7 +90,7 @@ export function SkillCatalog({
           )}
           {/* Search */}
           <div
-            className={`flex w-60 items-center gap-1.5 border px-2.5 py-1.5 transition-colors ${
+            className={`flex w-full items-center gap-1.5 border px-2.5 py-1.5 transition-colors sm:w-60 ${
               searchFocused ? "border-gray-900" : "border-[var(--border)]"
             }`}
           >

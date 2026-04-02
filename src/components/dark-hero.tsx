@@ -4,11 +4,11 @@ import { CtaBanner } from "./cta-banner";
 
 export function DarkHero() {
   return (
-    <div className="bg-[var(--dark-bg)] px-8 py-8 text-white">
-      <div className="mx-auto flex max-w-[1100px] flex-col gap-10 lg:flex-row lg:items-start">
+    <div className="bg-[var(--dark-bg)] px-4 py-8 text-white sm:px-8">
+      <div className="mx-auto flex max-w-[1100px] flex-col gap-8 xl:flex-row xl:items-start xl:gap-10">
         {/* Left: value prop */}
         <div className="min-w-0 flex-1">
-          <h1 className="text-[28px] font-black leading-[1.15] tracking-[-0.5px]">
+          <h1 className="text-[22px] font-black leading-[1.15] tracking-[-0.5px] sm:text-[28px]">
             SkillPack reads your project.
             <br />
             <span className="text-gray-400">
@@ -29,7 +29,7 @@ export function DarkHero() {
         </div>
 
         {/* Right: CLI demo — real output */}
-        <div className="min-w-[380px] flex-shrink-0 rounded border border-[var(--dark-border)] bg-[var(--dark-surface)] p-4 font-mono text-[12px] leading-[1.7] text-gray-400">
+        <div className="w-full overflow-x-auto rounded border border-[var(--dark-border)] bg-[var(--dark-surface)] p-4 font-mono text-[11px] leading-[1.7] text-gray-400 sm:text-[12px] xl:w-[380px] xl:shrink-0">
           <span className="text-[var(--accent)]">$</span>{" "}
           <span className="font-semibold text-white">/skillpack</span>
           <br />

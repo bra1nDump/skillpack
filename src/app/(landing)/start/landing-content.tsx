@@ -64,13 +64,13 @@ export function LandingContent() {
 
       <div className="min-h-screen bg-[#F5F5F5] font-sans">
         {/* ═══ NAV ═══ */}
-        <nav className="sticky top-0 z-50 flex items-center justify-between bg-black px-10 py-3.5">
+        <nav className="sticky top-0 z-50 flex items-center justify-between bg-black px-4 py-3.5 sm:px-10">
           <Link href="/" className="font-mono text-[15px] font-bold text-white">
             skill<span className="text-[#E63946]">pack</span>
             <span className="text-[#737373]">.co</span>
           </Link>
-          <div className="flex items-center gap-2.5">
-            <Link href="/" className="font-mono text-[12px] text-[#A3A3A3]">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <Link href="/" className="hidden font-mono text-[12px] text-[#A3A3A3] sm:inline">
               Marketplace
             </Link>
             <span className="rounded bg-[#059669] px-2.5 py-1 font-mono text-[10px] font-bold text-white">
@@ -78,7 +78,7 @@ export function LandingContent() {
             </span>
             <a
               href="#start"
-              className="rounded bg-[#E63946] px-4.5 py-1.5 font-mono text-[12px] font-bold text-white"
+              className="rounded bg-[#E63946] px-3 py-1.5 font-mono text-[12px] font-bold text-white sm:px-4.5"
             >
               Get Started
             </a>
@@ -86,22 +86,22 @@ export function LandingContent() {
         </nav>
 
         {/* ═══ HERO — formula on dark ═══ */}
-        <section className="bg-black px-8 py-12" style={fadeIn(0.05)}>
+        <section className="bg-black px-4 py-10 sm:px-8 sm:py-12" style={fadeIn(0.05)}>
           <div className="mx-auto max-w-[900px]">
-            <div className="mb-9 text-center">
-              <p className="mb-2.5 font-mono text-[12px] tracking-[1.5px] text-[#737373]">
+            <div className="mb-7 text-center sm:mb-9">
+              <p className="mb-2.5 font-mono text-[10px] tracking-[1.5px] text-[#737373] sm:text-[12px]">
                 A CODING AGENT WRITES CODE, RUNS COMMANDS, MANAGES FILES ON YOUR MACHINE
               </p>
-              <h1 className="text-[28px] font-black leading-[1.3] text-[#A3A3A3]">
+              <h1 className="text-[22px] font-black leading-[1.3] text-[#A3A3A3] sm:text-[28px]">
                 But it doesn&apos;t know{" "}
                 <span className="text-white">your workflows and best practices</span>.
               </h1>
             </div>
 
             {/* 3 cards: Agent + SkillPack = Expert */}
-            <div className="flex items-stretch justify-center gap-4">
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-stretch sm:justify-center sm:gap-4">
               {/* Card 1 — Coding Agent */}
-              <div className="flex w-[250px] flex-col items-center rounded-xl border border-[#262626] bg-[#171717] p-7 text-center">
+              <div className="flex w-full flex-col items-center rounded-xl border border-[#262626] bg-[#171717] p-5 text-center sm:w-[250px] sm:p-7">
                 <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#262626]">
                   <svg width="20" height="20" viewBox="0 0 20 20">
                     <rect x="3" y="5" width="14" height="10" rx="2" fill="none" stroke="#A3A3A3" strokeWidth="1.6" />
@@ -116,14 +116,14 @@ export function LandingContent() {
 
               {/* Plus sign */}
               <div className="flex items-center">
-                <svg width="24" height="24" viewBox="0 0 24 24">
+                <svg className="rotate-90 sm:rotate-0" width="24" height="24" viewBox="0 0 24 24">
                   <line x1="12" y1="5" x2="12" y2="19" stroke="#525252" strokeWidth="2" strokeLinecap="round" />
                   <line x1="5" y1="12" x2="19" y2="12" stroke="#525252" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </div>
 
               {/* Card 2 — SkillPack */}
-              <div className="flex w-[250px] flex-col items-center rounded-xl border border-[#E6394644] bg-[#E6394615] p-7 text-center">
+              <div className="flex w-full flex-col items-center rounded-xl border border-[#E6394644] bg-[#E6394615] p-5 text-center sm:w-[250px] sm:p-7">
                 <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#E6394625]">
                   <svg width="20" height="20" viewBox="0 0 20 20">
                     <rect x="2" y="2" width="7" height="7" rx="1.5" fill="#E63946" opacity=".8" />
@@ -145,14 +145,14 @@ export function LandingContent() {
 
               {/* Equals sign */}
               <div className="flex items-center">
-                <svg width="24" height="24" viewBox="0 0 24 24">
+                <svg className="rotate-90 sm:rotate-0" width="24" height="24" viewBox="0 0 24 24">
                   <line x1="5" y1="9" x2="19" y2="9" stroke="#525252" strokeWidth="2" strokeLinecap="round" />
                   <line x1="5" y1="15" x2="19" y2="15" stroke="#525252" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </div>
 
               {/* Card 3 — Expert */}
-              <div className="flex w-[250px] flex-col items-center rounded-xl border border-[#05966944] bg-[#05966912] p-7 text-center">
+              <div className="flex w-full flex-col items-center rounded-xl border border-[#05966944] bg-[#05966912] p-5 text-center sm:w-[250px] sm:p-7">
                 <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-[10px] bg-[#05966922]">
                   <svg width="20" height="20" viewBox="0 0 20 20">
                     <path d="M10 1 L18 5.5 L18 14.5 L10 19 L2 14.5 L2 5.5 Z" fill="none" stroke="#059669" strokeWidth="1.6" strokeLinejoin="round" />
@@ -168,26 +168,26 @@ export function LandingContent() {
         </section>
 
         {/* ═══ TRANSFORMATIONS ═══ */}
-        <section className="border-b border-[#E5E5E5] bg-white px-8 py-10" style={fadeIn(0.2)}>
+        <section className="border-b border-[#E5E5E5] bg-white px-4 py-10 sm:px-8" style={fadeIn(0.2)}>
           <div className="mx-auto max-w-[900px]">
-            <h2 className="mb-7 text-center font-mono text-[12px] font-bold tracking-[1.5px] text-[#A3A3A3]">
+            <h2 className="mb-7 text-center font-mono text-[11px] font-bold tracking-[1.5px] text-[#A3A3A3] sm:text-[12px]">
               DESCRIBE YOUR TASK — SKILLPACK BUILDS THE EXPERT
             </h2>
             <div className="flex flex-col gap-2.5">
               {TRANSFORMS.map((d) => (
                 <div
                   key={d.task}
-                  className="grid items-center gap-0 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] p-1.5"
-                  style={{ gridTemplateColumns: "200px 16px 1fr 36px 170px" }}
+                  className="flex flex-col gap-2 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] p-4 lg:grid lg:items-center lg:gap-0 lg:p-1.5"
+                  style={{ gridTemplateColumns: "200px 16px 1fr 36px 170px" } as React.CSSProperties}
                 >
                   {/* Task */}
-                  <div className="flex h-full items-center rounded-lg bg-white p-4">
+                  <div className="flex items-center rounded-lg bg-white p-3 sm:p-4">
                     <span className="text-[13px] font-bold leading-snug text-black">
                       &ldquo;{d.task}&rdquo;
                     </span>
                   </div>
-                  {/* Dot */}
-                  <div className="flex justify-center">
+                  {/* Dot — hidden on mobile */}
+                  <div className="hidden justify-center lg:flex">
                     <div className="h-0.5 w-0.5 rounded-full bg-[#D4D4D4]" />
                   </div>
                   {/* Skills */}
@@ -211,8 +211,8 @@ export function LandingContent() {
                       ))}
                     </div>
                   </div>
-                  {/* Arrow */}
-                  <div className="flex justify-center">
+                  {/* Arrow — hidden on mobile */}
+                  <div className="hidden justify-center lg:flex">
                     <svg width="24" height="12" viewBox="0 0 24 12">
                       <line x1="0" y1="6" x2="18" y2="6" stroke={d.color} strokeWidth="2" />
                       <polygon points="18,2 24,6 18,10" fill={d.color} />
@@ -220,7 +220,7 @@ export function LandingContent() {
                   </div>
                   {/* Result */}
                   <div
-                    className="flex h-full items-center justify-center rounded-lg"
+                    className="flex items-center justify-center rounded-lg py-3 lg:h-full lg:py-0"
                     style={{
                       background: d.color + "0C",
                       border: `1.5px solid ${d.color}30`,
@@ -237,13 +237,13 @@ export function LandingContent() {
         </section>
 
         {/* ═══ HOW SKILLPACK PICKS ═══ */}
-        <section className="bg-black px-8 py-11" style={fadeIn(0.3)}>
+        <section className="bg-black px-4 py-11 sm:px-8" style={fadeIn(0.3)}>
           <div className="mx-auto max-w-[800px]">
             <div className="mb-8 text-center">
               <div className="mb-2 font-mono text-[10px] font-bold tracking-[2px] text-[#E63946]">
                 NOT RANDOM — VETTED
               </div>
-              <h2 className="text-[22px] font-black leading-[1.3] text-white">
+              <h2 className="text-[18px] font-black leading-[1.3] text-white sm:text-[22px]">
                 SkillPack doesn&apos;t just grab skills.
                 <br />
                 <span className="text-[#A3A3A3]">
@@ -252,7 +252,7 @@ export function LandingContent() {
               </h2>
             </div>
 
-            <div className="mb-7 grid grid-cols-3 gap-3">
+            <div className="mb-7 grid grid-cols-1 gap-3 sm:grid-cols-3">
               {[
                 {
                   icon: (
@@ -297,11 +297,11 @@ export function LandingContent() {
             </div>
 
             {/* CTA bar */}
-            <div className="flex items-center gap-5 rounded-[10px] border border-[#262626] bg-[#171717] p-5">
+            <div className="flex flex-col gap-4 rounded-[10px] border border-[#262626] bg-[#171717] p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
               <div className="flex-1">
                 <div className="mb-1 text-[13px] font-bold text-white">
                   When you run{" "}
-                  <span className="font-mono text-[#E63946]">npx skillpack init</span>, here&apos;s
+                  <span className="font-mono text-[11px] text-[#E63946] sm:text-[13px]">npx skills add bra1nDump/skillpack</span>, here&apos;s
                   what happens:
                 </div>
                 <div className="text-[12px] leading-[1.7] text-[#A3A3A3]">
@@ -313,7 +313,7 @@ export function LandingContent() {
               </div>
               <Link
                 href="/"
-                className="shrink-0 rounded-md bg-[#E63946] px-6 py-3 font-mono text-[12px] font-bold text-white"
+                className="shrink-0 rounded-md bg-[#E63946] px-6 py-3 text-center font-mono text-[12px] font-bold text-white"
               >
                 Browse the catalog →
               </Link>
@@ -322,11 +322,11 @@ export function LandingContent() {
         </section>
 
         {/* ═══ PRICING ═══ */}
-        <section className="border-b border-[#E5E5E5] bg-white px-8 py-10" style={fadeIn(0.4)}>
+        <section className="border-b border-[#E5E5E5] bg-white px-4 py-10 sm:px-8" style={fadeIn(0.4)}>
           <div className="mx-auto max-w-[700px]">
-            <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-[#E5E5E5] shadow-sm">
+            <div className="grid grid-cols-1 overflow-hidden rounded-xl border border-[#E5E5E5] shadow-sm sm:grid-cols-2">
               {/* Left — The agent */}
-              <div className="border-r border-[#E5E5E5] bg-white p-7">
+              <div className="border-b border-[#E5E5E5] bg-white p-5 sm:border-b-0 sm:border-r sm:p-7">
                 <div className="mb-3.5 font-mono text-[10px] font-bold tracking-[1.5px] text-[#A3A3A3]">
                   THE CODING AGENT
                 </div>
@@ -384,7 +384,7 @@ export function LandingContent() {
         </section>
 
         {/* ═══ GET STARTED ═══ */}
-        <section id="start" className="bg-white px-8 pb-14 pt-11" style={fadeIn(0.5)}>
+        <section id="start" className="bg-white px-4 pb-14 pt-11 sm:px-8" style={fadeIn(0.5)}>
           <div className="mx-auto max-w-[640px]">
             <div className="mb-7 text-center">
               <h2 className="text-[24px] font-black">Get started in 2 minutes</h2>
@@ -423,7 +423,7 @@ export function LandingContent() {
                     Download {agent === "codex" ? "Codex" : "Claude"}
                   </div>
                 </div>
-                <div className="ml-[42px]">
+                <div className="ml-0 sm:ml-[42px]">
                   <div className="mb-2.5 flex gap-2">
                     <a
                       href={a.dl}
@@ -471,8 +471,8 @@ export function LandingContent() {
                     </span>
                   </div>
                 </div>
-                <div className="ml-[42px]">
-                  <div className="rounded-[10px] border border-[#05966933] bg-[#0D1117] p-4.5 font-mono text-[11.5px] leading-[1.7] text-[#C9D1D9]">
+                <div className="ml-0 sm:ml-[42px]">
+                  <div className="overflow-x-auto rounded-[10px] border border-[#05966933] bg-[#0D1117] p-3 font-mono text-[10.5px] leading-[1.7] text-[#C9D1D9] sm:p-4.5 sm:text-[11.5px]">
                     <span className="text-[#6E7681]"># open your project folder, then run:</span>
                     <br />
                     <span className="text-[#E63946]">$</span>{" "}
@@ -501,8 +501,8 @@ export function LandingContent() {
                     <span className="text-white">Recommended Installs</span>
                     <br />
                     {/* mini table */}
-                    <div className="mt-1 overflow-hidden rounded border border-[#30363D]">
-                      <div className="grid grid-cols-[80px_130px_50px_40px_1fr] border-b border-[#30363D] bg-[#161B22] px-2 py-1 text-[10px] text-[#8B949E]">
+                    <div className="mt-1 overflow-x-auto rounded border border-[#30363D]">
+                      <div className="grid min-w-[400px] grid-cols-[80px_130px_50px_40px_1fr] border-b border-[#30363D] bg-[#161B22] px-2 py-1 text-[10px] text-[#8B949E]">
                         <span>Category</span>
                         <span>Tool</span>
                         <span>Trust</span>
@@ -513,7 +513,7 @@ export function LandingContent() {
                         { cat: "Web Browsing", tool: "Playwright MCP", trust: 93, rank: "#3", why: "Browser automation & frontend testing" },
                         { cat: "Search", tool: "Exa MCP Server", trust: 87, rank: "#3", why: "Semantic search — 940K weekly downloads" },
                       ].map((r) => (
-                        <div key={r.tool} className="grid grid-cols-[80px_130px_50px_40px_1fr] border-b border-[#21262D] px-2 py-1 text-[10.5px]">
+                        <div key={r.tool} className="grid min-w-[400px] grid-cols-[80px_130px_50px_40px_1fr] border-b border-[#21262D] px-2 py-1 text-[10.5px]">
                           <span className="text-[#8B949E]">{r.cat}</span>
                           <span className="text-white">{r.tool}</span>
                           <span className="text-[#C9D1D9]">{r.trust}</span>
@@ -524,8 +524,8 @@ export function LandingContent() {
                     </div>
                     <br />
                     <span className="text-[#6E7681]">Considered but Skipped</span>
-                    <div className="mt-1 overflow-hidden rounded border border-[#30363D]">
-                      <div className="grid grid-cols-[80px_130px_50px_1fr] border-b border-[#30363D] bg-[#161B22] px-2 py-1 text-[10px] text-[#8B949E]">
+                    <div className="mt-1 overflow-x-auto rounded border border-[#30363D]">
+                      <div className="grid min-w-[380px] grid-cols-[80px_130px_50px_1fr] border-b border-[#30363D] bg-[#161B22] px-2 py-1 text-[10px] text-[#8B949E]">
                         <span>Category</span>
                         <span>Tool</span>
                         <span>Trust</span>
@@ -535,7 +535,7 @@ export function LandingContent() {
                         { cat: "UX/UI", tool: "Framelink Figma MCP", trust: 86, reason: "Only useful if you use Figma for designs" },
                         { cat: "Security", tool: "TruffleHog", trust: 88, reason: "Useful but your .env setup looks standard" },
                       ].map((r) => (
-                        <div key={r.tool} className="grid grid-cols-[80px_130px_50px_1fr] border-b border-[#21262D] px-2 py-1 text-[10.5px]">
+                        <div key={r.tool} className="grid min-w-[380px] grid-cols-[80px_130px_50px_1fr] border-b border-[#21262D] px-2 py-1 text-[10.5px]">
                           <span className="text-[#8B949E]">{r.cat}</span>
                           <span className="text-white">{r.tool}</span>
                           <span className="text-[#C9D1D9]">{r.trust}</span>
@@ -563,7 +563,7 @@ export function LandingContent() {
                     Code. Your agent knows the right patterns now.
                   </div>
                 </div>
-                <div className="ml-[42px]">
+                <div className="ml-0 sm:ml-[42px]">
                   <div className="rounded-[10px] bg-[#0D1117] px-5 py-3.5 font-mono text-[13px] text-[#C9D1D9]">
                     <span className="text-[#E63946]">$</span> {a.cmd}{" "}
                     <span className="text-[#A5D6FF]">
@@ -606,11 +606,11 @@ export function LandingContent() {
         </section>
 
         {/* ═══ FOOTER ═══ */}
-        <footer className="flex items-center justify-between bg-black px-10 py-4.5">
+        <footer className="flex flex-col items-center gap-3 bg-black px-4 py-4.5 sm:flex-row sm:justify-between sm:px-10">
           <span className="font-mono text-[12px] font-bold text-white">
             skill<span className="text-[#E63946]">pack</span>
             <span className="text-[#737373]">.co</span>
-            <span className="ml-3 font-normal text-[#737373]">
+            <span className="ml-3 hidden font-normal text-[#737373] sm:inline">
               Free skills for coding agents
             </span>
           </span>

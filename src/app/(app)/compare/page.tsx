@@ -192,9 +192,9 @@ function CompareContent() {
               <p className="mb-4 font-mono text-[13px] uppercase tracking-widest text-gray-500">
                 Quick stats
               </p>
-              <table className="w-full text-[15px]" style={{ tableLayout: "fixed" }}>
+              <table className="w-full text-[13px] sm:text-[15px]" style={{ tableLayout: "fixed" }}>
                 <colgroup>
-                  <col className="w-[140px]" />
+                  <col className="w-[100px] sm:w-[140px]" />
                   {selected.map((s) => (
                     <col key={s.slug} />
                   ))}

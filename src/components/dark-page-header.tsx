@@ -35,7 +35,7 @@ export function DarkPageHeader({
         </Link>
       )}
 
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-2xl font-bold tracking-tight sm:text-4xl">
@@ -78,11 +78,11 @@ export function DarkPageHeader({
 
         {/* Right side: aside (screenshot) or stats */}
         {aside ? (
-          <div className="w-full max-w-[360px] max-h-55 shrink-0 overflow-hidden rounded-lg border border-[#262626]">
+          <div className="max-h-40 w-full shrink-0 overflow-hidden rounded-lg border border-[#262626] sm:max-h-55 sm:max-w-[360px]">
             {aside}
           </div>
         ) : stats && stats.length > 0 ? (
-          <div className="flex flex-wrap gap-3 lg:flex-shrink-0">
+          <div className="flex flex-wrap gap-3 xl:flex-shrink-0">
             {stats.map((s) => (
               <div
                 key={s.label}
